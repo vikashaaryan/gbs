@@ -1,16 +1,13 @@
 @extends('layout.user-layout')
-
 @section('title')
 reigster page
 @endsection
-
 @section('content')
 <div class=" flex items-center mt-[7%] mb-[5%] justify-center  px-4">
-    <div class="bg-white rounded-md border border-gray-200 w-full max-w-2xl mx-4 ">
+    <div class="bg-white rounded-xl border border-gray-200 w-full max-w-2xl mx-4 ">
         <div class="p-6 border-b border-gray-200 flex justify-between items-center">
-            <h2 class="text-2xl font-bold text-gray-800">Create Your Account</h2>
+            <h2 class="text-2xl font-bold text-center w-full text-gray-800">Create Your Account</h2>
         </div>
-        
         <form id="registrationForm" class="p-6">
             <div class="grid md:grid-cols-2 gap-6">
                 <div>

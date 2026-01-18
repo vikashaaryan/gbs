@@ -7,9 +7,9 @@
 
 @section('content')
 <div class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md">
+    <div class="bg-white rounded-xl border border-gray-200 w-full max-w-md">
         <div class="p-6 border-b border-gray-200 flex justify-between items-center">
-            <h2 class="text-2xl font-bold text-gray-800">Login to GBS Hub</h2>
+            <h2 class="text-2xl font-bold text-gray-800 text-center w-full">Login to GBS </h2>
         </div>
 
         <form class="p-6">
