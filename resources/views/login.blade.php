@@ -6,7 +6,7 @@
 @endsection
 
 @section('content')
-<div class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+<div class=" flex items-center justify-center  px-4">
     <div class="bg-white rounded-xl border border-gray-200 w-full max-w-md">
         <div class="p-6 border-b border-gray-200 flex justify-between items-center">
             <h2 class="text-2xl font-bold text-gray-800 text-center w-full">Login to GBS </h2>
@@ -41,9 +41,9 @@
 
             <p class="text-center text-gray-600">
                 Don't have an account?
-                <button type="button" class="text-blue-600 font-medium hover:text-blue-700">
+                <a href="{{ route('register') }}" type="button" class="text-blue-600 font-medium hover:text-blue-700">
                     Register now
-                </button>
+                </a>
             </p>
         </form>
     </div>
