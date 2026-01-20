@@ -11,14 +11,7 @@
 
     <style>
         /* Custom styles */
-        .category-card {
-            transition: all 0.3s ease;
-        }
-
-        .category-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
+       
 
         .tab-button {
             transition: all 0.2s ease;
@@ -64,24 +57,7 @@
             overflow: hidden;
         }
 
-        /* Responsive image handling */
-        .responsive-logo {
-            width: 120px;
-            height: auto;
-        }
-
-        @media (min-width: 640px) {
-            .responsive-logo {
-                width: 140px;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .responsive-logo {
-                width: 160px;
-            }
-        }
-
+      
         /* Better touch targets for mobile */
         .touch-target {
             min-height: 44px;
@@ -119,7 +95,7 @@
             <!-- Logo and Brand -->
             <div class="flex items-center gap-3">
                 <a href="{{ route('home') }}" class="flex items-center gap-2 hover:opacity-90 transition-opacity">
-                    <img src="{{ asset('logo.png') }}" alt="GBS Hub Logo" class="responsive-logo h-auto">
+                    <img src="{{ asset('logo.png') }}" alt="GBS Hub Logo" class="w-28 md:w-35 h-auto">
                 </a>
             </div>
 
@@ -207,7 +183,7 @@
     </header>
 
     <!-- Main Content Area -->
-    <main class="md:pt-34 pt-32 pb-20 md:pb-20">
+    <main class="md:pt-34 pt-22 pb-20 md:pb-20">
         <!-- Content will be inserted here -->
         @section('content')
         @show

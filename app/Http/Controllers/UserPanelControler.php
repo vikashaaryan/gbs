@@ -9,4 +9,8 @@ class UserPanelControler extends Controller
     public function user(){
         return view('user.user-panel');
     }
+    public function subcat(){
+        return view('user.category');
+    }
+   
 }

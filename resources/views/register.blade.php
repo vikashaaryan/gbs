@@ -4,7 +4,7 @@
 @endsection
 
 @section('content')
-<div class="flex items-center justify-center min-h-screen px-4 py-10">
+<div class="flex items-center justify-center min-h-screen px-4 ">
     <div class="bg-white rounded-xl border border-gray-200 w-full max-w-3xl shadow-sm">
         
         <div class="p-6 border-b border-gray-200">
@@ -73,6 +73,12 @@
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                         placeholder="6-digit PIN code">
                 </div>
+                      <div>
+            <label class="block text-gray-700 mb-2">Password *</label>
+            <input type="password" id="password" required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter password">
+        </div>
             </div>
 
             <!-- Category -->
@@ -104,9 +110,8 @@
     </div>
 </div>
 
-<!-- Scripts -->
+<!-- Phone Input Script -->
 <script>
-    // intl-tel-input
     const input = document.querySelector("#phone");
 
     const iti = window.intlTelInput(input, {
@@ -117,54 +122,80 @@
     });
 
     document.getElementById("registrationForm").addEventListener("submit", function () {
-        const fullNumber = iti.getNumber();
-        input.value = fullNumber;
+        input.value = iti.getNumber(); 
     });
-
-    // Country → State → District data
-    const data = {
-        "India": {
-            "Bihar": ["Patna", "Gaya", "Bhagalpur"],
-            "Maharashtra": ["Mumbai", "Pune"],
-            "Uttar Pradesh": ["Lucknow", "Kanpur"]
-        },
-        "United States": {
-            "California": ["Los Angeles", "San Diego"],
-            "New York": ["NYC", "Buffalo"]
-        },
-        "United Kingdom": {
-            "England": ["London", "Manchester"],
-            "Scotland": ["Glasgow", "Edinburgh"]
-        }
-    };
-
+</script>
+<script>
     const countrySelect = document.getElementById("country");
     const stateSelect = document.getElementById("state");
     const districtSelect = document.getElementById("district");
 
-    Object.keys(data).forEach(country => {
-        countrySelect.innerHTML += `<option value="${country}">${country}</option>`;
-    });
+    // Load all countries
+    async function loadCountries() {
+        const res = await fetch("https://countriesnow.space/api/v0.1/countries/positions");
+        const result = await res.json();
 
-    countrySelect.addEventListener("change", function () {
+        countrySelect.innerHTML = `<option value="">Select Country</option>`;
+
+        result.data.forEach(item => {
+            countrySelect.innerHTML += `<option value="${item.name}">${item.name}</option>`;
+        });
+
+        // Default select India
+        countrySelect.value = "India";
+        loadStates("India");
+    }
+
+    // Load states of selected country
+    async function loadStates(country) {
+        const res = await fetch("https://countriesnow.space/api/v0.1/countries/states", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ country })
+        });
+
+        const result = await res.json();
+
         stateSelect.innerHTML = `<option value="">Select State</option>`;
+        districtSelect.innerHTML = `<option value="">Select District</option>`; 
+
+        if (!result.data || !result.data.states) return;
+
+        result.data.states.forEach(state => {
+            stateSelect.innerHTML += `<option value="${state.name}">${state.name}</option>`;
+        });
+    }
+
+    // Load districts/cities of selected state
+    async function loadDistricts(country, state) {
+        const res = await fetch("https://countriesnow.space/api/v0.1/countries/state/cities", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ country, state })
+        });
+
+        const result = await res.json();
+
         districtSelect.innerHTML = `<option value="">Select District</option>`;
-        if (this.value !== "") {
-            Object.keys(data[this.value]).forEach(state => {
-                stateSelect.innerHTML += `<option value="${state}">${state}</option>`;
-            });
-        }
+
+        if (!result.data) return;
+
+        result.data.forEach(city => {
+            districtSelect.innerHTML += `<option value="${city}">${city}</option>`;
+        });
+    }
+
+    // On change events
+    countrySelect.addEventListener("change", function () {
+        loadStates(this.value);
     });
 
     stateSelect.addEventListener("change", function () {
-        districtSelect.innerHTML = `<option value="">Select District</option>`;
-        const country = countrySelect.value;
-        const state = this.value;
-        if (state !== "") {
-            data[country][state].forEach(district => {
-                districtSelect.innerHTML += `<option value="${district}">${district}</option>`;
-            });
-        }
+        loadDistricts(countrySelect.value, this.value);
     });
+
+    // Auto-run
+    loadCountries();
 </script>
+
 @endsection
