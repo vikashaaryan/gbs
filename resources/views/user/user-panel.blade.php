@@ -8,35 +8,27 @@
     <!-- Tabs Navigation - Fixed Sticky -->
     <div class="sticky md:top-20 top-17 -mt-8 md:-mt-15  z-50 bg-white    sm:px-6 lg:px-1 ">
 
-        <div class="flex overflow-x-auto md:px-28 md:gap-10 border-b border-t py-2 border-gray-200 px-4 scrollbar-hide">
-
+        <div class="flex overflow-x-auto py-3 md:px-32 px-4 gap-2 sm:gap-6 scrollbar-hide">
             <button onclick="switchTab('newsfeed')"
-                class="tab-button active flex-shrink-0  rounded-md px-4 sm:py-4 sm:px-6 text-sm sm:text-base md:text-lg font-medium text-gray-700 hover:bg-gray-50 whitespace-nowrap transition-colors touch-target">
-                <i class="fas fa-newspaper mr-2"></i>
-                <span class="hidden xs:inline">News Feed</span>
-                <span class="xs:hidden">News Feed</span>
+                class="tab-button active flex items-center gap-2 px-5 py-2.5 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition">
+                <i class="fas fa-newspaper"></i>
+                <span class="hidden md:inline">News Feed</span>
+                <span class="md:hidden">Feed</span>
             </button>
             <button onclick="switchTab('resources')"
-                class="tab-button flex-shrink-0 py-3 px-4 rounded-md sm:py-4 sm:px-6 text-sm sm:text-base md:text-lg font-medium text-gray-700 hover:bg-gray-50 whitespace-nowrap transition-colors touch-target">
-                <i class="fas fa-book mr-2"></i>
-                <span class="hidden xs:inline">Resources</span>
-                <span class="xs:hidden">Resources</span>
+                class="tab-button flex items-center gap-2 px-5 py-2.5 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition">
+                <i class="fas fa-book"></i> Resources
             </button>
             <button onclick="switchTab('directory')"
-                class="tab-button flex-shrink-0 py-3 px-4 rounded-md sm:py-4 sm:px-6 text-sm sm:text-base md:text-lg font-medium text-gray-700 hover:bg-gray-50 whitespace-nowrap transition-colors touch-target">
-                <i class="fas fa-address-book mr-2"></i>
-                <span class="hidden xs:inline">Directory</span>
-                <span class="xs:hidden">Directory</span>
+                class="tab-button flex items-center gap-2 px-5 py-2.5 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition">
+                <i class="fas fa-address-book"></i> Directory
             </button>
             <button onclick="switchTab('profile')"
-                class="tab-button flex-shrink-0 py-3 px-4 rounded-md sm:py-4 sm:px-6 text-sm sm:text-base md:text-lg font-medium text-gray-700 hover:bg-gray-50 whitespace-nowrap transition-colors touch-target">
-                <i class="fas fa-user mr-2"></i>
-                <span class="hidden xs:inline">My Profile</span>
-                <span class="xs:hidden">Profile</span>
+                class="tab-button flex items-center gap-2 px-5 py-2.5 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition">
+                <i class="fas fa-user"></i> Profile
             </button>
         </div>
     </div>
-
     <!-- Tab Content -->
     <div class="px-4 sm:px-6 md:mx-12 lg:px-12 py-6 mb-8">
         <!-- News Feed Tab - Facebook Style -->
@@ -226,7 +218,8 @@
                                 <p class="text-sm text-gray-500">Business Coach • 1 day ago</p>
                             </div>
                         </div>
-                        <p class="mt-3 text-gray-700">Just recorded a new podcast episode on "Leadership in Digital Transformation". 
+                        <p class="mt-3 text-gray-700">Just recorded a new podcast episode on "Leadership in Digital
+                            Transformation".
                             Listen to the full episode below and share your thoughts!</p>
                     </div>
 
@@ -256,8 +249,8 @@
                                     <button class="text-gray-500 hover:text-purple-600">
                                         <i class="fas fa-step-backward text-lg"></i>
                                     </button>
-                                    <button onclick="playDummyAudio('audio1')" 
-                                            class="w-10 h-10 bg-purple-600 text-white rounded-full flex items-center justify-center hover:bg-purple-700">
+                                    <button onclick="playDummyAudio('audio1')"
+                                        class="w-10 h-10 bg-purple-600 text-white rounded-full flex items-center justify-center hover:bg-purple-700">
                                         <i class="fas fa-play"></i>
                                     </button>
                                     <button class="text-gray-500 hover:text-purple-600">
@@ -282,9 +275,10 @@
                                 <p class="text-sm text-gray-500">Healthcare Consultant • 3 days ago</p>
                             </div>
                         </div>
-                        <p class="mt-3 text-gray-700">Just published my latest research paper on "AI in Medical Diagnostics". 
+                        <p class="mt-3 text-gray-700">Just published my latest research paper on "AI in Medical
+                            Diagnostics".
                             Sharing the complete PDF for fellow researchers and practitioners.</p>
-                        
+
                         <!-- PDF Document -->
                         <div class="mt-4 bg-gradient-to-r from-red-50 to-orange-50 rounded-xl p-4">
                             <div class="flex items-center justify-between">
@@ -297,8 +291,8 @@
                                         <p class="text-sm text-gray-500">Research Paper • 2.4 MB • 28 pages</p>
                                     </div>
                                 </div>
-                                <button onclick="viewDummyPDF('pdf1')" 
-                                        class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium">
+                                <button onclick="viewDummyPDF('pdf1')"
+                                    class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium">
                                     <i class="fas fa-eye mr-1"></i> View PDF
                                 </button>
                             </div>
@@ -348,24 +342,24 @@
 
                 <!-- Resource Categories -->
                 <div class="flex flex-wrap gap-2 mb-8">
-                    <button onclick="filterResources('all')" 
-                            class="px-4 py-2 bg-blue-600 text-white rounded-full text-sm font-medium transition-colors">
+                    <button onclick="filterResources('all')"
+                        class="px-4 py-2 bg-blue-600 text-white rounded-full text-sm font-medium transition-colors">
                         All Resources
                     </button>
-                    <button onclick="filterResources('audio')" 
-                            class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors">
+                    <button onclick="filterResources('audio')"
+                        class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors">
                         <i class="fas fa-music mr-1"></i> Audio
                     </button>
-                    <button onclick="filterResources('video')" 
-                            class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors">
+                    <button onclick="filterResources('video')"
+                        class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors">
                         <i class="fas fa-video mr-1"></i> Video
                     </button>
-                    <button onclick="filterResources('pdf')" 
-                            class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors">
+                    <button onclick="filterResources('pdf')"
+                        class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors">
                         <i class="fas fa-file-pdf mr-1"></i> PDF
                     </button>
-                    <button onclick="filterResources('image')" 
-                            class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors">
+                    <button onclick="filterResources('image')"
+                        class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors">
                         <i class="fas fa-image mr-1"></i> Images
                     </button>
                 </div>
@@ -373,7 +367,8 @@
                 <!-- Resources Grid -->
                 <div id="resourcesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Resource 1: Audio Resource -->
-                    <div class="resource-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-300" data-type="audio">
+                    <div class="resource-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-300"
+                        data-type="audio">
                         <div class="p-6">
                             <div class="flex items-start mb-4">
                                 <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
@@ -384,8 +379,9 @@
                                     <p class="text-sm text-gray-500">Audio • 12 Episodes • 8.5 hrs</p>
                                 </div>
                             </div>
-                            <p class="text-gray-600 text-sm mb-4">Complete podcast series on modern leadership, team management, and organizational psychology.</p>
-                            
+                            <p class="text-gray-600 text-sm mb-4">Complete podcast series on modern leadership, team
+                                management, and organizational psychology.</p>
+
                             <!-- Audio Preview -->
                             <div class="mb-4 p-3 bg-purple-50 rounded-lg">
                                 <div class="flex items-center justify-between mb-2">
@@ -393,7 +389,8 @@
                                     <span class="text-xs text-gray-500">25:18</span>
                                 </div>
                                 <div class="flex items-center space-x-2">
-                                    <button onclick="playDummyAudio('resource1')" class="text-purple-600 hover:text-purple-700">
+                                    <button onclick="playDummyAudio('resource1')"
+                                        class="text-purple-600 hover:text-purple-700">
                                         <i class="fas fa-play-circle text-lg"></i>
                                     </button>
                                     <div class="flex-1 bg-gray-200 rounded-full h-1.5">
@@ -401,12 +398,13 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center text-sm text-gray-500">
                                     <i class="fas fa-headphones mr-1"></i> 2.4k listens
                                 </div>
-                                <button onclick="playDummyAudio('resource1')" class="text-purple-600 font-medium hover:text-purple-700 text-sm">
+                                <button onclick="playDummyAudio('resource1')"
+                                    class="text-purple-600 font-medium hover:text-purple-700 text-sm">
                                     <i class="fas fa-play mr-1"></i> Play Now
                                 </button>
                             </div>
@@ -414,7 +412,8 @@
                     </div>
 
                     <!-- Resource 2: Video Course -->
-                    <div class="resource-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-300" data-type="video">
+                    <div class="resource-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-300"
+                        data-type="video">
                         <div class="p-6">
                             <div class="flex items-start mb-4">
                                 <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mr-4">
@@ -425,20 +424,21 @@
                                     <p class="text-sm text-gray-500">Video Course • 6 Hours</p>
                                 </div>
                             </div>
-                            <p class="text-gray-600 text-sm mb-4">Complete guide to digital marketing strategies, SEO, social media, and analytics.</p>
-                            
+                            <p class="text-gray-600 text-sm mb-4">Complete guide to digital marketing strategies, SEO,
+                                social media, and analytics.</p>
+
                             <!-- Video Thumbnail -->
                             <div class="mb-4 relative">
-                                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
-                                     alt="Digital Marketing" class="w-full h-32 object-cover rounded-lg">
+                                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                                    alt="Digital Marketing" class="w-full h-32 object-cover rounded-lg">
                                 <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20">
-                                    <button onclick="playDummyVideo('resource2')" 
-                                            class="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:bg-gray-100">
+                                    <button onclick="playDummyVideo('resource2')"
+                                        class="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:bg-gray-100">
                                         <i class="fas fa-play text-red-600"></i>
                                     </button>
                                 </div>
                             </div>
-                            
+
                             <div class="mb-4">
                                 <div class="flex items-center text-sm text-gray-500 mb-1">
                                     <i class="fas fa-star text-yellow-500 mr-1"></i> 4.8 • 342 reviews
@@ -455,7 +455,8 @@
                     </div>
 
                     <!-- Resource 3: PDF Guide -->
-                    <div class="resource-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-300" data-type="pdf">
+                    <div class="resource-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-300"
+                        data-type="pdf">
                         <div class="p-6">
                             <div class="flex items-start mb-4">
                                 <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mr-4">
@@ -466,8 +467,9 @@
                                     <p class="text-sm text-gray-500">PDF • 15 Pages • 2.4 MB</p>
                                 </div>
                             </div>
-                            <p class="text-gray-600 text-sm mb-4">Complete business plan template with financial projections, market analysis, and executive summary.</p>
-                            
+                            <p class="text-gray-600 text-sm mb-4">Complete business plan template with financial
+                                projections, market analysis, and executive summary.</p>
+
                             <!-- PDF Preview -->
                             <div class="mb-4 p-3 bg-red-50 rounded-lg">
                                 <div class="flex items-center justify-between">
@@ -478,12 +480,13 @@
                                     <span class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded">Editable</span>
                                 </div>
                             </div>
-                            
+
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center text-sm text-gray-500">
                                     <i class="fas fa-download mr-1"></i> 1,245 downloads
                                 </div>
-                                <button onclick="viewDummyPDF('resource3')" class="text-red-600 font-medium hover:text-red-700 text-sm">
+                                <button onclick="viewDummyPDF('resource3')"
+                                    class="text-red-600 font-medium hover:text-red-700 text-sm">
                                     <i class="fas fa-eye mr-1"></i> View PDF
                                 </button>
                             </div>
@@ -491,7 +494,8 @@
                     </div>
 
                     <!-- Resource 4: Image Collection -->
-                    <div class="resource-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-300" data-type="image">
+                    <div class="resource-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-300"
+                        data-type="image">
                         <div class="p-6">
                             <div class="flex items-start mb-4">
                                 <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
@@ -502,23 +506,25 @@
                                     <p class="text-sm text-gray-500">Image Collection • 150+ Files</p>
                                 </div>
                             </div>
-                            <p class="text-gray-600 text-sm mb-4">High-quality images, infographics, and charts for professional presentations and reports.</p>
-                            
+                            <p class="text-gray-600 text-sm mb-4">High-quality images, infographics, and charts for
+                                professional presentations and reports.</p>
+
                             <!-- Image Gallery Preview -->
                             <div class="mb-4 grid grid-cols-3 gap-1">
-                                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" 
-                                     alt="Chart 1" class="h-16 object-cover rounded">
-                                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" 
-                                     alt="Chart 2" class="h-16 object-cover rounded">
-                                <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" 
-                                     alt="Chart 3" class="h-16 object-cover rounded">
+                                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                                    alt="Chart 1" class="h-16 object-cover rounded">
+                                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                                    alt="Chart 2" class="h-16 object-cover rounded">
+                                <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                                    alt="Chart 3" class="h-16 object-cover rounded">
                             </div>
-                            
+
                             <div class="flex items-center justify-between">
                                 <div class="text-sm text-gray-500">
                                     <i class="fas fa-folder mr-1"></i> 8 Categories
                                 </div>
-                                <button onclick="viewDummyImages()" class="text-green-600 font-medium hover:text-green-700 text-sm">
+                                <button onclick="viewDummyImages()"
+                                    class="text-green-600 font-medium hover:text-green-700 text-sm">
                                     <i class="fas fa-images mr-1"></i> Browse Images
                                 </button>
                             </div>
@@ -526,7 +532,8 @@
                     </div>
 
                     <!-- Resource 5: Audio Book -->
-                    <div class="resource-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-300" data-type="audio">
+                    <div class="resource-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-300"
+                        data-type="audio">
                         <div class="p-6">
                             <div class="flex items-start mb-4">
                                 <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mr-4">
@@ -537,12 +544,14 @@
                                     <p class="text-sm text-gray-500">Audio Book • 12 hrs 45 min</p>
                                 </div>
                             </div>
-                            <p class="text-gray-600 text-sm mb-4">Complete audio book on business strategy, market positioning, and competitive advantage.</p>
-                            
+                            <p class="text-gray-600 text-sm mb-4">Complete audio book on business strategy, market
+                                positioning, and competitive advantage.</p>
+
                             <!-- Audio Controls -->
                             <div class="mb-4 p-3 bg-indigo-50 rounded-lg">
                                 <div class="flex items-center space-x-2">
-                                    <button onclick="playDummyAudio('resource5')" class="text-indigo-600 hover:text-indigo-700">
+                                    <button onclick="playDummyAudio('resource5')"
+                                        class="text-indigo-600 hover:text-indigo-700">
                                         <i class="fas fa-play-circle text-xl"></i>
                                     </button>
                                     <div class="flex-1">
@@ -556,12 +565,13 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center text-sm text-gray-500">
                                     <i class="fas fa-bookmark mr-1"></i> 24 Chapters
                                 </div>
-                                <button onclick="playDummyAudio('resource5')" class="text-indigo-600 font-medium hover:text-indigo-700 text-sm">
+                                <button onclick="playDummyAudio('resource5')"
+                                    class="text-indigo-600 font-medium hover:text-indigo-700 text-sm">
                                     <i class="fas fa-play mr-1"></i> Listen Now
                                 </button>
                             </div>
@@ -569,7 +579,8 @@
                     </div>
 
                     <!-- Resource 6: Video Tutorial -->
-                    <div class="resource-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-300" data-type="video">
+                    <div class="resource-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-300"
+                        data-type="video">
                         <div class="p-6">
                             <div class="flex items-start mb-4">
                                 <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
@@ -580,8 +591,9 @@
                                     <p class="text-sm text-gray-500">Video Series • 4.5 Hours</p>
                                 </div>
                             </div>
-                            <p class="text-gray-600 text-sm mb-4">Step-by-step video tutorials covering advanced Excel functions, formulas, and data analysis.</p>
-                            
+                            <p class="text-gray-600 text-sm mb-4">Step-by-step video tutorials covering advanced Excel
+                                functions, formulas, and data analysis.</p>
+
                             <!-- Video Stats -->
                             <div class="mb-4 space-y-2">
                                 <div class="flex items-center justify-between text-sm">
@@ -593,7 +605,7 @@
                                     <span>Downloadable exercise files included</span>
                                 </div>
                             </div>
-                            
+
                             <button onclick="playDummyVideo('resource6')"
                                 class="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">
                                 <i class="fas fa-play mr-2"></i> Watch Tutorials
@@ -612,439 +624,474 @@
                     <p class="text-gray-600">Connect with verified professionals across industries</p>
                 </div>
 
-  <div class="max-w-6xl mx-auto mb-8">
-        
+                <div class="max-w-6xl mx-auto mb-8">
 
-        <!-- Filters -->
-      <!-- Filters -->
-<div class="bg-white rounded-xl shadow-md p-3 sm:p-4 mb-4 sm:mb-6 border border-gray-200">
-    <div class="flex flex-wrap gap-2 sm:gap-3">
-        <!-- Sort by - Always visible -->
-        <div class="relative w-full sm:w-auto sm:flex-1 min-w-[150px] max-w-[200px]">
-            <select class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 sm:pl-4 pr-8 sm:pr-10 py-2 sm:py-2.5 text-sm sm:text-base text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                <option>Sort by</option>
-                <option>Price: Low to High</option>
-                <option>Price: High to Low</option>
-                <option>Rating: High to Low</option>
-                <option>Popularity</option>
-            </select>
-            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <i class="fas fa-chevron-down text-sm sm:text-base"></i>
-            </div>
-        </div>
 
-        <!-- Star Rating - Always visible -->
-        <div class="relative w-full sm:w-auto sm:flex-1 min-w-[150px] max-w-[200px]">
-            <select class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 sm:pl-4 pr-8 sm:pr-10 py-2 sm:py-2.5 text-sm sm:text-base text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                <option>Star Rating</option>
-                <option>5 Star</option>
-                <option>4 Star</option>
-                <option>3 Star</option>
-                <option>2 Star</option>
-                <option>1 Star</option>
-            </select>
-            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <i class="fas fa-chevron-down text-sm sm:text-base"></i>
-            </div>
-        </div>
-
-        <!-- Budget - Visible on tablets and up -->
-        <div class="relative w-full sm:w-auto sm:flex-1 min-w-[150px] max-w-[200px] hidden sm:block">
-            <select class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 sm:pl-4 pr-8 sm:pr-10 py-2 sm:py-2.5 text-sm sm:text-base text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                <option>Budget</option>
-                <option>₹1000 - ₹3000</option>
-                <option>₹3000 - ₹5000</option>
-                <option>₹5000 - ₹10000</option>
-                <option>₹10000+</option>
-            </select>
-            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <i class="fas fa-chevron-down text-sm sm:text-base"></i>
-            </div>
-        </div>
-
-        <!-- Hotel View - Hidden on mobile, visible on tablets and up -->
-        <div class="relative w-full sm:w-auto sm:flex-1 min-w-[150px] max-w-[200px] hidden sm:block">
-            <select class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 sm:pl-4 pr-8 sm:pr-10 py-2 sm:py-2.5 text-sm sm:text-base text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                <option>Hotel View</option>
-                <option>Sea View</option>
-                <option>City View</option>
-                <option>Garden View</option>
-                <option>Pool View</option>
-            </select>
-            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <i class="fas fa-chevron-down text-sm sm:text-base"></i>
-            </div>
-        </div>
-
-        <!-- Pets Allowed - Hidden on mobile, visible on tablets and up -->
-        <div class="relative w-full sm:w-auto sm:flex-1 min-w-[150px] max-w-[200px] hidden sm:block">
-            <select class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 sm:pl-4 pr-8 sm:pr-10 py-2 sm:py-2.5 text-sm sm:text-base text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                <option>Pets Allowed</option>
-                <option>Yes</option>
-                <option>No</option>
-            </select>
-            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <i class="fas fa-chevron-down text-sm sm:text-base"></i>
-            </div>
-        </div>
-
-        <!-- User Ratings - Hidden on mobile, visible on large tablets and up -->
-        <div class="relative w-full sm:w-auto sm:flex-1 min-w-[150px] max-w-[200px] hidden md:block">
-            <select class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 sm:pl-4 pr-8 sm:pr-10 py-2 sm:py-2.5 text-sm sm:text-base text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                <option>User Ratings</option>
-                <option>4.5+ Excellent</option>
-                <option>4.0+ Very Good</option>
-                <option>3.5+ Good</option>
-                <option>3.0+ Average</option>
-            </select>
-            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <i class="fas fa-chevron-down text-sm sm:text-base"></i>
-            </div>
-        </div>
-
-        <!-- Amenities - Hidden on mobile/tablet, visible on desktop and up -->
-        <div class="relative w-full sm:w-auto sm:flex-1 min-w-[150px] max-w-[200px] hidden lg:block">
-            <select class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 sm:pl-4 pr-8 sm:pr-10 py-2 sm:py-2.5 text-sm sm:text-base text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                <option>Amenities</option>
-                <option>WiFi</option>
-                <option>Pool</option>
-                <option>Gym</option>
-                <option>Spa</option>
-                <option>Restaurant</option>
-                <option>Parking</option>
-            </select>
-            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <i class="fas fa-chevron-down text-sm sm:text-base"></i>
-            </div>
-        </div>
-
-        <!-- Show More Filters Button for Mobile -->
-        <div class="w-full sm:hidden">
-            <button onclick="toggleMobileFilters()" class="w-full flex items-center justify-center gap-2 text-blue-600 hover:text-blue-700 font-medium py-2">
-                <i class="fas fa-filter"></i>
-                <span>Show More Filters</span>
-                <i class="fas fa-chevron-down text-sm"></i>
-            </button>
-        </div>
-    </div>
-
-    <!-- Mobile Expanded Filters -->
-    <div id="mobileFilters" class="hidden sm:hidden mt-4 pt-4 border-t border-gray-200">
-        <div class="grid grid-cols-1 gap-3">
-            <div class="relative">
-                <select class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 pr-8 py-2.5 text-sm text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    <option>Budget</option>
-                    <option>₹1000 - ₹3000</option>
-                    <option>₹3000 - ₹5000</option>
-                    <option>₹5000 - ₹10000</option>
-                    <option>₹10000+</option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-            </div>
-
-            <div class="relative">
-                <select class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 pr-8 py-2.5 text-sm text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    <option>Hotel View</option>
-                    <option>Sea View</option>
-                    <option>City View</option>
-                    <option>Garden View</option>
-                    <option>Pool View</option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-            </div>
-
-            <div class="relative">
-                <select class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 pr-8 py-2.5 text-sm text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    <option>Pets Allowed</option>
-                    <option>Yes</option>
-                    <option>No</option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-            </div>
-
-            <div class="relative">
-                <select class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 pr-8 py-2.5 text-sm text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    <option>User Ratings</option>
-                    <option>4.5+ Excellent</option>
-                    <option>4.0+ Very Good</option>
-                    <option>3.5+ Good</option>
-                    <option>3.0+ Average</option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-            </div>
-
-            <div class="relative">
-                <select class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 pr-8 py-2.5 text-sm text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    <option>Amenities</option>
-                    <option>WiFi</option>
-                    <option>Pool</option>
-                    <option>Gym</option>
-                    <option>Spa</option>
-                    <option>Restaurant</option>
-                    <option>Parking</option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Hotel Listings -->
-    <div class="max-w-6xl mx-auto">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Main Hotel Listings -->
-            <div class="lg:col-span-2">
-                <!-- Hotel 1 -->
-                <div class="bg-white rounded-xl shadow-md mb-6 overflow-hidden border border-gray-200">
-                    <div class="p-6">
-                        <div class="flex flex-col md:flex-row md:items-start gap-6">
-                            <!-- Hotel Image -->
-                            <div class="md:w-1/3">
-                                <div class="relative h-48 md:h-40 rounded-lg overflow-hidden">
-                                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-                                         alt="Hotel Green Star Hospitality" 
-                                         class="w-full h-full object-cover">
-                                    <div class="absolute top-3 left-3">
-                                        <span class="bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">
-                                            Trust Verified
-                                        </span>
-                                    </div>
+                    <!-- Filters -->
+                    <!-- Filters -->
+                    <div class="bg-white rounded-xl shadow-md p-3 sm:p-4 mb-4 sm:mb-6 border border-gray-200">
+                        <div class="flex flex-wrap gap-2 sm:gap-3">
+                            <!-- Sort by - Always visible -->
+                            <div class="relative w-full sm:w-auto sm:flex-1 min-w-[150px] max-w-[200px]">
+                                <select
+                                    class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 sm:pl-4 pr-8 sm:pr-10 py-2 sm:py-2.5 text-sm sm:text-base text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option>Sort by</option>
+                                    <option>Price: Low to High</option>
+                                    <option>Price: High to Low</option>
+                                    <option>Rating: High to Low</option>
+                                    <option>Popularity</option>
+                                </select>
+                                <div
+                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                    <i class="fas fa-chevron-down text-sm sm:text-base"></i>
                                 </div>
                             </div>
 
-                            <!-- Hotel Details -->
-                            <div class="md:w-2/3">
-                                <div class="flex justify-between items-start mb-3">
-                                    <div>
-                                        <h2 class="text-xl font-bold text-gray-800 mb-1">Hotel Green Star Hospitality</h2>
-                                        <div class="flex items-center mb-2">
-                                            <div class="flex text-yellow-400 mr-2">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="far fa-star"></i>
-                                            </div>
-                                            <span class="text-gray-700 font-medium">4.2 ★</span>
-                                            <span class="text-gray-500 ml-2">557 Ratings</span>
-                                        </div>
-                                    </div>
-                                    <div class="text-right">
-                                        <div class="text-green-600 text-sm font-medium mb-1">
-                                            <i class="fas fa-bolt mr-1"></i>Responsive
-                                        </div>
+                            <!-- Star Rating - Always visible -->
+                            <div class="relative w-full sm:w-auto sm:flex-1 min-w-[150px] max-w-[200px]">
+                                <select
+                                    class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 sm:pl-4 pr-8 sm:pr-10 py-2 sm:py-2.5 text-sm sm:text-base text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option>Star Rating</option>
+                                    <option>5 Star</option>
+                                    <option>4 Star</option>
+                                    <option>3 Star</option>
+                                    <option>2 Star</option>
+                                    <option>1 Star</option>
+                                </select>
+                                <div
+                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                    <i class="fas fa-chevron-down text-sm sm:text-base"></i>
+                                </div>
+                            </div>
+
+                            <!-- Budget - Visible on tablets and up -->
+                            <div class="relative w-full sm:w-auto sm:flex-1 min-w-[150px] max-w-[200px] hidden sm:block">
+                                <select
+                                    class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 sm:pl-4 pr-8 sm:pr-10 py-2 sm:py-2.5 text-sm sm:text-base text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option>Budget</option>
+                                    <option>₹1000 - ₹3000</option>
+                                    <option>₹3000 - ₹5000</option>
+                                    <option>₹5000 - ₹10000</option>
+                                    <option>₹10000+</option>
+                                </select>
+                                <div
+                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                    <i class="fas fa-chevron-down text-sm sm:text-base"></i>
+                                </div>
+                            </div>
+
+                            <!-- Hotel View - Hidden on mobile, visible on tablets and up -->
+                            <div class="relative w-full sm:w-auto sm:flex-1 min-w-[150px] max-w-[200px] hidden sm:block">
+                                <select
+                                    class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 sm:pl-4 pr-8 sm:pr-10 py-2 sm:py-2.5 text-sm sm:text-base text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option>Hotel View</option>
+                                    <option>Sea View</option>
+                                    <option>City View</option>
+                                    <option>Garden View</option>
+                                    <option>Pool View</option>
+                                </select>
+                                <div
+                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                    <i class="fas fa-chevron-down text-sm sm:text-base"></i>
+                                </div>
+                            </div>
+
+                            <!-- Pets Allowed - Hidden on mobile, visible on tablets and up -->
+                            <div class="relative w-full sm:w-auto sm:flex-1 min-w-[150px] max-w-[200px] hidden sm:block">
+                                <select
+                                    class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 sm:pl-4 pr-8 sm:pr-10 py-2 sm:py-2.5 text-sm sm:text-base text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option>Pets Allowed</option>
+                                    <option>Yes</option>
+                                    <option>No</option>
+                                </select>
+                                <div
+                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                    <i class="fas fa-chevron-down text-sm sm:text-base"></i>
+                                </div>
+                            </div>
+
+                            <!-- User Ratings - Hidden on mobile, visible on large tablets and up -->
+                            <div class="relative w-full sm:w-auto sm:flex-1 min-w-[150px] max-w-[200px] hidden md:block">
+                                <select
+                                    class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 sm:pl-4 pr-8 sm:pr-10 py-2 sm:py-2.5 text-sm sm:text-base text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option>User Ratings</option>
+                                    <option>4.5+ Excellent</option>
+                                    <option>4.0+ Very Good</option>
+                                    <option>3.5+ Good</option>
+                                    <option>3.0+ Average</option>
+                                </select>
+                                <div
+                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                    <i class="fas fa-chevron-down text-sm sm:text-base"></i>
+                                </div>
+                            </div>
+
+                            <!-- Amenities - Hidden on mobile/tablet, visible on desktop and up -->
+                            <div class="relative w-full sm:w-auto sm:flex-1 min-w-[150px] max-w-[200px] hidden lg:block">
+                                <select
+                                    class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 sm:pl-4 pr-8 sm:pr-10 py-2 sm:py-2.5 text-sm sm:text-base text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option>Amenities</option>
+                                    <option>WiFi</option>
+                                    <option>Pool</option>
+                                    <option>Gym</option>
+                                    <option>Spa</option>
+                                    <option>Restaurant</option>
+                                    <option>Parking</option>
+                                </select>
+                                <div
+                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                    <i class="fas fa-chevron-down text-sm sm:text-base"></i>
+                                </div>
+                            </div>
+
+                            <!-- Show More Filters Button for Mobile -->
+                            <div class="w-full sm:hidden">
+                                <button onclick="toggleMobileFilters()"
+                                    class="w-full flex items-center justify-center gap-2 text-blue-600 hover:text-blue-700 font-medium py-2">
+                                    <i class="fas fa-filter"></i>
+                                    <span>Show More Filters</span>
+                                    <i class="fas fa-chevron-down text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Mobile Expanded Filters -->
+                        <div id="mobileFilters" class="hidden sm:hidden mt-4 pt-4 border-t border-gray-200">
+                            <div class="grid grid-cols-1 gap-3">
+                                <div class="relative">
+                                    <select
+                                        class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 pr-8 py-2.5 text-sm text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                        <option>Budget</option>
+                                        <option>₹1000 - ₹3000</option>
+                                        <option>₹3000 - ₹5000</option>
+                                        <option>₹5000 - ₹10000</option>
+                                        <option>₹10000+</option>
+                                    </select>
+                                    <div
+                                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                        <i class="fas fa-chevron-down"></i>
                                     </div>
                                 </div>
 
-                                <!-- Location & Amenities -->
-                                <div class="mb-4">
-                                    <div class="flex items-center text-gray-600 mb-2">
-                                        <i class="fas fa-map-marker-alt mr-2 text-red-500"></i>
-                                        <span>Marve Road Malad West, Mumbai</span>
-                                    </div>
-                                    <div class="flex flex-wrap gap-2">
-                                        <span class="inline-flex items-center text-sm bg-gray-100 text-gray-700 px-3 py-1 rounded-full">
-                                            <i class="fas fa-parking mr-1"></i> Parking Available
-                                        </span>
-                                        <span class="inline-flex items-center text-sm bg-gray-100 text-gray-700 px-3 py-1 rounded-full">
-                                            <i class="fas fa-wifi mr-1"></i> WiFi
-                                        </span>
-                                        <span class="inline-flex items-center text-sm bg-gray-100 text-gray-700 px-3 py-1 rounded-full">
-                                            <i class="fas fa-snowflake mr-1"></i> AC
-                                        </span>
+                                <div class="relative">
+                                    <select
+                                        class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 pr-8 py-2.5 text-sm text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                        <option>Hotel View</option>
+                                        <option>Sea View</option>
+                                        <option>City View</option>
+                                        <option>Garden View</option>
+                                        <option>Pool View</option>
+                                    </select>
+                                    <div
+                                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                        <i class="fas fa-chevron-down"></i>
                                     </div>
                                 </div>
 
-                                <!-- Contact & Actions -->
-                                <div class="flex flex-col md:flex-row md:items-center justify-between pt-4 border-t border-gray-200">
-                                    <div class="mb-4 md:mb-0">
-                                        <div class="text-gray-700 font-medium mb-2">
-                                            <i class="fas fa-phone-alt mr-2 text-blue-600"></i>09054813935
-                                        </div>
-                                        <div class="flex items-center space-x-4">
-                                            <button class="text-green-600 hover:text-green-700 font-medium">
-                                                <i class="fab fa-whatsapp mr-1"></i>WhatsApp
-                                            </button>
-                                            <button class="text-blue-600 hover:text-blue-700 font-medium">
-                                                <i class="fas fa-envelope mr-1"></i>Email
-                                            </button>
-                                        </div>
+                                <div class="relative">
+                                    <select
+                                        class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 pr-8 py-2.5 text-sm text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                        <option>Pets Allowed</option>
+                                        <option>Yes</option>
+                                        <option>No</option>
+                                    </select>
+                                    <div
+                                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                        <i class="fas fa-chevron-down"></i>
                                     </div>
-                                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-6 rounded-lg transition-colors">
-                                        <i class="fas fa-shopping-cart mr-2"></i>Get Best Deal
-                                    </button>
+                                </div>
+
+                                <div class="relative">
+                                    <select
+                                        class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 pr-8 py-2.5 text-sm text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                        <option>User Ratings</option>
+                                        <option>4.5+ Excellent</option>
+                                        <option>4.0+ Very Good</option>
+                                        <option>3.5+ Good</option>
+                                        <option>3.0+ Average</option>
+                                    </select>
+                                    <div
+                                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                </div>
+
+                                <div class="relative">
+                                    <select
+                                        class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 pr-8 py-2.5 text-sm text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                        <option>Amenities</option>
+                                        <option>WiFi</option>
+                                        <option>Pool</option>
+                                        <option>Gym</option>
+                                        <option>Spa</option>
+                                        <option>Restaurant</option>
+                                        <option>Parking</option>
+                                    </select>
+                                    <div
+                                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
 
-                <!-- Hotel 2 -->
-                <div class="bg-white rounded-xl shadow-md mb-6 overflow-hidden border border-gray-200">
-                    <div class="p-6">
-                        <div class="flex flex-col md:flex-row md:items-start gap-6">
-                            <!-- Hotel Image -->
-                            <div class="md:w-1/3">
-                                <div class="relative h-48 md:h-40 rounded-lg overflow-hidden">
-                                    <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-                                         alt="Hotel Delmond Prime" 
-                                         class="w-full h-full object-cover">
-                                    <div class="absolute top-3 left-3">
-                                        <span class="bg-yellow-500 text-white text-xs font-bold px-2 py-1 rounded">
-                                            ★ Top Rated
-                                        </span>
+                <!-- Hotel Listings -->
+                <div class="max-w-6xl mx-auto">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <!-- Main Hotel Listings -->
+                        <div class="lg:col-span-2">
+                            <!-- Hotel 1 -->
+                            <div class="bg-white rounded-xl shadow-md mb-6 overflow-hidden border border-gray-200">
+                                <div class="p-6">
+                                    <div class="flex flex-col md:flex-row md:items-start gap-6">
+                                        <!-- Hotel Image -->
+                                        <div class="md:w-1/3">
+                                            <div class="relative h-48 md:h-40 rounded-lg overflow-hidden">
+                                                <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                                    alt="Hotel Green Star Hospitality" class="w-full h-full object-cover">
+                                                <div class="absolute top-3 left-3">
+                                                    <span
+                                                        class="bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">
+                                                        Trust Verified
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Hotel Details -->
+                                        <div class="md:w-2/3">
+                                            <div class="flex justify-between items-start mb-3">
+                                                <div>
+                                                    <h2 class="text-xl font-bold text-gray-800 mb-1">Hotel Green Star
+                                                        Hospitality</h2>
+                                                    <div class="flex items-center mb-2">
+                                                        <div class="flex text-yellow-400 mr-2">
+                                                            <i class="fas fa-star"></i>
+                                                            <i class="fas fa-star"></i>
+                                                            <i class="fas fa-star"></i>
+                                                            <i class="fas fa-star"></i>
+                                                            <i class="far fa-star"></i>
+                                                        </div>
+                                                        <span class="text-gray-700 font-medium">4.2 ★</span>
+                                                        <span class="text-gray-500 ml-2">557 Ratings</span>
+                                                    </div>
+                                                </div>
+                                                <div class="text-right">
+                                                    <div class="text-green-600 text-sm font-medium mb-1">
+                                                        <i class="fas fa-bolt mr-1"></i>Responsive
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Location & Amenities -->
+                                            <div class="mb-4">
+                                                <div class="flex items-center text-gray-600 mb-2">
+                                                    <i class="fas fa-map-marker-alt mr-2 text-red-500"></i>
+                                                    <span>Marve Road Malad West, Mumbai</span>
+                                                </div>
+                                                <div class="flex flex-wrap gap-2">
+                                                    <span
+                                                        class="inline-flex items-center text-sm bg-gray-100 text-gray-700 px-3 py-1 rounded-full">
+                                                        <i class="fas fa-parking mr-1"></i> Parking Available
+                                                    </span>
+                                                    <span
+                                                        class="inline-flex items-center text-sm bg-gray-100 text-gray-700 px-3 py-1 rounded-full">
+                                                        <i class="fas fa-wifi mr-1"></i> WiFi
+                                                    </span>
+                                                    <span
+                                                        class="inline-flex items-center text-sm bg-gray-100 text-gray-700 px-3 py-1 rounded-full">
+                                                        <i class="fas fa-snowflake mr-1"></i> AC
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <!-- Contact & Actions -->
+                                            <div
+                                                class="flex flex-col md:flex-row md:items-center justify-between pt-4 border-t border-gray-200">
+                                                <div class="mb-4 md:mb-0">
+                                                    <div class="text-gray-700 font-medium mb-2">
+                                                        <i class="fas fa-phone-alt mr-2 text-blue-600"></i>09054813935
+                                                    </div>
+                                                    <div class="flex items-center space-x-4">
+                                                        <button class="text-green-600 hover:text-green-700 font-medium">
+                                                            <i class="fab fa-whatsapp mr-1"></i>WhatsApp
+                                                        </button>
+                                                        <button class="text-blue-600 hover:text-blue-700 font-medium">
+                                                            <i class="fas fa-envelope mr-1"></i>Email
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <button
+                                                    class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-6 rounded-lg transition-colors">
+                                                    <i class="fas fa-shopping-cart mr-2"></i>Get Best Deal
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Hotel Details -->
-                            <div class="md:w-2/3">
-                                <div class="flex justify-between items-start mb-3">
-                                    <div>
-                                        <h2 class="text-xl font-bold text-gray-800 mb-1">Hotel Delmond Prime</h2>
-                                        <div class="flex items-center mb-2">
-                                            <div class="flex text-yellow-400 mr-2">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="far fa-star"></i>
+                            <!-- Hotel 2 -->
+                            <div class="bg-white rounded-xl shadow-md mb-6 overflow-hidden border border-gray-200">
+                                <div class="p-6">
+                                    <div class="flex flex-col md:flex-row md:items-start gap-6">
+                                        <!-- Hotel Image -->
+                                        <div class="md:w-1/3">
+                                            <div class="relative h-48 md:h-40 rounded-lg overflow-hidden">
+                                                <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                                    alt="Hotel Delmond Prime" class="w-full h-full object-cover">
+                                                <div class="absolute top-3 left-3">
+                                                    <span
+                                                        class="bg-yellow-500 text-white text-xs font-bold px-2 py-1 rounded">
+                                                        ★ Top Rated
+                                                    </span>
+                                                </div>
                                             </div>
-                                            <span class="text-gray-700 font-medium">4.1 ★</span>
-                                            <span class="text-gray-500 ml-2">157 Ratings</span>
+                                        </div>
+
+                                        <!-- Hotel Details -->
+                                        <div class="md:w-2/3">
+                                            <div class="flex justify-between items-start mb-3">
+                                                <div>
+                                                    <h2 class="text-xl font-bold text-gray-800 mb-1">Hotel Delmond Prime
+                                                    </h2>
+                                                    <div class="flex items-center mb-2">
+                                                        <div class="flex text-yellow-400 mr-2">
+                                                            <i class="fas fa-star"></i>
+                                                            <i class="fas fa-star"></i>
+                                                            <i class="fas fa-star"></i>
+                                                            <i class="fas fa-star"></i>
+                                                            <i class="far fa-star"></i>
+                                                        </div>
+                                                        <span class="text-gray-700 font-medium">4.1 ★</span>
+                                                        <span class="text-gray-500 ml-2">157 Ratings</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Location -->
+                                            <div class="mb-6">
+                                                <div class="flex items-center text-gray-600">
+                                                    <i class="fas fa-map-marker-alt mr-2 text-red-500"></i>
+                                                    <span>Goregaon Link Road Goregaon West, Mumbai</span>
+                                                </div>
+                                            </div>
+
+                                            <!-- Contact & Actions -->
+                                            <div
+                                                class="flex flex-col md:flex-row md:items-center justify-between pt-4 border-t border-gray-200">
+                                                <div class="mb-4 md:mb-0">
+                                                    <div class="text-gray-700 font-medium mb-2">
+                                                        <i class="fas fa-phone-alt mr-2 text-blue-600"></i>09054813936
+                                                    </div>
+                                                    <div class="flex items-center space-x-4">
+                                                        <button class="text-green-600 hover:text-green-700 font-medium">
+                                                            <i class="fab fa-whatsapp mr-1"></i>WhatsApp
+                                                        </button>
+                                                        <button class="text-blue-600 hover:text-blue-700 font-medium">
+                                                            <i class="fas fa-envelope mr-1"></i>Email
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <button
+                                                    class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-6 rounded-lg transition-colors">
+                                                    <i class="fas fa-shopping-cart mr-2"></i>Get Best Deal
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
 
-                                <!-- Location -->
+                            <!-- More Hotels can be added here -->
+                        </div>
+
+                        <!-- Sidebar - Contact Form -->
+                        <div class="lg:col-span-1">
+                            <div class="bg-white rounded-xl shadow-md p-6 border border-gray-200 sticky top-6">
+                                <h3 class="text-xl font-bold text-gray-800 mb-4">Get the List of Top Hotels</h3>
+                                <p class="text-gray-600 mb-6">We'll send you contact details in seconds for free</p>
+
+                                <!-- Hotel Type Selection -->
                                 <div class="mb-6">
-                                    <div class="flex items-center text-gray-600">
-                                        <i class="fas fa-map-marker-alt mr-2 text-red-500"></i>
-                                        <span>Goregaon Link Road Goregaon West, Mumbai</span>
+                                    <label class="block text-sm font-medium text-gray-700 mb-3">
+                                        What type of Hotel are you looking for?
+                                    </label>
+                                    <div class="flex flex-wrap gap-2">
+                                        <button
+                                            class="bg-blue-100 text-blue-700 border-2 border-blue-200 px-4 py-2 rounded-lg font-medium">
+                                            Budget
+                                        </button>
+                                        <button
+                                            class="bg-gray-100 text-gray-700 border-2 border-gray-200 px-4 py-2 rounded-lg font-medium hover:bg-gray-200">
+                                            Luxury
+                                        </button>
+                                        <button
+                                            class="bg-gray-100 text-gray-700 border-2 border-gray-200 px-4 py-2 rounded-lg font-medium hover:bg-gray-200">
+                                            Others
+                                        </button>
                                     </div>
                                 </div>
 
-                                <!-- Contact & Actions -->
-                                <div class="flex flex-col md:flex-row md:items-center justify-between pt-4 border-t border-gray-200">
-                                    <div class="mb-4 md:mb-0">
-                                        <div class="text-gray-700 font-medium mb-2">
-                                            <i class="fas fa-phone-alt mr-2 text-blue-600"></i>09054813936
-                                        </div>
-                                        <div class="flex items-center space-x-4">
-                                            <button class="text-green-600 hover:text-green-700 font-medium">
-                                                <i class="fab fa-whatsapp mr-1"></i>WhatsApp
-                                            </button>
-                                            <button class="text-blue-600 hover:text-blue-700 font-medium">
-                                                <i class="fas fa-envelope mr-1"></i>Email
-                                            </button>
-                                        </div>
+                                <!-- Contact Form -->
+                                <form class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                                        <input type="text"
+                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                            placeholder="Enter your name">
                                     </div>
-                                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-6 rounded-lg transition-colors">
-                                        <i class="fas fa-shopping-cart mr-2"></i>Get Best Deal
+
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Mobile Number</label>
+                                        <input type="tel"
+                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                            placeholder="Enter your mobile number">
+                                    </div>
+
+                                    <!-- Terms & Privacy -->
+                                    <div class="flex items-start mb-4">
+                                        <input type="checkbox" id="terms"
+                                            class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1">
+                                        <label for="terms" class="ml-2 text-sm text-gray-600">
+                                            I Agree to
+                                            <a href="#" class="text-blue-600 hover:underline">T&C's</a>
+                                            and
+                                            <a href="#" class="text-blue-600 hover:underline">Privacy Policy</a>.
+                                        </label>
+                                    </div>
+
+                                    <!-- Submit Button -->
+                                    <button type="button" onclick="submitHotelRequest()"
+                                        class="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-3.5 px-6 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg">
+                                        Get Best Deal >>
                                     </button>
+                                </form>
+
+                                <!-- Additional Info -->
+                                <div class="mt-6 pt-6 border-t border-gray-200">
+                                    <div class="space-y-3">
+                                        <div class="flex items-center text-sm text-gray-600">
+                                            <i class="fas fa-shield-alt text-green-500 mr-2"></i>
+                                            <span>Verified hotel listings only</span>
+                                        </div>
+                                        <div class="flex items-center text-sm text-gray-600">
+                                            <i class="fas fa-clock text-blue-500 mr-2"></i>
+                                            <span>Instant response guaranteed</span>
+                                        </div>
+                                        <div class="flex items-center text-sm text-gray-600">
+                                            <i class="fas fa-handshake text-purple-500 mr-2"></i>
+                                            <span>No commission or hidden charges</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- More Hotels can be added here -->
-            </div>
-
-            <!-- Sidebar - Contact Form -->
-            <div class="lg:col-span-1">
-                <div class="bg-white rounded-xl shadow-md p-6 border border-gray-200 sticky top-6">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">Get the List of Top Hotels</h3>
-                    <p class="text-gray-600 mb-6">We'll send you contact details in seconds for free</p>
-
-                    <!-- Hotel Type Selection -->
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            What type of Hotel are you looking for?
-                        </label>
-                        <div class="flex flex-wrap gap-2">
-                            <button class="bg-blue-100 text-blue-700 border-2 border-blue-200 px-4 py-2 rounded-lg font-medium">
-                                Budget
-                            </button>
-                            <button class="bg-gray-100 text-gray-700 border-2 border-gray-200 px-4 py-2 rounded-lg font-medium hover:bg-gray-200">
-                                Luxury
-                            </button>
-                            <button class="bg-gray-100 text-gray-700 border-2 border-gray-200 px-4 py-2 rounded-lg font-medium hover:bg-gray-200">
-                                Others
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Contact Form -->
-                    <form class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Name</label>
-                            <input type="text" 
-                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                   placeholder="Enter your name">
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Mobile Number</label>
-                            <input type="tel" 
-                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                   placeholder="Enter your mobile number">
-                        </div>
-
-                        <!-- Terms & Privacy -->
-                        <div class="flex items-start mb-4">
-                            <input type="checkbox" 
-                                   id="terms" 
-                                   class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1">
-                            <label for="terms" class="ml-2 text-sm text-gray-600">
-                                I Agree to 
-                                <a href="#" class="text-blue-600 hover:underline">T&C's</a> 
-                                and 
-                                <a href="#" class="text-blue-600 hover:underline">Privacy Policy</a>.
-                            </label>
-                        </div>
-
-                        <!-- Submit Button -->
-                        <button type="button" 
-                                onclick="submitHotelRequest()"
-                                class="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-3.5 px-6 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg">
-                            Get Best Deal >>
-                        </button>
-                    </form>
-
-                    <!-- Additional Info -->
-                    <div class="mt-6 pt-6 border-t border-gray-200">
-                        <div class="space-y-3">
-                            <div class="flex items-center text-sm text-gray-600">
-                                <i class="fas fa-shield-alt text-green-500 mr-2"></i>
-                                <span>Verified hotel listings only</span>
-                            </div>
-                            <div class="flex items-center text-sm text-gray-600">
-                                <i class="fas fa-clock text-blue-500 mr-2"></i>
-                                <span>Instant response guaranteed</span>
-                            </div>
-                            <div class="flex items-center text-sm text-gray-600">
-                                <i class="fas fa-handshake text-purple-500 mr-2"></i>
-                                <span>No commission or hidden charges</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
             </div>
         </div>
 
@@ -1177,10 +1224,10 @@
         function filterResources(type) {
             const resources = document.querySelectorAll('.resource-card');
             const buttons = document.querySelectorAll('#resources .flex-wrap button');
-            
+
             // Update button styles
             buttons.forEach(button => {
-                if (button.textContent.toLowerCase().includes(type) || 
+                if (button.textContent.toLowerCase().includes(type) ||
                     (type === 'all' && button.textContent.includes('All Resources'))) {
                     button.classList.remove('bg-gray-100', 'text-gray-700');
                     button.classList.add('bg-blue-600', 'text-white');
@@ -1189,7 +1236,7 @@
                     button.classList.add('bg-gray-100', 'text-gray-700');
                 }
             });
-            
+
             // Show/hide resources
             resources.forEach(resource => {
                 if (type === 'all') {
@@ -1355,18 +1402,24 @@
                     </div>
                     <div class="p-6 overflow-auto max-h-[70vh]">
                         <div class="grid grid-cols-3 gap-4">
-                            ${Array.from({length: 9}, (_, i) => `
-                                <div class="relative group">
-                                    <img src="https://images.unsplash.com/photo-${1551288049 + i}?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
-                                         alt="Image ${i+1}" 
-                                         class="w-full h-40 object-cover rounded-lg">
-                                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100">
-                                        <button class="bg-white text-gray-800 px-4 py-2 rounded-lg font-medium">
-                                            <i class="fas fa-download mr-1"></i> Download
-                                        </button>
-                                    </div>
-                                </div>
-                            `).join('')}
+                            ${Array.from({length: 9}, (_, i) => ` <
+                div class = "relative group" >
+                <
+                img src =
+                "https://images.unsplash.com/photo-${1551288049 + i}?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+            alt = "Image ${i+1}"
+            class = "w-full h-40 object-cover rounded-lg" >
+            <
+            div class =
+            "absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100" >
+            <
+            button class = "bg-white text-gray-800 px-4 py-2 rounded-lg font-medium" >
+            <
+            i class = "fas fa-download mr-1" > < /i> Download <
+            /button> <
+            /div> <
+            /div>
+            `).join('')}
                         </div>
                     </div>
                     <div class="p-6 border-t border-gray-200 text-center">
@@ -1415,17 +1468,17 @@
         document.getElementById('fileInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (!file) return;
-            
+
             // Determine file type
             const fileName = file.name.toLowerCase();
             let type = 'document';
-            
+
             if (fileName.endsWith('.mp3') || fileName.endsWith('.wav') || fileName.endsWith('.m4a')) {
                 type = 'audio';
             } else if (fileName.endsWith('.pdf')) {
                 type = 'pdf';
             }
-            
+
             handleFileSelect(e, type);
         });
 
@@ -1634,24 +1687,24 @@
             const name = document.querySelector('#directory input[type="text"]').value;
             const mobile = document.querySelector('#directory input[type="tel"]').value;
             const terms = document.getElementById('terms').checked;
-            
+
             if (!name || !mobile) {
                 alert('Please fill in all required fields.');
                 return;
             }
-            
+
             if (!terms) {
                 alert('Please agree to the terms and conditions.');
                 return;
             }
-            
+
             // Show success message
             const button = document.querySelector('#directory button[onclick="submitHotelRequest()"]');
             const originalText = button.innerHTML;
-            
+
             button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Processing...';
             button.disabled = true;
-            
+
             setTimeout(() => {
                 // Create success modal
                 const modal = document.createElement('div');
@@ -1679,18 +1732,18 @@
                         </div>
                     </div>
                 `;
-                
+
                 document.body.appendChild(modal);
-                
+
                 // Reset button
                 button.innerHTML = originalText;
                 button.disabled = false;
-                
+
                 // Reset form
                 document.querySelector('#directory input[type="text"]').value = '';
                 document.querySelector('#directory input[type="tel"]').value = '';
                 document.getElementById('terms').checked = false;
-                
+
             }, 1500);
         }
 
@@ -1735,28 +1788,28 @@
     }
 `;
         document.head.appendChild(style);
-   
-function toggleMobileFilters() {
-    const mobileFilters = document.getElementById('mobileFilters');
-    const button = document.querySelector('[onclick="toggleMobileFilters()"]');
-    
-    if (mobileFilters.classList.contains('hidden')) {
-        mobileFilters.classList.remove('hidden');
-        button.innerHTML = `
+
+        function toggleMobileFilters() {
+            const mobileFilters = document.getElementById('mobileFilters');
+            const button = document.querySelector('[onclick="toggleMobileFilters()"]');
+
+            if (mobileFilters.classList.contains('hidden')) {
+                mobileFilters.classList.remove('hidden');
+                button.innerHTML = `
             <i class="fas fa-filter"></i>
             <span>Show Less Filters</span>
             <i class="fas fa-chevron-up text-sm"></i>
         `;
-    } else {
-        mobileFilters.classList.add('hidden');
-        button.innerHTML = `
+            } else {
+                mobileFilters.classList.add('hidden');
+                button.innerHTML = `
             <i class="fas fa-filter"></i>
             <span>Show More Filters</span>
             <i class="fas fa-chevron-down text-sm"></i>
         `;
-    }
-}
-</script>
+            }
+        }
+    </script>
 
     <style>
         .tab-button.active {
@@ -1788,5 +1841,4 @@ function toggleMobileFilters() {
             transition: transform 0.3s ease;
         }
     </style>
-   
 @endsection

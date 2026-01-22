@@ -1,219 +1,121 @@
 @extends('layout.user-layout')
 
 @section('title')
-Quick Access - GBS
+    Quick Access - GBS
 @endsection
 
 @section('content')
-<div id="particles" class="fixed inset-0 pointer-events-none z-0"></div>
+    <div id="particles" class="fixed inset-0 pointer-events-none z-0"></div>
 
-<main class="px-4">
-    <!-- Breadcrumb -->
-    <div class="max-w-7xl mx-auto mb-6">
-        <nav class="flex" aria-label="Breadcrumb">
-            <ol class="inline-flex items-center space-x-1 md:space-x-3">
-                <li class="inline-flex items-center">
-                    <a href="{{ route('home') }}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
-                        <i class="fas fa-home mr-2"></i>
-                        Home
-                    </a>
-                </li>
-                <li aria-current="page">
-                    <div class="flex items-center">
-                        <i class="fas fa-chevron-right text-gray-400 text-sm"></i>
-                        <span class="ml-1 md:ml-2 text-sm font-medium text-gray-500">Quick Access</span>
-                    </div>
-                </li>
-            </ol>
-        </nav>
-    </div>
+    <main class="min-h-screen">
+        <!-- Breadcrumb -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+            <nav class="flex" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center space-x-2">
+                    <li class="inline-flex items-center">
+                        <a href="{{ route('home') }}"
+                           class="inline-flex items-center text-sm text-gray-600 hover:text-blue-700">
+                            <i class="fas fa-home mr-2"></i>
+                            Home
+                        </a>
+                    </li>
+                    <li aria-current="page">
+                        <div class="flex items-center">
+                            <i class="fas fa-chevron-right text-gray-400 text-xs mx-2"></i>
+                            <span class="text-sm font-medium text-gray-500">Quick Access</span>
+                        </div>
+                    </li>
+                </ol>
+            </nav>
+        </div>
 
-    <!-- Header -->
-    <section class="max-w-7xl mx-auto mb-10">
-        <div class="text-center">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-                Quick Access Dashboard
+        <!-- Header -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-12 md:mb-16">
+            <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                Quick Access
             </h1>
-            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
-                Access all essential features of GBS Network from one place
+            <p class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+                Essential GBS features at a glance
             </p>
-        </div>
-    </section>
+        </section>
 
-    <!-- Quick Access Grid -->
-    <section class="max-w-7xl mx-auto mb-16">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-            
-            <!-- News Feed -->
-            <a href="{{ route('user') }}" 
-               class="subcategory-card bg-white rounded-xl shadow-lg p-8 cursor-pointer hover:shadow-2xl transition-shadow duration-300 border border-transparent">
-                <div class="flex items-start mb-6">
-                    <div class="w-14 h-14 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center mr-5 shadow-md">
-                        <i class="fas fa-newspaper text-white text-2xl"></i>
-                    </div>
-                    <div class="flex-1">
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">News Feed</h3>
-                        <p class="text-sm text-gray-500 font-medium">Latest Updates & Community Activity</p>
-                    </div>
-                </div>
-                <p class="text-gray-600 mb-6 leading-relaxed">
-                    Stay updated with real-time posts, announcements, and discussions from professionals across all industries. 
-                    Share insights, comment on updates, and engage with the latest trends in your network.
-                </p>
-                <div class="flex items-center justify-between">
-                    <div class="text-blue-600 font-semibold flex items-center">
-                        <span>Explore News Feed</span>
-                        <i class="fas fa-arrow-right ml-3 text-sm"></i>
-                    </div>
-                    <span class="text-xs bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-medium">
-                        Live Updates
-                    </span>
-                </div>
-            </a>
+        <!-- Main Grid -->
+        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 md:gap-14">
 
-            <!-- Resource Directory -->
-            <a href="{{ route('user') }}" 
-               class="subcategory-card bg-white rounded-xl shadow-lg p-8 cursor-pointer hover:shadow-2xl transition-shadow duration-300 border border-transparent">
-                <div class="flex items-start mb-6">
-                    <div class="w-14 h-14 rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center mr-5 shadow-md">
-                        <i class="fas fa-folder-open text-white text-2xl"></i>
+                <!-- News Feed -->
+                <a href="{{ route('user') }}"
+                   class="group bg-white rounded-2xl shadow hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden flex flex-col items-center text-center p-10 md:p-12">
+                    <div class="w-24 h-24 md:w-28 md:h-28 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center mb-6 shadow-lg group-hover:scale-105 transition-transform duration-300">
+                        <i class="fas fa-newspaper text-white text-5xl md:text-6xl"></i>
                     </div>
-                    <div class="flex-1">
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">Resource </h3>
-                        <p class="text-sm text-gray-500 font-medium">Documents, Templates & Tools</p>
-                    </div>
-                </div>
-                <p class="text-gray-600 mb-6 leading-relaxed">
-                    Access a comprehensive collection of business documents, professional templates, industry reports, 
-                    and productivity tools. Contribute your resources and discover valuable materials shared by the community.
-                </p>
-                <div class="flex items-center justify-between">
-                    <div class="text-green-600 font-semibold flex items-center">
-                        <span>Browse Resources</span>
-                        <i class="fas fa-arrow-right ml-3 text-sm"></i>
-                    </div>
-                    <span class="text-xs bg-green-100 text-green-800 px-3 py-1 rounded-full font-medium">
-                        500+ Files
-                    </span>
-                </div>
-            </a>
+                    <h3 class="text-xl md:text-2xl font-semibold text-gray-800 mb-3">News Feed</h3>
+                    <p class="text-gray-600 text-base">Latest updates & community activity</p>
+                </a>
 
-          <!-- Directory -->
-<a href="{{ route('user') }}" 
-   class="subcategory-card bg-white rounded-xl shadow-lg p-8 cursor-pointer hover:shadow-2xl transition-shadow duration-300 border border-transparent">
-    <div class="flex items-start mb-6">
-        <div class="w-14 h-14 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center mr-5 shadow-md">
-            <i class="fas fa-address-book text-white text-2xl"></i>
-        </div>
-        <div class="flex-1">
-            <h3 class="text-xl font-bold text-gray-800 mb-2">Directory</h3>
-            <p class="text-sm text-gray-500 font-medium">Professional Database & Contacts</p>
-        </div>
-    </div>
-    <p class="text-gray-600 mb-6 leading-relaxed">
-        Access a comprehensive directory of verified professionals across multiple industries. 
-        Search by name, profession, location, or specialization. View detailed profiles with 
-        qualifications, experience, services offered, and contact information.
-    </p>
-    
-   
-    <div class="flex items-center justify-between">
-        <div class="text-purple-600 font-semibold flex items-center">
-            <span>Browse Directory</span>
-            <i class="fas fa-arrow-right ml-3 text-sm"></i>
-        </div>
-        <span class="text-xs bg-purple-100 text-purple-800 px-3 py-1 rounded-full font-medium">
-            Advanced Search
-        </span>
-    </div>
-</a>
+                <!-- Resources -->
+                <a href="{{ route('user') }}"
+                   class="group bg-white rounded-2xl shadow hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden flex flex-col items-center text-center p-10 md:p-12">
+                    <div class="w-24 h-24 md:w-28 md:h-28 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center mb-6 shadow-lg group-hover:scale-105 transition-transform duration-300">
+                        <i class="fas fa-folder-open text-white text-5xl md:text-6xl"></i>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-semibold text-gray-800 mb-3">Resources</h3>
+                    <p class="text-gray-600 text-base">Documents, templates & tools</p>
+                </a>
 
-            <!-- My Profile -->
-            <a href="{{ route('user') }}" 
-               class="subcategory-card bg-white rounded-xl shadow-lg p-8 cursor-pointer hover:shadow-2xl transition-shadow duration-300 border border-transparent">
-                <div class="flex items-start mb-6">
-                    <div class="w-14 h-14 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center mr-5 shadow-md">
-                        <i class="fas fa-id-card text-white text-2xl"></i>
+                <!-- Directory -->
+                <a href="{{ route('user') }}"
+                   class="group bg-white rounded-2xl shadow hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden flex flex-col items-center text-center p-10 md:p-12">
+                    <div class="w-24 h-24 md:w-28 md:h-28 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center mb-6 shadow-lg group-hover:scale-105 transition-transform duration-300">
+                        <i class="fas fa-address-book text-white text-5xl md:text-6xl"></i>
                     </div>
-                    <div class="flex-1">
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">My Profile</h3>
-                        <p class="text-sm text-gray-500 font-medium">Personal Dashboard</p>
-                    </div>
-                </div>
-                <p class="text-gray-600 mb-6 leading-relaxed">
-                    Manage your professional identity, update your information, showcase your expertise, 
-                    track your network activities, and customize how you appear to other professionals 
-                    in the GBS community.
-                </p>
-                <div class="flex items-center justify-between">
-                    <div class="text-orange-600 font-semibold flex items-center">
-                        <span>Manage Profile</span>
-                        <i class="fas fa-arrow-right ml-3 text-sm"></i>
-                    </div>
-                    <span class="text-xs bg-orange-100 text-orange-800 px-3 py-1 rounded-full font-medium">
-                        Your Account
-                    </span>
-                </div>
-            </a>
-        </div>
-    </section>
+                    <h3 class="text-xl md:text-2xl font-semibold text-gray-800 mb-3">Directory</h3>
+                    <p class="text-gray-600 text-base">Professionals & contacts</p>
+                </a>
 
-    <!-- Stats Section -->
-    <section class="max-w-7xl mx-auto mb-16">
-        <div class="bg-gradient-to-r from-gray-50 to-white rounded-2xl shadow-md p-8">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <div class="text-center">
-                    <div class="text-3xl font-bold text-blue-600 mb-2">10K+</div>
-                    <div class="text-sm text-gray-600 font-medium">Active Professionals</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-3xl font-bold text-green-600 mb-2">500+</div>
-                    <div class="text-sm text-gray-600 font-medium">Shared Resources</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-3xl font-bold text-purple-600 mb-2">25+</div>
-                    <div class="text-sm text-gray-600 font-medium">Industries</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-3xl font-bold text-orange-600 mb-2">1K+</div>
-                    <div class="text-sm text-gray-600 font-medium">Daily Updates</div>
+                <!-- My Profile -->
+                <a href="{{ route('user') }}"
+                   class="group bg-white rounded-2xl shadow hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden flex flex-col items-center text-center p-10 md:p-12">
+                    <div class="w-24 h-24 md:w-28 md:h-28 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center mb-6 shadow-lg group-hover:scale-105 transition-transform duration-300">
+                        <i class="fas fa-id-card text-white text-5xl md:text-6xl"></i>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-semibold text-gray-800 mb-3">My Profile</h3>
+                    <p class="text-gray-600 text-base">Manage your account & visibility</p>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- Stats -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 md:mt-20">
+            <div class="bg-gray-50 rounded-2xl p-8 md:p-10 shadow-sm">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                    <div>
+                        <div class="text-3xl md:text-4xl font-bold text-blue-700">10K+</div>
+                        <div class="text-sm text-gray-600 mt-1">Professionals</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl md:text-4xl font-bold text-green-700">500+</div>
+                        <div class="text-sm text-gray-600 mt-1">Resources</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl md:text-4xl font-bold text-purple-700">25+</div>
+                        <div class="text-sm text-gray-600 mt-1">Industries</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl md:text-4xl font-bold text-orange-700">1K+</div>
+                        <div class="text-sm text-gray-600 mt-1">Daily posts</div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-</main>
+        </section>
+    </main>
 
-@push('styles')
-<style>
-.subcategory-card {
-    transition: box-shadow 0.3s ease;
-}
-
-.subcategory-card:hover .fa-arrow-right {
-    transform: translateX(8px);
-    transition: transform 0.3s ease;
-}
-
-.subcategory-card h3 {
-    position: relative;
-    display: inline-block;
-}
-
-.subcategory-card h3::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: currentColor;
-    transition: width 0.3s ease;
-}
-
-.subcategory-card:hover h3::after {
-    width: 100%;
-}
-</style>
-@endpush
-
+    @push('styles')
+        <style>
+            .group:hover {
+                transform: translateY(-4px);
+            }
+        </style>
+    @endpush
 @endsection
