@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('state');
             $table->string('district');
             $table->string('pincode');
-            $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('set null');
+            $table->foreignId('circle_id')->nullable()->constrained('circles')->onDelete('set null');
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

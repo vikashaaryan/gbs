@@ -1,7 +1,13 @@
 @extends('layout.user-layout')
 
-@section('title')
-    GBS - Global Business Services
+@section('title', 'GBS - Feed Resource Panel Directory Profile')
+
+@section('meta_description')
+GBS feed resource panel directory profile – view detailed profile information, resources, and activity in one place.
+@endsection
+
+@section('meta_keywords')
+GBS, feed, resource panel, directory, profile
 @endsection
 
 @section('content')

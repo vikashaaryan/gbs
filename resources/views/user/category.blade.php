@@ -1,10 +1,17 @@
 @extends('layout.user-layout')
 
-@section('title')
-    Quick Access - GBS
+@section('title', 'GBS - Section')
+
+@section('meta_description')
+GBS section page – detailed information, features, and resources tailored for this specific section.
+@endsection
+
+@section('meta_keywords')
+GBS, section, features, services
 @endsection
 
 @section('content')
+
     <div id="particles" class="fixed inset-0 pointer-events-none z-0"></div>
 
     <main class="min-h-screen">

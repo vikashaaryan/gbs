@@ -1,8 +1,13 @@
-<!-- Login Modal -->
 @extends('layout.user-layout')
 
-@section('title')
-    login page
+@section('title', 'Login | GBS')
+
+@section('meta_description')
+Login to your GBS account to access your dashboard, resources, and personalized services securely.
+@endsection
+
+@section('meta_keywords')
+GBS login, user login, account access, secure sign in
 @endsection
 
 @section('content')

@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GBS - Global Business Services</title>
+    <title>@yield('title')</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
 
     <style>
         /* Custom styles */
-       
+
 
         .tab-button {
             transition: all 0.2s ease;
@@ -57,7 +58,7 @@
             overflow: hidden;
         }
 
-      
+
         /* Better touch targets for mobile */
         .touch-target {
             min-height: 44px;
@@ -101,7 +102,7 @@
 
             <!-- Desktop Navigation -->
             <nav class="hidden md:flex gap-6">
-                <a href="#"
+                <a href="{{ route('home') }}"
                     class="text-gray-700 hover:text-teal-600 transition-colors font-medium flex items-center gap-1 touch-target px-3">
                     <i class="fas fa-home text-sm sm:text-base"></i>
                     <span class="text-sm sm:text-base">Home</span>
@@ -177,7 +178,7 @@
                     </a>
                 </div>
 
-         
+
             </div>
         </div>
     </header>
@@ -204,10 +205,18 @@
                 <div>
                     <h4 class="text-lg font-bold mb-3 md:mb-4">Quick Links</h4>
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors text-sm md:text-base">Home</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors text-sm md:text-base">About Us</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors text-sm md:text-base">Contact</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors text-sm md:text-base">Privacy Policy</a></li>
+                        <li><a href="#"
+                                class="text-gray-300 hover:text-white transition-colors text-sm md:text-base">Home</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-300 hover:text-white transition-colors text-sm md:text-base">About
+                                Us</a></li>
+                        <li><a href="#"
+                                class="text-gray-300 hover:text-white transition-colors text-sm md:text-base">Contact</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-300 hover:text-white transition-colors text-sm md:text-base">Privacy
+                                Policy</a></li>
                     </ul>
                 </div>
 
@@ -215,10 +224,18 @@
                 <div>
                     <h4 class="text-lg font-bold mb-3 md:mb-4">Categories</h4>
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors text-sm md:text-base">Doctors</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors text-sm md:text-base">IT Professionals</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors text-sm md:text-base">Lawyers</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors text-sm md:text-base">Real Estate</a></li>
+                        <li><a href="#"
+                                class="text-gray-300 hover:text-white transition-colors text-sm md:text-base">Doctors</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-300 hover:text-white transition-colors text-sm md:text-base">IT
+                                Professionals</a></li>
+                        <li><a href="#"
+                                class="text-gray-300 hover:text-white transition-colors text-sm md:text-base">Lawyers</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-300 hover:text-white transition-colors text-sm md:text-base">Real
+                                Estate</a></li>
                     </ul>
                 </div>
 
@@ -226,10 +243,18 @@
                 <div>
                     <h4 class="text-lg font-bold mb-3 md:mb-4">Resources</h4>
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors text-sm md:text-base">Blog</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors text-sm md:text-base">Help Center</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors text-sm md:text-base">FAQs</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors text-sm md:text-base">Tutorials</a></li>
+                        <li><a href="#"
+                                class="text-gray-300 hover:text-white transition-colors text-sm md:text-base">Blog</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-300 hover:text-white transition-colors text-sm md:text-base">Help
+                                Center</a></li>
+                        <li><a href="#"
+                                class="text-gray-300 hover:text-white transition-colors text-sm md:text-base">FAQs</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-300 hover:text-white transition-colors text-sm md:text-base">Tutorials</a>
+                        </li>
                     </ul>
                 </div>
 
@@ -255,16 +280,20 @@
 
             <!-- Social Media Links -->
             <div class="flex justify-center space-x-6 mb-8">
-                <a href="#" class="text-gray-300 hover:text-white transition-colors touch-target w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-800">
+                <a href="#"
+                    class="text-gray-300 hover:text-white transition-colors touch-target w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-800">
                     <i class="fab fa-facebook-f text-lg"></i>
                 </a>
-                <a href="#" class="text-gray-300 hover:text-white transition-colors touch-target w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-800">
+                <a href="#"
+                    class="text-gray-300 hover:text-white transition-colors touch-target w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-800">
                     <i class="fab fa-twitter text-lg"></i>
                 </a>
-                <a href="#" class="text-gray-300 hover:text-white transition-colors touch-target w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-800">
+                <a href="#"
+                    class="text-gray-300 hover:text-white transition-colors touch-target w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-800">
                     <i class="fab fa-linkedin-in text-lg"></i>
                 </a>
-                <a href="#" class="text-gray-300 hover:text-white transition-colors touch-target w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-800">
+                <a href="#"
+                    class="text-gray-300 hover:text-white transition-colors touch-target w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-800">
                     <i class="fab fa-instagram text-lg"></i>
                 </a>
             </div>
@@ -283,7 +312,7 @@
             const menu = document.querySelector('.mobile-menu');
             const hamburger = document.querySelector('.hamburger');
             const body = document.body;
-            
+
             menu.classList.toggle('active');
             hamburger.classList.toggle('active');
             body.classList.toggle('menu-open');
@@ -293,9 +322,9 @@
         document.addEventListener('click', function(event) {
             const menu = document.querySelector('.mobile-menu');
             const hamburger = document.querySelector('.hamburger');
-            
-            if (menu.classList.contains('active') && 
-                !menu.contains(event.target) && 
+
+            if (menu.classList.contains('active') &&
+                !menu.contains(event.target) &&
                 !hamburger.contains(event.target)) {
                 menu.classList.remove('active');
                 hamburger.classList.remove('active');
@@ -352,4 +381,5 @@
         }, false);
     </script>
 </body>
+
 </html>

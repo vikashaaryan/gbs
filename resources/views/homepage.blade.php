@@ -1,7 +1,13 @@
 @extends('layout.user-layout')
 
-@section('title')
-GBS - Global Business Services
+@section('title', 'GBS - Homepage')
+
+@section('meta_description')
+GBS homepage – explore services, features, and solutions designed to help you grow faster and smarter.
+@endsection
+
+@section('meta_keywords')
+GBS, homepage, services, business solutions
 @endsection
 
 @section('content')
