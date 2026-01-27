@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('circles', function (Blueprint $table) {
+        Schema::create('sub_circles', function (Blueprint $table) {
             $table->id();
-            $table->string('title'); 
-            $table->string('icon')->nullable();
-            $table->text('description')->nullable();
+            $table->string('subcircle');
+            $table->foreignId('circle_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
-
     }
 
     /**
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('circles');
+        Schema::dropIfExists('sub_circles');
     }
 };

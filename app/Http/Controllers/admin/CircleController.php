@@ -10,24 +10,24 @@ class CircleController extends Controller
 {
     public function index()
     {
-        $circles = Circle::with('parent')
-            ->orderBy('created_at', 'desc')
-            ->get();
-            
-        $parentCircles = Circle::whereNull('parent_id')->get();
+      $circles = Circle::orderBy('created_at', 'desc')->get();
         
-        return view('admin.manage-circle', compact('circles', 'parentCircles'));
+        return view('admin.manage-circle', compact('circles'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'category' => 'required|string|max:255',
-            'parent_id' => 'nullable|exists:circles,id',
-            'description' => 'nullable|string'
+            'title' => 'required|string|max:255',
+            'icon' => 'nullable|string|max:50',
+            'description' => 'nullable|string',
         ]);
 
-        Circle::create($request->all());
+        Circle::create([
+            'title' => $request->title,
+            'icon' => $request->icon,
+            'description' => $request->description,
+        ]);
 
         return redirect()->back()->with('success', 'Circle created successfully!');
     }
@@ -35,13 +35,17 @@ class CircleController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'category' => 'required|string|max:255',
-            'parent_id' => 'nullable|exists:circles,id',
-            'description' => 'nullable|string'
+            'title' => 'required|string|max:255',
+            'icon' => 'nullable|string|max:50',
+            'description' => 'nullable|string',
         ]);
 
         $circle = Circle::findOrFail($id);
-        $circle->update($request->all());
+        $circle->update([
+            'title' => $request->title,
+            'icon' => $request->icon,
+            'description' => $request->description,
+        ]);
 
         return redirect()->back()->with('success', 'Circle updated successfully!');
     }
@@ -49,8 +53,16 @@ class CircleController extends Controller
     public function destroy($id)
     {
         $circle = Circle::findOrFail($id);
+        
+        // Check if circle has children before deleting
+        if ($circle->children()->count() > 0) {
+            return redirect()->back()->with('error', 'Cannot delete circle with sub-circles. Delete sub-circles first.');
+        }
+        
         $circle->delete();
 
         return redirect()->back()->with('success', 'Circle deleted successfully!');
     }
+
+   
 }

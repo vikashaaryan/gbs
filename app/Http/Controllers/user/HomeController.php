@@ -11,10 +11,7 @@ class HomeController extends Controller
     {
         return view('homepage');
     }
-    public function register(){
-        return view('register');
-
-    }
+   
     public function login(){
         return view('login');
     }

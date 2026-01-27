@@ -14,12 +14,22 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('full_name');
-            $table->string('mobile')->unique();
+            $table->string('phone')->unique();
             $table->string('email')->unique();
             $table->string('state');
+            $table->string('country');
             $table->string('district');
             $table->string('pincode');
-            $table->foreignId('circle_id')->nullable()->constrained('circles')->onDelete('set null');
+            $table->foreignId('circle_id')
+                ->nullable()
+                ->constrained('circles')
+                ->onDelete('set null');
+            $table->foreignId('sub_circle_id')
+                ->nullable()
+                ->constrained('sub_circles')
+                ->onDelete('set null');
+            $table->string('interests')->nullable();
+            $table->string('occupation')->nullable();    
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

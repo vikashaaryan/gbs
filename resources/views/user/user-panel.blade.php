@@ -3,11 +3,11 @@
 @section('title', 'GBS - Feed Resource Panel Directory Profile')
 
 @section('meta_description')
-GBS feed resource panel directory profile – view detailed profile information, resources, and activity in one place.
+    GBS feed resource panel directory profile – view detailed profile information, resources, and activity in one place.
 @endsection
 
 @section('meta_keywords')
-GBS, feed, resource panel, directory, profile
+    GBS, feed, resource panel, directory, profile
 @endsection
 
 @section('content')
@@ -631,8 +631,6 @@ GBS, feed, resource panel, directory, profile
                 </div>
 
                 <div class="max-w-6xl mx-auto mb-8">
-
-
                     <!-- Filters -->
                     <!-- Filters -->
                     <div class="bg-white rounded-xl shadow-md p-3 sm:p-4 mb-4 sm:mb-6 border border-gray-200">
@@ -642,10 +640,8 @@ GBS, feed, resource panel, directory, profile
                                 <select
                                     class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 sm:pl-4 pr-8 sm:pr-10 py-2 sm:py-2.5 text-sm sm:text-base text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                                     <option>Sort by</option>
-                                    <option>Price: Low to High</option>
-                                    <option>Price: High to Low</option>
-                                    <option>Rating: High to Low</option>
-                                    <option>Popularity</option>
+                                    <option>Old</option>
+                                    <option>New</option>
                                 </select>
                                 <div
                                     class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -653,195 +649,34 @@ GBS, feed, resource panel, directory, profile
                                 </div>
                             </div>
 
-                            <!-- Star Rating - Always visible -->
-                            <div class="relative w-full sm:w-auto sm:flex-1 min-w-[150px] max-w-[200px]">
-                                <select
-                                    class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 sm:pl-4 pr-8 sm:pr-10 py-2 sm:py-2.5 text-sm sm:text-base text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                    <option>Star Rating</option>
-                                    <option>5 Star</option>
-                                    <option>4 Star</option>
-                                    <option>3 Star</option>
-                                    <option>2 Star</option>
-                                    <option>1 Star</option>
+                            <div>
+                                <select id="country" name="country" required
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 @error('country') border-red-500 @enderror">
+                                    <option value="">Select Country</option>
                                 </select>
-                                <div
-                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                    <i class="fas fa-chevron-down text-sm sm:text-base"></i>
-                                </div>
+                               
                             </div>
 
-                            <!-- Budget - Visible on tablets and up -->
-                            <div class="relative w-full sm:w-auto sm:flex-1 min-w-[150px] max-w-[200px] hidden sm:block">
-                                <select
-                                    class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 sm:pl-4 pr-8 sm:pr-10 py-2 sm:py-2.5 text-sm sm:text-base text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                    <option>Budget</option>
-                                    <option>₹1000 - ₹3000</option>
-                                    <option>₹3000 - ₹5000</option>
-                                    <option>₹5000 - ₹10000</option>
-                                    <option>₹10000+</option>
+                            <!-- State -->
+                            <div>
+                                <select id="state" name="state" required
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 @error('state') border-red-500 @enderror">
+                                    <option value="">Select State</option>
                                 </select>
-                                <div
-                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                    <i class="fas fa-chevron-down text-sm sm:text-base"></i>
-                                </div>
+                               
                             </div>
 
-                            <!-- Hotel View - Hidden on mobile, visible on tablets and up -->
-                            <div class="relative w-full sm:w-auto sm:flex-1 min-w-[150px] max-w-[200px] hidden sm:block">
-                                <select
-                                    class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 sm:pl-4 pr-8 sm:pr-10 py-2 sm:py-2.5 text-sm sm:text-base text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                    <option>Hotel View</option>
-                                    <option>Sea View</option>
-                                    <option>City View</option>
-                                    <option>Garden View</option>
-                                    <option>Pool View</option>
+                            <!-- District -->
+                            <div>
+                                <select id="district" name="district" required
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 @error('district') border-red-500 @enderror">
+                                    <option value="">Select District</option>
                                 </select>
-                                <div
-                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                    <i class="fas fa-chevron-down text-sm sm:text-base"></i>
-                                </div>
+                              
                             </div>
-
-                            <!-- Pets Allowed - Hidden on mobile, visible on tablets and up -->
-                            <div class="relative w-full sm:w-auto sm:flex-1 min-w-[150px] max-w-[200px] hidden sm:block">
-                                <select
-                                    class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 sm:pl-4 pr-8 sm:pr-10 py-2 sm:py-2.5 text-sm sm:text-base text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                    <option>Pets Allowed</option>
-                                    <option>Yes</option>
-                                    <option>No</option>
-                                </select>
-                                <div
-                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                    <i class="fas fa-chevron-down text-sm sm:text-base"></i>
-                                </div>
-                            </div>
-
-                            <!-- User Ratings - Hidden on mobile, visible on large tablets and up -->
-                            <div class="relative w-full sm:w-auto sm:flex-1 min-w-[150px] max-w-[200px] hidden md:block">
-                                <select
-                                    class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 sm:pl-4 pr-8 sm:pr-10 py-2 sm:py-2.5 text-sm sm:text-base text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                    <option>User Ratings</option>
-                                    <option>4.5+ Excellent</option>
-                                    <option>4.0+ Very Good</option>
-                                    <option>3.5+ Good</option>
-                                    <option>3.0+ Average</option>
-                                </select>
-                                <div
-                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                    <i class="fas fa-chevron-down text-sm sm:text-base"></i>
-                                </div>
-                            </div>
-
-                            <!-- Amenities - Hidden on mobile/tablet, visible on desktop and up -->
-                            <div class="relative w-full sm:w-auto sm:flex-1 min-w-[150px] max-w-[200px] hidden lg:block">
-                                <select
-                                    class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 sm:pl-4 pr-8 sm:pr-10 py-2 sm:py-2.5 text-sm sm:text-base text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                    <option>Amenities</option>
-                                    <option>WiFi</option>
-                                    <option>Pool</option>
-                                    <option>Gym</option>
-                                    <option>Spa</option>
-                                    <option>Restaurant</option>
-                                    <option>Parking</option>
-                                </select>
-                                <div
-                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                    <i class="fas fa-chevron-down text-sm sm:text-base"></i>
-                                </div>
-                            </div>
-
-                            <!-- Show More Filters Button for Mobile -->
-                            <div class="w-full sm:hidden">
-                                <button onclick="toggleMobileFilters()"
-                                    class="w-full flex items-center justify-center gap-2 text-blue-600 hover:text-blue-700 font-medium py-2">
-                                    <i class="fas fa-filter"></i>
-                                    <span>Show More Filters</span>
-                                    <i class="fas fa-chevron-down text-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Mobile Expanded Filters -->
-                        <div id="mobileFilters" class="hidden sm:hidden mt-4 pt-4 border-t border-gray-200">
-                            <div class="grid grid-cols-1 gap-3">
-                                <div class="relative">
-                                    <select
-                                        class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 pr-8 py-2.5 text-sm text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                        <option>Budget</option>
-                                        <option>₹1000 - ₹3000</option>
-                                        <option>₹3000 - ₹5000</option>
-                                        <option>₹5000 - ₹10000</option>
-                                        <option>₹10000+</option>
-                                    </select>
-                                    <div
-                                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                        <i class="fas fa-chevron-down"></i>
-                                    </div>
-                                </div>
-
-                                <div class="relative">
-                                    <select
-                                        class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 pr-8 py-2.5 text-sm text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                        <option>Hotel View</option>
-                                        <option>Sea View</option>
-                                        <option>City View</option>
-                                        <option>Garden View</option>
-                                        <option>Pool View</option>
-                                    </select>
-                                    <div
-                                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                        <i class="fas fa-chevron-down"></i>
-                                    </div>
-                                </div>
-
-                                <div class="relative">
-                                    <select
-                                        class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 pr-8 py-2.5 text-sm text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                        <option>Pets Allowed</option>
-                                        <option>Yes</option>
-                                        <option>No</option>
-                                    </select>
-                                    <div
-                                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                        <i class="fas fa-chevron-down"></i>
-                                    </div>
-                                </div>
-
-                                <div class="relative">
-                                    <select
-                                        class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 pr-8 py-2.5 text-sm text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                        <option>User Ratings</option>
-                                        <option>4.5+ Excellent</option>
-                                        <option>4.0+ Very Good</option>
-                                        <option>3.5+ Good</option>
-                                        <option>3.0+ Average</option>
-                                    </select>
-                                    <div
-                                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                        <i class="fas fa-chevron-down"></i>
-                                    </div>
-                                </div>
-
-                                <div class="relative">
-                                    <select
-                                        class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 pr-8 py-2.5 text-sm text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                        <option>Amenities</option>
-                                        <option>WiFi</option>
-                                        <option>Pool</option>
-                                        <option>Gym</option>
-                                        <option>Spa</option>
-                                        <option>Restaurant</option>
-                                        <option>Parking</option>
-                                    </select>
-                                    <div
-                                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                        <i class="fas fa-chevron-down"></i>
-                                    </div>
-                                </div>
-                            </div>
+                            
                         </div>
                     </div>
-
                 </div>
 
                 <!-- Hotel Listings -->
@@ -870,21 +705,7 @@ GBS, feed, resource panel, directory, profile
                                         <!-- Hotel Details -->
                                         <div class="md:w-2/3">
                                             <div class="flex justify-between items-start mb-3">
-                                                <div>
-                                                    <h2 class="text-xl font-bold text-gray-800 mb-1">Hotel Green Star
-                                                        Hospitality</h2>
-                                                    <div class="flex items-center mb-2">
-                                                        <div class="flex text-yellow-400 mr-2">
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="far fa-star"></i>
-                                                        </div>
-                                                        <span class="text-gray-700 font-medium">4.2 ★</span>
-                                                        <span class="text-gray-500 ml-2">557 Ratings</span>
-                                                    </div>
-                                                </div>
+
                                                 <div class="text-right">
                                                     <div class="text-green-600 text-sm font-medium mb-1">
                                                         <i class="fas fa-bolt mr-1"></i>Responsive
@@ -894,34 +715,33 @@ GBS, feed, resource panel, directory, profile
 
                                             <!-- Location & Amenities -->
                                             <div class="mb-4">
+                                                <div class="flex flex-wrap gap-2">
+                                                    <span
+                                                        class="inline-flex items-center text-sm bg-gray-100 text-gray-700 px-3 py-1 rounded-full">
+                                                        Business Name
+                                                    </span>
+                                                    <span
+                                                        class="inline-flex items-center text-sm bg-gray-100 text-gray-700 px-3 py-1 rounded-full">
+                                                        Bio
+                                                    </span> <span
+                                                        class="inline-flex items-center text-sm bg-gray-100 text-gray-700 px-3 py-1 rounded-full">
+                                                        About Me
+                                                    </span>
+
+                                                </div>
                                                 <div class="flex items-center text-gray-600 mb-2">
                                                     <i class="fas fa-map-marker-alt mr-2 text-red-500"></i>
                                                     <span>Marve Road Malad West, Mumbai</span>
                                                 </div>
-                                                <div class="flex flex-wrap gap-2">
-                                                    <span
-                                                        class="inline-flex items-center text-sm bg-gray-100 text-gray-700 px-3 py-1 rounded-full">
-                                                        <i class="fas fa-parking mr-1"></i> Parking Available
-                                                    </span>
-                                                    <span
-                                                        class="inline-flex items-center text-sm bg-gray-100 text-gray-700 px-3 py-1 rounded-full">
-                                                        <i class="fas fa-wifi mr-1"></i> WiFi
-                                                    </span>
-                                                    <span
-                                                        class="inline-flex items-center text-sm bg-gray-100 text-gray-700 px-3 py-1 rounded-full">
-                                                        <i class="fas fa-snowflake mr-1"></i> AC
-                                                    </span>
-                                                </div>
+
                                             </div>
 
                                             <!-- Contact & Actions -->
                                             <div
                                                 class="flex flex-col md:flex-row md:items-center justify-between pt-4 border-t border-gray-200">
                                                 <div class="mb-4 md:mb-0">
-                                                    <div class="text-gray-700 font-medium mb-2">
-                                                        <i class="fas fa-phone-alt mr-2 text-blue-600"></i>09054813935
-                                                    </div>
-                                                    <div class="flex items-center space-x-4">
+                                                    <div class="text-gray-700  flex-1 gap-3 flex font-medium mb-2">
+                                                        <i class="fas fa-phone-alt text-blue-600"></i>09054813935
                                                         <button class="text-green-600 hover:text-green-700 font-medium">
                                                             <i class="fab fa-whatsapp mr-1"></i>WhatsApp
                                                         </button>
@@ -929,10 +749,11 @@ GBS, feed, resource panel, directory, profile
                                                             <i class="fas fa-envelope mr-1"></i>Email
                                                         </button>
                                                     </div>
+
                                                 </div>
                                                 <button
                                                     class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-6 rounded-lg transition-colors">
-                                                    <i class="fas fa-shopping-cart mr-2"></i>Get Best Deal
+                                                    <i class="fas fa-shopping-cart mr-2"></i>Best Deal
                                                 </button>
                                             </div>
                                         </div>
@@ -940,77 +761,7 @@ GBS, feed, resource panel, directory, profile
                                 </div>
                             </div>
 
-                            <!-- Hotel 2 -->
-                            <div class="bg-white rounded-xl shadow-md mb-6 overflow-hidden border border-gray-200">
-                                <div class="p-6">
-                                    <div class="flex flex-col md:flex-row md:items-start gap-6">
-                                        <!-- Hotel Image -->
-                                        <div class="md:w-1/3">
-                                            <div class="relative h-48 md:h-40 rounded-lg overflow-hidden">
-                                                <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-                                                    alt="Hotel Delmond Prime" class="w-full h-full object-cover">
-                                                <div class="absolute top-3 left-3">
-                                                    <span
-                                                        class="bg-yellow-500 text-white text-xs font-bold px-2 py-1 rounded">
-                                                        ★ Top Rated
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <!-- Hotel Details -->
-                                        <div class="md:w-2/3">
-                                            <div class="flex justify-between items-start mb-3">
-                                                <div>
-                                                    <h2 class="text-xl font-bold text-gray-800 mb-1">Hotel Delmond Prime
-                                                    </h2>
-                                                    <div class="flex items-center mb-2">
-                                                        <div class="flex text-yellow-400 mr-2">
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="far fa-star"></i>
-                                                        </div>
-                                                        <span class="text-gray-700 font-medium">4.1 ★</span>
-                                                        <span class="text-gray-500 ml-2">157 Ratings</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Location -->
-                                            <div class="mb-6">
-                                                <div class="flex items-center text-gray-600">
-                                                    <i class="fas fa-map-marker-alt mr-2 text-red-500"></i>
-                                                    <span>Goregaon Link Road Goregaon West, Mumbai</span>
-                                                </div>
-                                            </div>
-
-                                            <!-- Contact & Actions -->
-                                            <div
-                                                class="flex flex-col md:flex-row md:items-center justify-between pt-4 border-t border-gray-200">
-                                                <div class="mb-4 md:mb-0">
-                                                    <div class="text-gray-700 font-medium mb-2">
-                                                        <i class="fas fa-phone-alt mr-2 text-blue-600"></i>09054813936
-                                                    </div>
-                                                    <div class="flex items-center space-x-4">
-                                                        <button class="text-green-600 hover:text-green-700 font-medium">
-                                                            <i class="fab fa-whatsapp mr-1"></i>WhatsApp
-                                                        </button>
-                                                        <button class="text-blue-600 hover:text-blue-700 font-medium">
-                                                            <i class="fas fa-envelope mr-1"></i>Email
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <button
-                                                    class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-6 rounded-lg transition-colors">
-                                                    <i class="fas fa-shopping-cart mr-2"></i>Get Best Deal
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
                             <!-- More Hotels can be added here -->
                         </div>
@@ -1179,6 +930,174 @@ GBS, feed, resource panel, directory, profile
         </div>
     </div>
 
+<script>
+    // Country, State, District API
+    const countrySelect = document.getElementById("country");
+    const stateSelect = document.getElementById("state");
+    const districtSelect = document.getElementById("district");
+
+    // Set default values from old input
+    @if(old('country'))
+        setTimeout(() => {
+            countrySelect.value = "{{ old('country') }}";
+            loadStates("{{ old('country') }}");
+            
+            @if(old('state'))
+                setTimeout(() => {
+                    stateSelect.value = "{{ old('state') }}";
+                    loadDistricts("{{ old('country') }}", "{{ old('state') }}");
+                    
+                    @if(old('district'))
+                        setTimeout(() => {
+                            districtSelect.value = "{{ old('district') }}";
+                        }, 500);
+                    @endif
+                }, 500);
+            @endif
+        }, 500);
+    @endif
+
+    // Load all countries
+    async function loadCountries() {
+        const res = await fetch("https://countriesnow.space/api/v0.1/countries/positions");
+        const result = await res.json();
+
+        countrySelect.innerHTML = `<option value="">Select Country</option>`;
+
+        result.data.forEach(item => {
+            countrySelect.innerHTML += `<option value="${item.name}">${item.name}</option>`;
+        });
+
+        // Default select India if no old value
+        @if(!old('country'))
+            countrySelect.value = "India";
+            loadStates("India");
+        @endif
+    }
+
+    // Load states of selected country
+    async function loadStates(country) {
+        const res = await fetch("https://countriesnow.space/api/v0.1/countries/states", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ country })
+        });
+
+        const result = await res.json();
+
+        stateSelect.innerHTML = `<option value="">Select State</option>`;
+        districtSelect.innerHTML = `<option value="">Select District</option>`; 
+
+        if (!result.data || !result.data.states) return;
+
+        result.data.states.forEach(state => {
+            stateSelect.innerHTML += `<option value="${state.name}">${state.name}</option>`;
+        });
+    }
+
+    // Load districts/cities of selected state
+    async function loadDistricts(country, state) {
+        const res = await fetch("https://countriesnow.space/api/v0.1/countries/state/cities", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ country, state })
+        });
+
+        const result = await res.json();
+
+        districtSelect.innerHTML = `<option value="">Select District</option>`;
+
+        if (!result.data) return;
+
+        result.data.forEach(city => {
+            districtSelect.innerHTML += `<option value="${city}">${city}</option>`;
+        });
+    }
+
+    // On change events
+    countrySelect.addEventListener("change", function () {
+        loadStates(this.value);
+    });
+
+    stateSelect.addEventListener("change", function () {
+        if (countrySelect.value && this.value) {
+            loadDistricts(countrySelect.value, this.value);
+        }
+    });
+
+    // Auto-run
+    loadCountries();
+
+    // Circles and Sub-Circles dynamic loading
+    const circleSelect = document.getElementById('circle_id');
+    const subCircleSection = document.getElementById('subCircleSection');
+    const subCircleSelect = document.getElementById('sub_circle_id');
+
+    // Load sub-circles when circle is selected
+    circleSelect.addEventListener('change', function() {
+        const circleId = this.value;
+        
+        if (circleId) {
+            // Fetch sub-circles from API
+            fetch(`/api/circles/${circleId}/sub-circles`)
+                .then(response => response.json())
+                .then(data => {
+                    subCircleSelect.innerHTML = '<option value="">Select Sub-Circle</option>';
+                    
+                    if (data.length > 0) {
+                        data.forEach(subCircle => {
+                            subCircleSelect.innerHTML += `<option value="${subCircle.id}">${subCircle.subcircle}</option>`;
+                        });
+                        subCircleSection.classList.remove('hidden');
+                    } else {
+                        subCircleSection.classList.add('hidden');
+                    }
+                    
+                    // Set old value if exists
+                    @if(old('sub_circle_id'))
+                        setTimeout(() => {
+                            subCircleSelect.value = "{{ old('sub_circle_id') }}";
+                        }, 100);
+                    @endif
+                })
+                .catch(error => {
+                    console.error('Error loading sub-circles:', error);
+                });
+        } else {
+            subCircleSection.classList.add('hidden');
+            subCircleSelect.innerHTML = '<option value="">Select Sub-Circle</option>';
+        }
+    });
+
+    // Load sub-circles on page load if circle is already selected
+    @if(old('circle_id'))
+        document.addEventListener('DOMContentLoaded', function() {
+            circleSelect.value = "{{ old('circle_id') }}";
+            circleSelect.dispatchEvent(new Event('change'));
+        });
+    @endif
+
+    // Checkbox styling
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const label = this.closest('label');
+            if (this.checked) {
+                label.classList.add('bg-blue-50', 'border-blue-500', 'text-blue-700');
+                label.classList.remove('border-gray-300');
+            } else {
+                label.classList.remove('bg-blue-50', 'border-blue-500', 'text-blue-700');
+                label.classList.add('border-gray-300');
+            }
+        });
+
+        // Set initial styling for old values
+        if (checkbox.checked) {
+            const label = checkbox.closest('label');
+            label.classList.add('bg-blue-50', 'border-blue-500', 'text-blue-700');
+            label.classList.remove('border-gray-300');
+        }
+    });
+</script>
     <script>
         // Tab switching functionality
         function switchTab(tabName) {
@@ -1421,11 +1340,11 @@ GBS, feed, resource panel, directory, profile
             <
             button class = "bg-white text-gray-800 px-4 py-2 rounded-lg font-medium" >
             <
-            i class = "fas fa-download mr-1" > < /i> Download <
-            /button> <
-            /div> <
-            /div>
-            `).join('')}
+            i class = "fas fa-download mr-1" > < /i> Download < /
+            button > <
+                /div> < /
+                div >
+                `).join('')}
                         </div>
                     </div>
                     <div class="p-6 border-t border-gray-200 text-center">

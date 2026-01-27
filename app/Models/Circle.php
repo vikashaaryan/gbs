@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Circle extends Model
 {
-    protected $fillable = ['category', 'parent_id', 'description'];
-    
-    public function parent()
+    protected $fillable = ['title', 'icon', 'description'];
+
+    public function subCircles()
     {
-        return $this->belongsTo(Circle::class, 'parent_id');
+        return $this->hasMany(SubCircle::class);
     }
-    
-    public function children()
+
+    public function users()
     {
-        return $this->hasMany(Circle::class, 'parent_id');
+        return $this->hasMany(User::class);
     }
 }

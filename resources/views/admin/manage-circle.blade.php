@@ -5,13 +5,19 @@
 @section('content')
     <div class="mb-6">
         <h1 class="text-2xl font-bold text-gray-800">Manage Circles</h1>
-        <p class="text-gray-600 mt-2">Add, edit, and delete circles</p>
+        <p class="text-gray-600 mt-2">Manage your circles and sub-circles</p>
     </div>
 
     <!-- Display Success/Error Messages -->
     @if(session('success'))
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
             {{ session('success') }}
+        </div>
+    @endif
+    
+    @if(session('error'))
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            {{ session('error') }}
         </div>
     @endif
 
@@ -28,7 +34,7 @@
     <!-- Add Circle Button -->
     <div class="mb-6">
         <button onclick="openCircleModal()" 
-                class="inline-flex items-center gap-2 px-4 py-2.5 bg-teal-600 text-white font-medium rounded-lg hover:bg-teal-700 transition-all">
+                class="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-all">
             <i class="fas fa-plus-circle"></i>
             Add New Circle
         </button>
@@ -42,9 +48,7 @@
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Circle</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Subcategory</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -53,31 +57,32 @@
                             <td class="px-6 py-4 text-sm text-gray-900">{{ $circle->id }}</td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center">
-                                    @if($circle->parent_id)
-                                        <i class="fas fa-folder text-blue-500 mr-2"></i>
-                                    @else
-                                        <i class="fas fa-layer-group text-teal-500 mr-2"></i>
+                                    @if($circle->icon)
+                                        <i class="{{ $circle->icon }} mr-2"></i>
+                                    @else 
+                                        <i class="fas fa-circle text-green-500 mr-2"></i>
                                     @endif
-                                    <span class="font-medium">{{ $circle->category }}</span>
+                                    <div>
+                                        <div class="font-medium">{{ $circle->title }}</div>
+                                        @if($circle->description)
+                                            <div class="text-xs text-gray-500 mt-1">{{ $circle->description }}</div>
+                                        @endif
+                                    </div>
                                 </div>
                             </td>
-                            <td class="px-6 py-4 text-sm text-gray-500">
-                                {{ $circle->parent ? $circle->parent->category : '-' }}
-                            </td>
-                            <td class="px-6 py-4 text-sm text-gray-500">
-                                {{ $circle->description ?? '-' }}
-                            </td>
+                          
+                          
                             <td class="px-6 py-4 text-sm">
                                 <div class="flex items-center space-x-2">
                                     <!-- Edit Button -->
-                                    <button onclick="openCircleModal({{ $circle->id }}, '{{ $circle->category }}', '{{ $circle->parent_id }}', '{{ $circle->description ?? '' }}')"
-                                            class="text-blue-600 hover:text-blue-900 p-1.5 rounded hover:bg-blue-50">
+                                    <button onclick="openCircleModal({{ $circle->id }}, '{{ addslashes($circle->title) }}', '{{ $circle->parent_id }}', '{{ addslashes($circle->icon ?? '') }}', '{{ addslashes($circle->description ?? '') }}', {{ $circle->is_active ? 'true' : 'false' }})"
+                                            class="text-blue-600 hover:text-blue-900 p-2 rounded hover:bg-blue-50">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                     
                                     <!-- Delete Button -->
-                                    <button onclick="deleteCircle({{ $circle->id }}, '{{ $circle->category }}')"
-                                            class="text-red-600 hover:text-red-900 p-1.5 rounded hover:bg-red-50">
+                                    <button onclick="deleteCircle({{ $circle->id }}, '{{ addslashes($circle->title) }}')"
+                                            class="text-red-600 hover:text-red-900 p-2 rounded hover:bg-red-50">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
@@ -86,7 +91,8 @@
                     @empty
                         <tr>
                             <td colspan="5" class="px-6 py-8 text-center text-gray-500">
-                                No circles found. Add your first circle!
+                                <i class="fas fa-circle text-gray-300 text-xl mb-2"></i>
+                                <div>No circles found. Add your first circle!</div>
                             </td>
                         </tr>
                     @endforelse
@@ -108,29 +114,34 @@
                         
                         <div class="space-y-4">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Circle Name *</label>
-                                <input type="text" id="category" name="category" required
-                                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                                       placeholder="Enter circle name">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Circle Title *</label>
+                                <input type="text" id="title" name="title" required
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                       placeholder="Enter circle title">
                             </div>
                             
+                           
+                            
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Subcategory</label>
-                                <select id="parent_id" name="parent_id" 
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent">
-                                    <option value="">None (Main Category)</option>
-                                    @foreach($parentCircles as $parent)
-                                        <option value="{{ $parent->id }}">{{ $parent->category }}</option>
-                                    @endforeach
-                                </select>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Icon (Font Awesome Class)</label>
+                                <div class="relative">
+                                    <input type="text" id="icon" name="icon"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent pl-10"
+                                           placeholder="fas fa-circle">
+                                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
+                                        <i class="fas fa-icons text-gray-400"></i>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">Example: fas fa-circle, fas fa-users, fas fa-briefcase</p>
                             </div>
                             
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                                <input type="text" id="description" name="description"
-                                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                                       placeholder="Enter description (optional)">
+                                <textarea id="description" name="description" rows="3"
+                                          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                          placeholder="Enter description (optional)"></textarea>
                             </div>
+                        
                         </div>
                         
                         <div class="flex justify-end space-x-3 mt-6">
@@ -139,7 +150,7 @@
                                 Cancel
                             </button>
                             <button type="submit" id="submitButton"
-                                    class="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors">
+                                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                                 Save Circle
                             </button>
                         </div>
@@ -185,9 +196,9 @@
 @push('scripts')
 <script>
     // Open modal for Add (no parameters) or Edit (with parameters)
-    function openCircleModal(id = null, category = '', parentId = '', description = '') {
+    function openCircleModal(id = null, title = '', parentId = '', icon = '', description = '', isActive = true) {
         const modal = document.getElementById('circleModal');
-        const title = document.getElementById('modalTitle');
+        const modalTitle = document.getElementById('modalTitle');
         const form = document.getElementById('circleForm');
         const methodInput = document.getElementById('formMethod');
         const submitButton = document.getElementById('submitButton');
@@ -196,24 +207,22 @@
         form.reset();
         
         if (id) {
-            title.textContent = 'Edit Circle';
+            modalTitle.textContent = 'Edit Circle';
             circleIdInput.value = id;
-            document.getElementById('category').value = category;
-            document.getElementById('parent_id').value = parentId || '';
+            document.getElementById('title').value = title;
+            document.getElementById('icon').value = icon;
             document.getElementById('description').value = description;
             
             form.action = `/admin/circles/${id}`;
             methodInput.value = 'PUT';
             submitButton.textContent = 'Update Circle';
-            submitButton.className = 'px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors';
         } else {
-            title.textContent = 'Add New Circle';
+            modalTitle.textContent = 'Add New Circle';
             circleIdInput.value = '';
             
             form.action = `/admin/circles`;
             methodInput.value = 'POST';
             submitButton.textContent = 'Save Circle';
-            submitButton.className = 'px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors';
         }
         
         modal.classList.remove('hidden');
@@ -225,12 +234,12 @@
         document.body.style.overflow = 'auto';
     }
     
-    function deleteCircle(id, category) {
+    function deleteCircle(id, title) {
         const modal = document.getElementById('deleteModal');
         const message = document.getElementById('deleteMessage');
         const form = document.getElementById('deleteForm');
         
-        message.textContent = `Are you sure you want to delete "${category}"?`;
+        message.textContent = `Are you sure you want to delete "${title}"? This action cannot be undone.`;
         form.action = `/admin/circles/${id}`;
         
         modal.classList.remove('hidden');
