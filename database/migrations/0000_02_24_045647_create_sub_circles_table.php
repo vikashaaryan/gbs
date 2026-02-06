@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('subcircle');
             $table->foreignId('circle_id')->constrained()->onDelete('cascade');
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

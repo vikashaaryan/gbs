@@ -9,13 +9,24 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
     public function register()
     {
+        // Check if user is already logged in
+        if (Auth::check()) {
+            return redirect()->route('home');
+        }
+
         // Get all circles with their subcircles
-        $circles = Circle::with('subCircles')->get();
+        $circles = Circle::where('status', true)
+            ->with(['subCircles' => function($query) {
+                $query->where('status', true);
+            }])
+            ->get();
+            
         return view('register', compact('circles'));
     }
 
@@ -35,6 +46,9 @@ class RegisterController extends Controller
             'circle_id' => 'required|exists:circles,id',
             'sub_circle_id' => 'required|exists:sub_circles,id',
             'interests' => 'required|array|min:1',
+        ], [
+            'interests.required' => 'Please select at least one interest.',
+            'interests.min' => 'Please select at least one interest.',
         ]);
 
         if ($validator->fails()) {
@@ -43,6 +57,7 @@ class RegisterController extends Controller
                 ->withInput();
         }
 
+        // Create user
         $user = User::create([
             'full_name' => $request->full_name,
             'email' => $request->email,
@@ -56,15 +71,24 @@ class RegisterController extends Controller
             'circle_id' => $request->circle_id,
             'sub_circle_id' => $request->sub_circle_id,
             'interests' => json_encode($request->interests),
+            'verified' => false, // Default to not verified
         ]);
 
-        
-        return redirect()->route('login')->with('success', 'Registration successful! Please login.');
+        // Log the user in automatically
+        Auth::login($user);
+
+        // Flash success message
+        session()->flash('success', 'Registration successful! Welcome to GBS.');
+
+        // Redirect to home page
+        return redirect()->route('home');
     }
 
     public function getSubCircles($circleId)
     {
-        $subCircles = SubCircle::where('circle_id', $circleId)->get();
+        $subCircles = SubCircle::where('circle_id', $circleId)
+            ->where('status', true)
+            ->get();
         return response()->json($subCircles);
     }
 }

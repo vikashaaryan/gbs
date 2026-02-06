@@ -91,98 +91,212 @@
 
 <body class="bg-gray-50">
     <!-- Transparent Header with Glass Morphism Effect -->
-    <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-white/90 border-b border-gray-200/80 shadow-sm">
-        <div class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
-            <!-- Logo and Brand -->
-            <div class="flex items-center gap-3">
-                <a href="{{ route('home') }}" class="flex items-center gap-2 hover:opacity-90 transition-opacity">
-                    <img src="{{ asset('logo.png') }}" alt="GBS Hub Logo" class="w-28 md:w-35 h-auto">
+  <!-- Transparent Header with Glass Morphism Effect -->
+<header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-white/90 border-b border-gray-200/80 shadow-sm">
+    <div class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
+        <!-- Logo and Brand -->
+        <div class="flex items-center gap-3">
+            <a href="{{ route('home') }}" class="flex items-center gap-2 hover:opacity-90 transition-opacity">
+                <img src="{{ asset('logo.png') }}" alt="GBS Hub Logo" class="w-28 md:w-35 h-auto">
+            </a>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex gap-6">
+            <a href="{{ route('home') }}"
+                class="text-gray-700 hover:text-teal-600 transition-colors font-medium flex items-center gap-1 touch-target px-3">
+                <i class="fas fa-home text-sm sm:text-base"></i>
+                <span class="text-sm sm:text-base">Home</span>
+            </a>
+            <a href="#"
+                class="text-gray-700 hover:text-teal-600 transition-colors font-medium flex items-center gap-1 touch-target px-3">
+                <i class="fas fa-info-circle text-sm sm:text-base"></i>
+                <span class="text-sm sm:text-base">About</span>
+            </a>
+            <a href="#"
+                class="text-gray-700 hover:text-teal-600 transition-colors font-medium flex items-center gap-1 touch-target px-3">
+                <i class="fas fa-envelope text-sm sm:text-base"></i>
+                <span class="text-sm sm:text-base">Contact</span>
+            </a>
+        </nav>
+
+        <!-- Auth Buttons / User Profile (Desktop) -->
+        <div class="hidden md:flex items-center gap-4">
+            @auth
+            <!-- User Profile Dropdown -->
+            <div class="relative group" id="userDropdown">
+                <button class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-50 transition-all touch-target">
+                    <div class="flex items-center justify-center w-9 h-9 rounded-full bg-gradient-to-r from-teal-500 to-teal-600 text-white font-semibold shadow-sm">
+                        {{ strtoupper(substr(Auth::user()->full_name, 0, 1)) }}
+                    </div>
+                    <div class="text-left">
+                        <div class="font-medium text-gray-800 text-sm">{{ Auth::user()->full_name }}</div>
+                        <div class="text-xs text-gray-500 truncate max-w-[120px]">{{ Auth::user()->email }}</div>
+                    </div>
+                    <i class="fas fa-chevron-down text-gray-400 text-xs ml-1 transition-transform group-hover:rotate-180"></i>
+                </button>
+
+                <!-- Dropdown Menu -->
+                <div class="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 origin-top-right z-50">
+                    <div class="p-4 border-b border-gray-100">
+                        <div class="flex items-center gap-3">
+                            <div class="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r from-teal-500 to-teal-600 text-white font-bold text-lg shadow-sm">
+                                {{ strtoupper(substr(Auth::user()->full_name, 0, 1)) }}
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">{{ Auth::user()->full_name }}</h4>
+                                <p class="text-sm text-gray-500 truncate">{{ Auth::user()->email }}</p>
+                                <div class="flex items-center gap-1 mt-1">
+                                    <span class="px-2 py-0.5 text-xs rounded-full {{ Auth::user()->verified ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
+                                        {{ Auth::user()->verified ? 'Verified' : 'Pending' }}
+                                    </span>
+                                    <span class="px-2 py-0.5 text-xs rounded-full bg-blue-100 text-blue-800">
+                                        {{ Auth::user()->circle->title ?? 'No Circle' }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="py-2">
+                        <a href="" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-gray-50 hover:text-teal-600 transition-colors">
+                            <i class="fas fa-tachometer-alt w-5 text-center text-gray-400"></i>
+                            <span>Dashboard</span>
+                        </a>
+                        <a href="" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-gray-50 hover:text-teal-600 transition-colors">
+                            <i class="fas fa-user-edit w-5 text-center text-gray-400"></i>
+                            <span>Edit Profile</span>
+                        </a>
+                        <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-gray-50 hover:text-teal-600 transition-colors">
+                            <i class="fas fa-cog w-5 text-center text-gray-400"></i>
+                            <span>Settings</span>
+                        </a>
+                    </div>
+                    
+                    <div class="border-t border-gray-100 py-2">
+                        <form method="POST" action="{{ route('logout') }}" class="w-full">
+                            @csrf
+                            <button type="submit" class="flex items-center gap-3 w-full px-4 py-2.5 text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors">
+                                <i class="fas fa-sign-out-alt w-5 text-center"></i>
+                                <span>Logout</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            @else
+            <!-- Login/Register Buttons for Guests -->
+            <a href="{{ route('login') }}"
+                class="text-teal-600 font-medium hover:text-teal-700 transition-colors flex items-center touch-target px-3">
+                <i class="fas fa-sign-in-alt mr-1 text-sm sm:text-base"></i>
+                <span class="text-sm sm:text-base">Login</span>
+            </a>
+            <a href="{{ route('register') }}"
+                class="bg-gradient-to-r from-teal-600 to-teal-700 text-white px-4 sm:px-5 py-2 rounded-lg font-medium hover:from-teal-700 hover:to-green-800 transition-all shadow-sm flex items-center touch-target">
+                <i class="fas fa-user-plus mr-2 text-sm sm:text-base"></i>
+                <span class="text-sm sm:text-base">Register</span>
+            </a>
+            @endauth
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button class="md:hidden hamburger touch-target w-10 h-10 flex flex-col justify-center items-center"
+            onclick="toggleMobileMenu()" aria-label="Toggle menu">
+            <span class="hamburger-line block w-6 h-0.5 bg-gray-700 mb-1.5"></span>
+            <span class="hamburger-line block w-6 h-0.5 bg-gray-700 mb-1.5"></span>
+            <span class="hamburger-line block w-6 h-0.5 bg-gray-700"></span>
+        </button>
+    </div>
+
+    <!-- Mobile Navigation Menu -->
+    <div class="mobile-menu md:hidden bg-white border-t border-gray-200 shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <!-- Mobile Menu Links -->
+            <div class="space-y-2 mb-6">
+                <a href="{{ route('home') }}"
+                    class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:text-teal-600 hover:bg-gray-50 rounded-lg transition-colors touch-target">
+                    <i class="fas fa-home w-5 text-center"></i>
+                    <span class="font-medium">Home</span>
+                </a>
+                <a href="#"
+                    class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:text-teal-600 hover:bg-gray-50 rounded-lg transition-colors touch-target">
+                    <i class="fas fa-info-circle w-5 text-center"></i>
+                    <span class="font-medium">About</span>
+                </a>
+                <a href="#"
+                    class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:text-teal-600 hover:bg-gray-50 rounded-lg transition-colors touch-target">
+                    <i class="fas fa-envelope w-5 text-center"></i>
+                    <span class="font-medium">Contact</span>
                 </a>
             </div>
 
-            <!-- Desktop Navigation -->
-            <nav class="hidden md:flex gap-6">
-                <a href="{{ route('home') }}"
-                    class="text-gray-700 hover:text-teal-600 transition-colors font-medium flex items-center gap-1 touch-target px-3">
-                    <i class="fas fa-home text-sm sm:text-base"></i>
-                    <span class="text-sm sm:text-base">Home</span>
-                </a>
-                <a href="#"
-                    class="text-gray-700 hover:text-teal-600 transition-colors font-medium flex items-center gap-1 touch-target px-3">
-                    <i class="fas fa-info-circle text-sm sm:text-base"></i>
-                    <span class="text-sm sm:text-base">About</span>
-                </a>
-                <a href="#"
-                    class="text-gray-700 hover:text-teal-600 transition-colors font-medium flex items-center gap-1 touch-target px-3">
-                    <i class="fas fa-envelope text-sm sm:text-base"></i>
-                    <span class="text-sm sm:text-base">Contact</span>
-                </a>
-            </nav>
+            <!-- Mobile Auth Buttons / User Profile -->
+            @auth
+            <!-- User Profile Section for Mobile -->
+            <div class="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r from-teal-500 to-teal-600 text-white font-bold text-lg shadow-sm">
+                        {{ strtoupper(substr(Auth::user()->full_name, 0, 1)) }}
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800">{{ Auth::user()->full_name }}</h4>
+                        <p class="text-sm text-gray-500">{{ Auth::user()->email }}</p>
+                        <div class="flex items-center gap-1 mt-1">
+                            <span class="px-2 py-0.5 text-xs rounded-full {{ Auth::user()->verified ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
+                                {{ Auth::user()->verified ? 'Verified' : 'Pending' }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space-y-2">
+                    <a href=""
+                        class="flex items-center gap-3 px-3 py-2 text-gray-700 hover:text-teal-600 hover:bg-white rounded transition-colors">
+                        <i class="fas fa-tachometer-alt w-5 text-center text-gray-400"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href=""
+                        class="flex items-center gap-3 px-3 py-2 text-gray-700 hover:text-teal-600 hover:bg-white rounded transition-colors">
+                        <i class="fas fa-user-edit w-5 text-center text-gray-400"></i>
+                        <span>Edit Profile</span>
+                    </a>
+                    <a href="#"
+                        class="flex items-center gap-3 px-3 py-2 text-gray-700 hover:text-teal-600 hover:bg-white rounded transition-colors">
+                        <i class="fas fa-cog w-5 text-center text-gray-400"></i>
+                        <span>Settings</span>
+                    </a>
+                </div>
+            </div>
 
-            <!-- Auth Buttons (Desktop) -->
-            <div class="hidden md:flex items-center gap-4">
+            <!-- Logout Button for Mobile -->
+            <div class="pt-4 border-t border-gray-200">
+                <form method="POST" action="{{ route('logout') }}" class="w-full">
+                    @csrf
+                    <button type="submit"
+                        class="flex items-center justify-center gap-2 w-full px-4 py-3 text-red-600 font-medium hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors touch-target">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </button>
+                </form>
+            </div>
+            @else
+            <!-- Mobile Auth Buttons for Guests -->
+            <div class="space-y-3 pt-4 border-t border-gray-200">
                 <a href="{{ route('login') }}"
-                    class="text-teal-600 font-medium hover:text-teal-700 transition-colors flex items-center touch-target px-3">
-                    <i class="fas fa-sign-in-alt mr-1 text-sm sm:text-base"></i>
-                    <span class="text-sm sm:text-base">Login</span>
+                    class="flex items-center justify-center gap-2 px-4 py-3 text-teal-600 font-medium hover:text-teal-700 hover:bg-teal-50 rounded-lg transition-colors touch-target">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Login to Account</span>
                 </a>
                 <a href="{{ route('register') }}"
-                    class="bg-gradient-to-r from-teal-600 to-teal-700 text-white px-4 sm:px-5 py-2 rounded-lg font-medium hover:from-teal-700 hover:to-green-800 transition-all shadow-sm flex items-center touch-target">
-                    <i class="fas fa-user-plus mr-2 text-sm sm:text-base"></i>
-                    <span class="text-sm sm:text-base">Register</span>
+                    class="flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-teal-600 to-teal-700 text-white font-medium hover:from-teal-700 hover:to-green-800 rounded-lg transition-all shadow-sm touch-target">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Create New Account</span>
                 </a>
             </div>
-
-            <!-- Mobile Menu Button -->
-            <button class="md:hidden hamburger touch-target w-10 h-10 flex flex-col justify-center items-center"
-                onclick="toggleMobileMenu()" aria-label="Toggle menu">
-                <span class="hamburger-line block w-6 h-0.5 bg-gray-700 mb-1.5"></span>
-                <span class="hamburger-line block w-6 h-0.5 bg-gray-700 mb-1.5"></span>
-                <span class="hamburger-line block w-6 h-0.5 bg-gray-700"></span>
-            </button>
+            @endauth
         </div>
-
-        <!-- Mobile Navigation Menu -->
-        <div class="mobile-menu md:hidden bg-white border-t border-gray-200 shadow-lg">
-            <div class="container mx-auto px-4 py-4">
-                <!-- Mobile Menu Links -->
-                <div class="space-y-2 mb-6">
-                    <a href="#"
-                        class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:text-teal-600 hover:bg-gray-50 rounded-lg transition-colors touch-target">
-                        <i class="fas fa-home w-5 text-center"></i>
-                        <span class="font-medium">Home</span>
-                    </a>
-                    <a href="#"
-                        class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:text-teal-600 hover:bg-gray-50 rounded-lg transition-colors touch-target">
-                        <i class="fas fa-info-circle w-5 text-center"></i>
-                        <span class="font-medium">About</span>
-                    </a>
-                    <a href="#"
-                        class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:text-teal-600 hover:bg-gray-50 rounded-lg transition-colors touch-target">
-                        <i class="fas fa-envelope w-5 text-center"></i>
-                        <span class="font-medium">Contact</span>
-                    </a>
-                </div>
-
-                <!-- Mobile Auth Buttons -->
-                <div class="space-y-3 pt-4 border-t border-gray-200">
-                    <a href="{{ route('login') }}"
-                        class="flex items-center justify-center gap-2 px-4 py-3 text-teal-600 font-medium hover:text-teal-700 hover:bg-teal-50 rounded-lg transition-colors touch-target">
-                        <i class="fas fa-sign-in-alt"></i>
-                        <span>Login to Account</span>
-                    </a>
-                    <a href="{{ route('register') }}"
-                        class="flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-teal-600 to-teal-700 text-white font-medium hover:from-teal-700 hover:to-green-800 rounded-lg transition-all shadow-sm touch-target">
-                        <i class="fas fa-user-plus"></i>
-                        <span>Create New Account</span>
-                    </a>
-                </div>
-
-
-            </div>
-        </div>
-    </header>
-
+    </div>
+</header>
     <!-- Main Content Area -->
     <main class="md:pt-34 pt-22 pb-20 md:pb-20">
         <!-- Content will be inserted here -->

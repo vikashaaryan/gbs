@@ -44,7 +44,7 @@
                     <div class="mt-6">
                         <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">User Management</p>
                         <div class="mt-2 space-y-1">
-                            <a href="#"
+                            <a href="{{ route('admin.manage-users') }}"
                                 class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg transition-colors">
                                 <i class="fas fa-users w-5 text-center"></i>
                                 <span>All Users</span>

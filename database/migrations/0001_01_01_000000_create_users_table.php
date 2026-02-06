@@ -29,8 +29,9 @@ return new class extends Migration
                 ->constrained('sub_circles')
                 ->onDelete('set null');
             $table->string('interests')->nullable();
-            $table->string('occupation')->nullable();    
+            $table->string('occupation')->nullable();
             $table->string('password');
+            $table->boolean('verified')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });
