@@ -33,109 +33,82 @@ GBS, homepage, services, business solutions
             
             <!-- Responsive Grid: 1 column on mobile, 2 columns on laptop -->
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                <!-- Category Card 1 -->
+                @forelse($circles as $circle)
+                <!-- Dynamic Category Card -->
                 <a href="{{ route('subcat') }}" class="category-card bg-white rounded-xl shadow-md p-6 text-center cursor-pointer hover:shadow-lg transition-shadow duration-300">
-                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-blue-100 flex items-center justify-center">
-                        <i class="fas fa-user-md text-blue-600 text-2xl"></i>
+                    <!-- Icon Container -->
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" 
+                         style="background-color: {{ $circle->color ? $circle->color . '20' : '#EFF6FF' }}">
+                        @if($circle->icon)
+                            <!-- If icon is stored as font-awesome class -->
+                            @if(str_contains($circle->icon, 'fa-'))
+                                <i class="{{ $circle->icon }} text-2xl" style="color: {{ $circle->color ? $circle->color : '#3B82F6' }}"></i>
+                            <!-- If icon is an image URL -->
+                            @elseif(filter_var($circle->icon, FILTER_VALIDATE_URL))
+                                <img src="{{ $circle->icon }}" alt="{{ $circle->title }}" class="w-8 h-8">
+                            @endif
+                        @else
+                            <!-- Fallback static icon based on title -->
+                            @php
+                                $fallbackIcon = 'fas fa-circle';
+                                $fallbackColor = '#3B82F6';
+                                
+                                // Map titles to icons and colors
+                                $iconMap = [
+                                    'doctor' => ['icon' => 'fas fa-user-md', 'color' => '#3B82F6'],
+                                    'medical' => ['icon' => 'fas fa-user-md', 'color' => '#3B82F6'],
+                                    'it' => ['icon' => 'fas fa-laptop-code', 'color' => '#10B981'],
+                                    'tech' => ['icon' => 'fas fa-laptop-code', 'color' => '#10B981'],
+                                    'lawyer' => ['icon' => 'fas fa-gavel', 'color' => '#8B5CF6'],
+                                    'legal' => ['icon' => 'fas fa-gavel', 'color' => '#8B5CF6'],
+                                    'real estate' => ['icon' => 'fas fa-building', 'color' => '#F97316'],
+                                    'property' => ['icon' => 'fas fa-building', 'color' => '#F97316'],
+                                    'accountant' => ['icon' => 'fas fa-calculator', 'color' => '#EF4444'],
+                                    'finance' => ['icon' => 'fas fa-calculator', 'color' => '#EF4444'],
+                                    'consultant' => ['icon' => 'fas fa-chart-line', 'color' => '#14B8A6'],
+                                    'business' => ['icon' => 'fas fa-chart-line', 'color' => '#14B8A6'],
+                                    'engineer' => ['icon' => 'fas fa-cogs', 'color' => '#6366F1'],
+                                    'education' => ['icon' => 'fas fa-graduation-cap', 'color' => '#EC4899'],
+                                    'teacher' => ['icon' => 'fas fa-graduation-cap', 'color' => '#EC4899'],
+                                ];
+                                
+                                $titleLower = strtolower($circle->title);
+                                $matched = false;
+                                
+                                foreach($iconMap as $key => $value) {
+                                    if(str_contains($titleLower, $key)) {
+                                        $fallbackIcon = $value['icon'];
+                                        $fallbackColor = $value['color'];
+                                        $matched = true;
+                                        break;
+                                    }
+                                }
+                                
+                                // Default if no match
+                                if(!$matched) {
+                                    $fallbackIcon = 'fas fa-users';
+                                    $fallbackColor = '#6B7280';
+                                }
+                            @endphp
+                            
+                            <i class="{{ $fallbackIcon }} text-2xl" style="color: {{ $fallbackColor }}"></i>
+                        @endif
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Doctors & Medical</h3>
-                    <p class="text-gray-600 mb-4">Medical professionals, specialists, healthcare providers</p>
-                    <div class="text-blue-600 font-medium flex items-center justify-center gap-2">
+                    
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ $circle->title }}</h3>
+                    <p class="text-gray-600 mb-4">{{ $circle->description ?? 'Professional network and resources' }}</p>
+                    <div class="font-medium flex items-center justify-center gap-2" 
+                         style="color: {{ $circle->color ? $circle->color : $fallbackColor ?? '#3B82F6' }}">
                         <span>View Circles</span>
                         <i class="fas fa-arrow-right text-sm"></i>
                     </div>
                 </a>
-
-                <!-- Category Card 2 -->
-                <a href="{{ route('subcat') }}" class="category-card bg-white rounded-xl shadow-md p-6 text-center cursor-pointer hover:shadow-lg transition-shadow duration-300">
-                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-green-100 flex items-center justify-center">
-                        <i class="fas fa-laptop-code text-green-600 text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">IT Professionals</h3>
-                    <p class="text-gray-600 mb-4">Developers, designers, tech consultants, IT services</p>
-                    <div class="text-green-600 font-medium flex items-center justify-center gap-2">
-                        <span>View Circles</span>
-                        <i class="fas fa-arrow-right text-sm"></i>
-                    </div>
-                </a>
-
-                <!-- Category Card 3 -->
-                <a href="{{ route('subcat') }}" class="category-card bg-white rounded-xl shadow-md p-6 text-center cursor-pointer hover:shadow-lg transition-shadow duration-300">
-                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-purple-100 flex items-center justify-center">
-                        <i class="fas fa-gavel text-purple-600 text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Lawyers & Legal</h3>
-                    <p class="text-gray-600 mb-4">Legal advisors, attorneys, law firms, consultants</p>
-                    <div class="text-purple-600 font-medium flex items-center justify-center gap-2">
-                        <span>View Circles</span>
-                        <i class="fas fa-arrow-right text-sm"></i>
-                    </div>
-                </a>
-
-                <!-- Category Card 4 -->
-                <a href="{{ route('subcat') }}" class="category-card bg-white rounded-xl shadow-md p-6 text-center cursor-pointer hover:shadow-lg transition-shadow duration-300">
-                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-orange-100 flex items-center justify-center">
-                        <i class="fas fa-building text-orange-600 text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Real Estate</h3>
-                    <p class="text-gray-600 mb-4">Agents, brokers, property consultants, developers</p>
-                    <div class="text-orange-600 font-medium flex items-center justify-center gap-2">
-                        <span>View Circles</span>
-                        <i class="fas fa-arrow-right text-sm"></i>
-                    </div>
-                </a>
-
-                <!-- Category Card 5 -->
-                <a href="{{ route('subcat') }}" class="category-card bg-white rounded-xl shadow-md p-6 text-center cursor-pointer hover:shadow-lg transition-shadow duration-300">
-                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-red-100 flex items-center justify-center">
-                        <i class="fas fa-calculator text-red-600 text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Accountants</h3>
-                    <p class="text-gray-600 mb-4">CA, tax consultants, auditors, financial advisors</p>
-                    <div class="text-red-600 font-medium flex items-center justify-center gap-2">
-                        <span>View Circles</span>
-                        <i class="fas fa-arrow-right text-sm"></i>
-                    </div>
-                </a>
-
-                <!-- Category Card 6 -->
-                <a href="{{ route('subcat') }}" class="category-card bg-white rounded-xl shadow-md p-6 text-center cursor-pointer hover:shadow-lg transition-shadow duration-300">
-                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-teal-100 flex items-center justify-center">
-                        <i class="fas fa-chart-line text-teal-600 text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Business Consultants</h3>
-                    <p class="text-gray-600 mb-4">Management, marketing, HR, strategy consultants</p>
-                    <div class="text-teal-600 font-medium flex items-center justify-center gap-2">
-                        <span>View Circles</span>
-                        <i class="fas fa-arrow-right text-sm"></i>
-                    </div>
-                </a>
-
-                <!-- Category Card 7 -->
-                <a href="{{ route('subcat') }}" class="category-card bg-white rounded-xl shadow-md p-6 text-center cursor-pointer hover:shadow-lg transition-shadow duration-300">
-                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-indigo-100 flex items-center justify-center">
-                        <i class="fas fa-cogs text-indigo-600 text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Engineers</h3>
-                    <p class="text-gray-600 mb-4">Civil, mechanical, electrical, software engineers</p>
-                    <div class="text-indigo-600 font-medium flex items-center justify-center gap-2">
-                        <span>View Circles</span>
-                        <i class="fas fa-arrow-right text-sm"></i>
-                    </div>
-                </a>
-
-                <!-- Category Card 8 -->
-                <a href="{{ route('subcat') }}" class="category-card bg-white rounded-xl shadow-md p-6 text-center cursor-pointer hover:shadow-lg transition-shadow duration-300">
-                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-pink-100 flex items-center justify-center">
-                        <i class="fas fa-graduation-cap text-pink-600 text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Education</h3>
-                    <p class="text-gray-600 mb-4">Teachers, tutors, trainers, educational institutes</p>
-                    <div class="text-pink-600 font-medium flex items-center justify-center gap-2">
-                        <span>View Circles</span>
-                        <i class="fas fa-arrow-right text-sm"></i>
-                    </div>
-                </a>
+                @empty
+                <!-- If no circles exist, show a message -->
+                <div class="col-span-1 lg:col-span-4 text-center py-8">
+                    <p class="text-gray-500 text-lg">No circles available at the moment.</p>
+                </div>
+                @endforelse
             </div>
         </section>
     </main>
