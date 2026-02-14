@@ -41,112 +41,115 @@
             <div class="max-w-2xl mx-auto">
                 <!-- Create Post Box -->
                 @auth
-                <div class="bg-white rounded-xl shadow-md p-4 mb-6 border border-gray-200">
-                    <form id="postForm" enctype="multipart/form-data" action="{{ route('posts.store') }}" method="POST">
-                        @csrf
-                        <div class="flex items-center mb-4">
-                            <div class="w-10 h-10 rounded-full overflow-hidden mr-3 flex-shrink-0">
-                                @php
-                                    $user = auth()->user();
-                                @endphp
-                                @if($user && $user->photo)
-                                    <img src="{{ Storage::url($user->photo) }}" 
-                                         alt="{{ $user->full_name }}" 
-                                         class="w-full h-full object-cover">
-                                @else
-                                    <div class="w-full h-full bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center">
-                                        <span class="text-white font-semibold text-sm">
-                                            {{ $user ? strtoupper(substr($user->full_name, 0, 1)) : 'G' }}
+                    <div class="bg-white rounded-xl shadow-md p-4 mb-6 border border-gray-200">
+                        <form id="postForm" enctype="multipart/form-data" action="{{ route('posts.store') }}" method="POST">
+                            @csrf
+                            <div class="flex items-center mb-4">
+                                <div class="w-10 h-10 rounded-full overflow-hidden mr-3 flex-shrink-0">
+                                    @php
+                                        $user = auth()->user();
+                                    @endphp
+                                    @if ($user && $user->photo)
+                                        <img src="{{ Storage::url($user->photo) }}" alt="{{ $user->full_name }}"
+                                            class="w-full h-full object-cover">
+                                    @else
+                                        <div
+                                            class="w-full h-full bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center">
+                                            <span class="text-white font-semibold text-sm">
+                                                {{ $user ? strtoupper(substr($user->full_name, 0, 1)) : 'G' }}
+                                            </span>
+                                        </div>
+                                    @endif
+                                </div>
+                                <textarea name="description" id="postContent" class="flex-1 p-3 border border-gray-300 rounded-lg text-sm sm:text-base"
+                                    rows="2" placeholder="What's on your mind, {{ $user ? $user->full_name : 'Guest' }}?"></textarea>
+                            </div>
+
+                            <!-- Preview Section -->
+                            <div id="previewSection" class="mb-3 hidden">
+                                <div id="mediaPreview" class="grid grid-cols-2 gap-2 mb-2"></div>
+                                <button type="button" id="removeMediaBtn" class="text-red-600 text-sm hover:text-red-800">
+                                    <i class="fas fa-times mr-1"></i>Remove all files
+                                </button>
+                            </div>
+
+                            <div class="border-t pt-3">
+                                <!-- Hidden File Inputs -->
+                                <input type="file" id="imageInput" name="photo" accept="image/*" class="hidden">
+                                <input type="file" id="videoInput" name="video" accept="video/*" class="hidden">
+                                <input type="file" id="audioInput" name="audio" accept="audio/*" class="hidden">
+                                <input type="file" id="fileInput" name="document" accept=".pdf,.doc,.docx,.txt"
+                                    class="hidden">
+
+                                <div class="flex flex-wrap gap-2">
+                                    <button type="button" onclick="openFilePicker('image')"
+                                        class="flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors touch-target">
+                                        <i class="fas fa-image text-green-600"></i>
+                                        <span class="text-sm font-medium">Photo</span>
+                                    </button>
+                                    <button type="button" onclick="openFilePicker('video')"
+                                        class="flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors touch-target">
+                                        <i class="fas fa-video text-red-600"></i>
+                                        <span class="text-sm font-medium">Video</span>
+                                    </button>
+                                    <button type="button" onclick="openFilePicker('audio')"
+                                        class="flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors touch-target">
+                                        <i class="fas fa-music text-purple-600"></i>
+                                        <span class="text-sm font-medium">Audio</span>
+                                    </button>
+                                    <button type="button" onclick="openFilePicker('document')"
+                                        class="flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors touch-target">
+                                        <i class="fas fa-file text-blue-600"></i>
+                                        <span class="text-sm font-medium">Document</span>
+                                    </button>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="mt-4 flex justify-end">
+                                    <button type="submit" id="postSubmitBtn"
+                                        class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                                        <span id="postBtnText">Post</span>
+                                        <span id="postBtnSpinner" class="hidden">
+                                            <i class="fas fa-spinner fa-spin mr-1"></i> Posting...
                                         </span>
-                                    </div>
-                                @endif
+                                    </button>
+                                </div>
                             </div>
-                            <textarea name="description" id="postContent" 
-                                class="flex-1 p-3 border border-gray-300 rounded-lg text-sm sm:text-base" 
-                                rows="2" 
-                                placeholder="What's on your mind, {{ $user ? $user->full_name : 'Guest' }}?"></textarea>
-                        </div>
-
-                        <!-- Preview Section -->
-                        <div id="previewSection" class="mb-3 hidden">
-                            <div id="mediaPreview" class="grid grid-cols-2 gap-2 mb-2"></div>
-                            <button type="button" id="removeMediaBtn" 
-                                class="text-red-600 text-sm hover:text-red-800">
-                                <i class="fas fa-times mr-1"></i>Remove all files
-                            </button>
-                        </div>
-
-                        <div class="border-t pt-3">
-                            <!-- Hidden File Inputs -->
-                            <input type="file" id="imageInput" name="photo" accept="image/*" class="hidden">
-                            <input type="file" id="videoInput" name="video" accept="video/*" class="hidden">
-                            <input type="file" id="audioInput" name="audio" accept="audio/*" class="hidden">
-                            <input type="file" id="fileInput" name="document" accept=".pdf,.doc,.docx,.txt" class="hidden">
-
-                            <div class="flex flex-wrap gap-2">
-                                <button type="button" onclick="openFilePicker('image')"
-                                    class="flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors touch-target">
-                                    <i class="fas fa-image text-green-600"></i>
-                                    <span class="text-sm font-medium">Photo</span>
-                                </button>
-                                <button type="button" onclick="openFilePicker('video')"
-                                    class="flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors touch-target">
-                                    <i class="fas fa-video text-red-600"></i>
-                                    <span class="text-sm font-medium">Video</span>
-                                </button>
-                                <button type="button" onclick="openFilePicker('audio')"
-                                    class="flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors touch-target">
-                                    <i class="fas fa-music text-purple-600"></i>
-                                    <span class="text-sm font-medium">Audio</span>
-                                </button>
-                                <button type="button" onclick="openFilePicker('document')"
-                                    class="flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors touch-target">
-                                    <i class="fas fa-file text-blue-600"></i>
-                                    <span class="text-sm font-medium">Document</span>
-                                </button>
-                            </div>
-
-                            <!-- Submit Button -->
-                            <div class="mt-4 flex justify-end">
-                                <button type="submit" id="postSubmitBtn"
-                                    class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-                                    <span id="postBtnText">Post</span>
-                                    <span id="postBtnSpinner" class="hidden">
-                                        <i class="fas fa-spinner fa-spin mr-1"></i> Posting...
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                @else
-                <!-- Login Prompt -->
-                <div class="bg-white rounded-xl shadow-md p-6 mb-6 border border-gray-200 text-center">
-                    <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-sign-in-alt text-white text-2xl"></i>
+                        </form>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Login to Post</h3>
-                    <p class="text-gray-600 mb-4">Please login to create posts and interact with others.</p>
-                    <a href="{{ route('login') }}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-6 rounded-lg transition-colors">
-                        <i class="fas fa-sign-in-alt mr-2"></i> Login Now
-                    </a>
-                </div>
+                @else
+                    <!-- Login Prompt -->
+                    <div class="bg-white rounded-xl shadow-md p-6 mb-6 border border-gray-200 text-center">
+                        <div
+                            class="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-sign-in-alt text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Login to Post</h3>
+                        <p class="text-gray-600 mb-4">Please login to create posts and interact with others.</p>
+                        <a href="{{ route('login') }}"
+                            class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-6 rounded-lg transition-colors">
+                            <i class="fas fa-sign-in-alt mr-2"></i> Login Now
+                        </a>
+                    </div>
                 @endauth
 
                 <!-- Posts Feed -->
                 <div id="postsContainer">
                     @php
                         // Safe check for posts variable
-                        $hasPosts = isset($posts) && $posts instanceof Illuminate\Pagination\LengthAwarePaginator && $posts->count() > 0;
+                        $hasPosts =
+                            isset($posts) &&
+                            $posts instanceof Illuminate\Pagination\LengthAwarePaginator &&
+                            $posts->count() > 0;
                     @endphp
-                    
-                    @if($hasPosts)
-                        @foreach($posts as $post)
+
+                    @if ($hasPosts)
+                        @foreach ($posts as $post)
                             @include('user.partials.post-item', ['post' => $post])
                         @endforeach
-                        
+
                         <!-- Pagination -->
-                        @if($posts->hasPages())
+                        @if ($posts->hasPages())
                             <div class="mt-6">
                                 {{ $posts->links() }}
                             </div>
@@ -169,7 +172,8 @@
                                 @endauth
                             </p>
                             @guest
-                                <a href="{{ route('login') }}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-colors">
+                                <a href="{{ route('login') }}"
+                                    class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-colors">
                                     <i class="fas fa-sign-in-alt mr-2"></i> Login Now
                                 </a>
                             @endguest
@@ -180,294 +184,15 @@
         </div>
 
         <!-- Resources Tab - Enhanced -->
+        <!-- Resources Tab - Enhanced with Circle/SubCircle Navigation -->
         <div id="resources" class="tab-content hidden">
-            <!-- Your existing resources tab code here -->
-            <div class="max-w-6xl mx-auto">
-                <div class="mb-8">
-                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Professional Resources</h3>
-                    <p class="text-gray-600">Curated materials, templates, and tools for business professionals</p>
-                </div>
-               <!-- Resource Categories -->
-                <div class="flex flex-wrap gap-2 mb-8">
-                    <button onclick="filterResources('all')"
-                        class="px-4 py-2 bg-blue-600 text-white rounded-full text-sm font-medium transition-colors">
-                        All Resources
-                    </button>
-                    <button onclick="filterResources('audio')"
-                        class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors">
-                        <i class="fas fa-music mr-1"></i> Audio
-                    </button>
-                    <button onclick="filterResources('video')"
-                        class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors">
-                        <i class="fas fa-video mr-1"></i> Video
-                    </button>
-                    <button onclick="filterResources('pdf')"
-                        class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors">
-                        <i class="fas fa-file-pdf mr-1"></i> PDF
-                    </button>
-                    <button onclick="filterResources('image')"
-                        class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors">
-                        <i class="fas fa-image mr-1"></i> Images
-                    </button>
-                </div>
-
-                <!-- Resources Grid -->
-                <div id="resourcesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Resource 1: Audio Resource -->
-                    <div class="resource-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-300"
-                        data-type="audio">
-                        <div class="p-6">
-                            <div class="flex items-start mb-4">
-                                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
-                                    <i class="fas fa-podcast text-purple-600 text-xl"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-gray-800 mb-1">Leadership Podcast Series</h4>
-                                    <p class="text-sm text-gray-500">Audio • 12 Episodes • 8.5 hrs</p>
-                                </div>
-                            </div>
-                            <p class="text-gray-600 text-sm mb-4">Complete podcast series on modern leadership, team
-                                management, and organizational psychology.</p>
-
-                            <!-- Audio Preview -->
-                            <div class="mb-4 p-3 bg-purple-50 rounded-lg">
-                                <div class="flex items-center justify-between mb-2">
-                                    <span class="text-sm font-medium text-gray-700">Episode 1: Visionary Leadership</span>
-                                    <span class="text-xs text-gray-500">25:18</span>
-                                </div>
-                                <div class="flex items-center space-x-2">
-                                    <button onclick="playDummyAudio('resource1')"
-                                        class="text-purple-600 hover:text-purple-700">
-                                        <i class="fas fa-play-circle text-lg"></i>
-                                    </button>
-                                    <div class="flex-1 bg-gray-200 rounded-full h-1.5">
-                                        <div class="bg-purple-500 h-1.5 rounded-full" style="width: 30%"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center text-sm text-gray-500">
-                                    <i class="fas fa-headphones mr-1"></i> 2.4k listens
-                                </div>
-                                <button onclick="playDummyAudio('resource1')"
-                                    class="text-purple-600 font-medium hover:text-purple-700 text-sm">
-                                    <i class="fas fa-play mr-1"></i> Play Now
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Resource 2: Video Course -->
-                    <div class="resource-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-300"
-                        data-type="video">
-                        <div class="p-6">
-                            <div class="flex items-start mb-4">
-                                <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mr-4">
-                                    <i class="fas fa-video text-red-600 text-xl"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-gray-800 mb-1">Digital Marketing Masterclass</h4>
-                                    <p class="text-sm text-gray-500">Video Course • 6 Hours</p>
-                                </div>
-                            </div>
-                            <p class="text-gray-600 text-sm mb-4">Complete guide to digital marketing strategies, SEO,
-                                social media, and analytics.</p>
-
-                            <!-- Video Thumbnail -->
-                            <div class="mb-4 relative">
-                                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-                                    alt="Digital Marketing" class="w-full h-32 object-cover rounded-lg">
-                                <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20">
-                                    <button onclick="playDummyVideo('resource2')"
-                                        class="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:bg-gray-100">
-                                        <i class="fas fa-play text-red-600"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="mb-4">
-                                <div class="flex items-center text-sm text-gray-500 mb-1">
-                                    <i class="fas fa-star text-yellow-500 mr-1"></i> 4.8 • 342 reviews
-                                </div>
-                                <div class="w-full bg-gray-200 rounded-full h-2">
-                                    <div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div>
-                                </div>
-                            </div>
-                            <button onclick="playDummyVideo('resource2')"
-                                class="w-full bg-red-600 text-white py-2 rounded-lg font-medium hover:bg-red-700 transition-colors">
-                                <i class="fas fa-play-circle mr-2"></i> Start Course
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Resource 3: PDF Guide -->
-                    <div class="resource-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-300"
-                        data-type="pdf">
-                        <div class="p-6">
-                            <div class="flex items-start mb-4">
-                                <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mr-4">
-                                    <i class="fas fa-file-pdf text-red-600 text-xl"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-gray-800 mb-1">Business Plan Template 2024</h4>
-                                    <p class="text-sm text-gray-500">PDF • 15 Pages • 2.4 MB</p>
-                                </div>
-                            </div>
-                            <p class="text-gray-600 text-sm mb-4">Complete business plan template with financial
-                                projections, market analysis, and executive summary.</p>
-
-                            <!-- PDF Preview -->
-                            <div class="mb-4 p-3 bg-red-50 rounded-lg">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center">
-                                        <i class="fas fa-file-pdf text-red-500 mr-2"></i>
-                                        <span class="text-sm text-gray-700">Preview available</span>
-                                    </div>
-                                    <span class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded">Editable</span>
-                                </div>
-                            </div>
-
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center text-sm text-gray-500">
-                                    <i class="fas fa-download mr-1"></i> 1,245 downloads
-                                </div>
-                                <button onclick="viewDummyPDF('resource3')"
-                                    class="text-red-600 font-medium hover:text-red-700 text-sm">
-                                    <i class="fas fa-eye mr-1"></i> View PDF
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Resource 4: Image Collection -->
-                    <div class="resource-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-300"
-                        data-type="image">
-                        <div class="p-6">
-                            <div class="flex items-start mb-4">
-                                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
-                                    <i class="fas fa-images text-green-600 text-xl"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-gray-800 mb-1">Professional Presentation Images</h4>
-                                    <p class="text-sm text-gray-500">Image Collection • 150+ Files</p>
-                                </div>
-                            </div>
-                            <p class="text-gray-600 text-sm mb-4">High-quality images, infographics, and charts for
-                                professional presentations and reports.</p>
-
-                            <!-- Image Gallery Preview -->
-                            <div class="mb-4 grid grid-cols-3 gap-1">
-                                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
-                                    alt="Chart 1" class="h-16 object-cover rounded">
-                                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
-                                    alt="Chart 2" class="h-16 object-cover rounded">
-                                <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
-                                    alt="Chart 3" class="h-16 object-cover rounded">
-                            </div>
-
-                            <div class="flex items-center justify-between">
-                                <div class="text-sm text-gray-500">
-                                    <i class="fas fa-folder mr-1"></i> 8 Categories
-                                </div>
-                                <button onclick="viewDummyImages()"
-                                    class="text-green-600 font-medium hover:text-green-700 text-sm">
-                                    <i class="fas fa-images mr-1"></i> Browse Images
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Resource 5: Audio Book -->
-                    <div class="resource-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-300"
-                        data-type="audio">
-                        <div class="p-6">
-                            <div class="flex items-start mb-4">
-                                <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mr-4">
-                                    <i class="fas fa-book-audio text-indigo-600 text-xl"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-gray-800 mb-1">Business Strategy Audio Book</h4>
-                                    <p class="text-sm text-gray-500">Audio Book • 12 hrs 45 min</p>
-                                </div>
-                            </div>
-                            <p class="text-gray-600 text-sm mb-4">Complete audio book on business strategy, market
-                                positioning, and competitive advantage.</p>
-
-                            <!-- Audio Controls -->
-                            <div class="mb-4 p-3 bg-indigo-50 rounded-lg">
-                                <div class="flex items-center space-x-2">
-                                    <button onclick="playDummyAudio('resource5')"
-                                        class="text-indigo-600 hover:text-indigo-700">
-                                        <i class="fas fa-play-circle text-xl"></i>
-                                    </button>
-                                    <div class="flex-1">
-                                        <div class="flex justify-between text-xs text-gray-500 mb-1">
-                                            <span>Chapter 3</span>
-                                            <span>45:30 / 68:15</span>
-                                        </div>
-                                        <div class="w-full bg-gray-200 rounded-full h-1.5">
-                                            <div class="bg-indigo-500 h-1.5 rounded-full" style="width: 66%"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center text-sm text-gray-500">
-                                    <i class="fas fa-bookmark mr-1"></i> 24 Chapters
-                                </div>
-                                <button onclick="playDummyAudio('resource5')"
-                                    class="text-indigo-600 font-medium hover:text-indigo-700 text-sm">
-                                    <i class="fas fa-play mr-1"></i> Listen Now
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Resource 6: Video Tutorial -->
-                    <div class="resource-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-300"
-                        data-type="video">
-                        <div class="p-6">
-                            <div class="flex items-start mb-4">
-                                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
-                                    <i class="fas fa-film text-blue-600 text-xl"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-gray-800 mb-1">Excel Advanced Tutorials</h4>
-                                    <p class="text-sm text-gray-500">Video Series • 4.5 Hours</p>
-                                </div>
-                            </div>
-                            <p class="text-gray-600 text-sm mb-4">Step-by-step video tutorials covering advanced Excel
-                                functions, formulas, and data analysis.</p>
-
-                            <!-- Video Stats -->
-                            <div class="mb-4 space-y-2">
-                                <div class="flex items-center justify-between text-sm">
-                                    <span class="text-gray-600">32 Tutorials</span>
-                                    <span class="text-blue-600 font-medium">Beginner to Advanced</span>
-                                </div>
-                                <div class="flex items-center text-sm text-gray-500">
-                                    <i class="fas fa-check-circle text-green-500 mr-1"></i>
-                                    <span>Downloadable exercise files included</span>
-                                </div>
-                            </div>
-
-                            <button onclick="playDummyVideo('resource6')"
-                                class="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">
-                                <i class="fas fa-play mr-2"></i> Watch Tutorials
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    @include('user.partials.resource-tab', ['circles' => $circles])
         </div>
-
         <!-- Directory Tab - Enhanced -->
         <div id="directory" class="tab-content hidden">
             <!-- Your existing directory tab code here -->
             <div class="max-w-6xl mx-auto">
-              
+
                 <div class="max-w-6xl mx-auto mb-8">
                     <!-- Filters -->
                     <!-- Filters -->
@@ -492,7 +217,7 @@
                                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 @error('country') border-red-500 @enderror">
                                     <option value="">Select Country</option>
                                 </select>
-                               
+
                             </div>
 
                             <!-- State -->
@@ -501,7 +226,7 @@
                                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 @error('state') border-red-500 @enderror">
                                     <option value="">Select State</option>
                                 </select>
-                               
+
                             </div>
 
                             <!-- District -->
@@ -510,9 +235,9 @@
                                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 @error('district') border-red-500 @enderror">
                                     <option value="">Select District</option>
                                 </select>
-                              
+
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -694,7 +419,7 @@
         <div id="profile" class="tab-content hidden">
             <!-- Your existing profile tab code here -->
             <div class="max-w-4xl mx-auto">
-               <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+                <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
                     <div class="bg-gradient-to-r from-teal-600 to-cyan-500 h-32"></div>
 
                     <div class="px-8 pb-8 relative">
@@ -771,157 +496,158 @@
 
     <!-- Add this JavaScript section -->
     @push('scripts')
-   <script>
-    // Tab switching functionality
-    function switchTab(tabName) {
-        // Hide all tab contents
-        document.querySelectorAll('.tab-content').forEach(tab => {
-            tab.classList.add('hidden');
-        });
-
-        // Remove active state from all tab buttons
-        document.querySelectorAll('.tab-button').forEach(button => {
-            button.classList.remove('active', 'border-b-2', 'border-teal-600', 'text-teal-600', 'bg-teal-50');
-            button.classList.add('text-gray-700');
-        });
-
-        // Show selected tab content
-        const activeTab = document.getElementById(tabName);
-        if (activeTab) {
-            activeTab.classList.remove('hidden');
-        }
-
-        // Add active state to clicked button
-        const activeButton = Array.from(document.querySelectorAll('.tab-button')).find(button =>
-            button.getAttribute('onclick').includes(tabName)
-        );
-        if (activeButton) {
-            activeButton.classList.add('active', 'border-b-2', 'border-teal-600', 'text-teal-600', 'bg-teal-50');
-            activeButton.classList.remove('text-gray-700');
-        }
-
-        // Update URL hash
-        history.pushState(null, null, `#${tabName}`);
-    }
-
-    // Initialize on page load
-    document.addEventListener('DOMContentLoaded', function() {
-        // Check URL hash for initial tab
-        const hash = window.location.hash.substring(1);
-        const validTabs = ['newsfeed', 'resources', 'directory', 'profile'];
-
-        if (validTabs.includes(hash)) {
-            switchTab(hash);
-        } else {
-            // Default to newsfeed
-            switchTab('newsfeed');
-        }
-
-        // Initialize post form event listener
-        initializePostForm();
-    });
-
-    // Initialize post form
-    function initializePostForm() {
-        const postForm = document.getElementById('postForm');
-        if (!postForm) return;
-
-        postForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(this);
-            const submitBtn = document.getElementById('postSubmitBtn');
-            const btnText = document.getElementById('postBtnText');
-            const btnSpinner = document.getElementById('postBtnSpinner');
-            
-            // Disable button and show spinner
-            submitBtn.disabled = true;
-            btnText.classList.add('hidden');
-            btnSpinner.classList.remove('hidden');
-            
-            try {
-                console.log('Submitting post...');
-                const response = await fetch(this.action, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    body: formData
+        <script>
+            // Tab switching functionality
+            function switchTab(tabName) {
+                // Hide all tab contents
+                document.querySelectorAll('.tab-content').forEach(tab => {
+                    tab.classList.add('hidden');
                 });
-                
-                const data = await response.json();
-                console.log('Post response:', data);
-                
-                if (data.success) {
-                    // Clear form
-                    this.reset();
-                    document.getElementById('mediaPreview').innerHTML = '';
-                    document.getElementById('previewSection').classList.add('hidden');
-                    
-                    // Show success message
-                    showNotification(data.message || 'Post created successfully!', 'success');
-                    
-                    // Reload page after 1 second to show new post
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 1000);
-                } else {
-                    showNotification(data.message || 'Error creating post', 'error');
+
+                // Remove active state from all tab buttons
+                document.querySelectorAll('.tab-button').forEach(button => {
+                    button.classList.remove('active', 'border-b-2', 'border-teal-600', 'text-teal-600', 'bg-teal-50');
+                    button.classList.add('text-gray-700');
+                });
+
+                // Show selected tab content
+                const activeTab = document.getElementById(tabName);
+                if (activeTab) {
+                    activeTab.classList.remove('hidden');
                 }
-            } catch (error) {
-                console.error('Post error:', error);
-                showNotification('Network error. Please try again.', 'error');
-            } finally {
-                // Re-enable button
-                if (submitBtn) {
-                    submitBtn.disabled = false;
-                    btnText.classList.remove('hidden');
-                    btnSpinner.classList.add('hidden');
+
+                // Add active state to clicked button
+                const activeButton = Array.from(document.querySelectorAll('.tab-button')).find(button =>
+                    button.getAttribute('onclick').includes(tabName)
+                );
+                if (activeButton) {
+                    activeButton.classList.add('active', 'border-b-2', 'border-teal-600', 'text-teal-600', 'bg-teal-50');
+                    activeButton.classList.remove('text-gray-700');
+                }
+
+                // Update URL hash
+                history.pushState(null, null, `#${tabName}`);
+            }
+
+            // Initialize on page load
+            document.addEventListener('DOMContentLoaded', function() {
+                // Check URL hash for initial tab
+                const hash = window.location.hash.substring(1);
+                const validTabs = ['newsfeed', 'resources', 'directory', 'profile'];
+
+                if (validTabs.includes(hash)) {
+                    switchTab(hash);
+                } else {
+                    // Default to newsfeed
+                    switchTab('newsfeed');
+                }
+
+                // Initialize post form event listener
+                initializePostForm();
+            });
+
+            // Initialize post form
+            function initializePostForm() {
+                const postForm = document.getElementById('postForm');
+                if (!postForm) return;
+
+                postForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+
+                    const formData = new FormData(this);
+                    const submitBtn = document.getElementById('postSubmitBtn');
+                    const btnText = document.getElementById('postBtnText');
+                    const btnSpinner = document.getElementById('postBtnSpinner');
+
+                    // Disable button and show spinner
+                    submitBtn.disabled = true;
+                    btnText.classList.add('hidden');
+                    btnSpinner.classList.remove('hidden');
+
+                    try {
+                        console.log('Submitting post...');
+                        const response = await fetch(this.action, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                    .getAttribute('content'),
+                                'X-Requested-With': 'XMLHttpRequest'
+                            },
+                            body: formData
+                        });
+
+                        const data = await response.json();
+                        console.log('Post response:', data);
+
+                        if (data.success) {
+                            // Clear form
+                            this.reset();
+                            document.getElementById('mediaPreview').innerHTML = '';
+                            document.getElementById('previewSection').classList.add('hidden');
+
+                            // Show success message
+                            showNotification(data.message || 'Post created successfully!', 'success');
+
+                            // Reload page after 1 second to show new post
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1000);
+                        } else {
+                            showNotification(data.message || 'Error creating post', 'error');
+                        }
+                    } catch (error) {
+                        console.error('Post error:', error);
+                        showNotification('Network error. Please try again.', 'error');
+                    } finally {
+                        // Re-enable button
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            btnText.classList.remove('hidden');
+                            btnSpinner.classList.add('hidden');
+                        }
+                    }
+                });
+            }
+
+            // File picker function
+            function openFilePicker(type) {
+                console.log('Opening file picker for:', type);
+                switch (type) {
+                    case 'image':
+                        document.getElementById('imageInput').click();
+                        break;
+                    case 'video':
+                        document.getElementById('videoInput').click();
+                        break;
+                    case 'audio':
+                        document.getElementById('audioInput').click();
+                        break;
+                    case 'document':
+                        document.getElementById('fileInput').click();
+                        break;
                 }
             }
-        });
-    }
 
-    // File picker function
-    function openFilePicker(type) {
-        console.log('Opening file picker for:', type);
-        switch(type) {
-            case 'image':
-                document.getElementById('imageInput').click();
-                break;
-            case 'video':
-                document.getElementById('videoInput').click();
-                break;
-            case 'audio':
-                document.getElementById('audioInput').click();
-                break;
-            case 'document':
-                document.getElementById('fileInput').click();
-                break;
-        }
-    }
+            // Preview selected files
+            document.addEventListener('DOMContentLoaded', function() {
+                ['imageInput', 'videoInput', 'audioInput', 'fileInput'].forEach(inputId => {
+                    const input = document.getElementById(inputId);
+                    if (input) {
+                        input.addEventListener('change', function(e) {
+                            const previewSection = document.getElementById('previewSection');
+                            const mediaPreview = document.getElementById('mediaPreview');
 
-    // Preview selected files
-    document.addEventListener('DOMContentLoaded', function() {
-        ['imageInput', 'videoInput', 'audioInput', 'fileInput'].forEach(inputId => {
-            const input = document.getElementById(inputId);
-            if (input) {
-                input.addEventListener('change', function(e) {
-                    const previewSection = document.getElementById('previewSection');
-                    const mediaPreview = document.getElementById('mediaPreview');
-                    
-                    previewSection.classList.remove('hidden');
-                    
-                    Array.from(this.files).forEach(file => {
-                        const reader = new FileReader();
-                        
-                        reader.onload = function(e) {
-                            const fileType = file.type.split('/')[0];
-                            let previewHTML = '';
-                            
-                            if (fileType === 'image') {
-                                previewHTML = `
+                            previewSection.classList.remove('hidden');
+
+                            Array.from(this.files).forEach(file => {
+                                const reader = new FileReader();
+
+                                reader.onload = function(e) {
+                                    const fileType = file.type.split('/')[0];
+                                    let previewHTML = '';
+
+                                    if (fileType === 'image') {
+                                        previewHTML = `
                                     <div class="relative">
                                         <img src="${e.target.result}" 
                                              alt="Preview" 
@@ -931,8 +657,8 @@
                                         </span>
                                     </div>
                                 `;
-                            } else if (fileType === 'video') {
-                                previewHTML = `
+                                    } else if (fileType === 'video') {
+                                        previewHTML = `
                                     <div class="relative">
                                         <video src="${e.target.result}" 
                                                class="w-full h-32 object-cover rounded-lg"></video>
@@ -941,8 +667,8 @@
                                         </span>
                                     </div>
                                 `;
-                            } else if (fileType === 'audio') {
-                                previewHTML = `
+                                    } else if (fileType === 'audio') {
+                                        previewHTML = `
                                     <div class="bg-purple-50 p-3 rounded-lg">
                                         <div class="flex items-center">
                                             <i class="fas fa-music text-purple-600 mr-3"></i>
@@ -953,9 +679,10 @@
                                         </div>
                                     </div>
                                 `;
-                            } else {
-                                const icon = file.type.includes('pdf') ? 'file-pdf' : 'file';
-                                previewHTML = `
+                                    } else {
+                                        const icon = file.type.includes('pdf') ?
+                                            'file-pdf' : 'file';
+                                        previewHTML = `
                                     <div class="bg-blue-50 p-3 rounded-lg">
                                         <div class="flex items-center">
                                             <i class="fas fa-${icon} text-blue-600 mr-3"></i>
@@ -966,368 +693,384 @@
                                         </div>
                                     </div>
                                 `;
-                            }
-                            
-                            mediaPreview.innerHTML = previewHTML;
-                        };
-                        
-                        reader.readAsDataURL(file);
-                    });
+                                    }
+
+                                    mediaPreview.innerHTML = previewHTML;
+                                };
+
+                                reader.readAsDataURL(file);
+                            });
+                        });
+                    }
                 });
-            }
-        });
 
-        // Remove media button handler
-        const removeMediaBtn = document.getElementById('removeMediaBtn');
-        if (removeMediaBtn) {
-            removeMediaBtn.addEventListener('click', function() {
-                document.getElementById('imageInput').value = '';
-                document.getElementById('videoInput').value = '';
-                document.getElementById('audioInput').value = '';
-                document.getElementById('fileInput').value = '';
+                // Remove media button handler
+                const removeMediaBtn = document.getElementById('removeMediaBtn');
+                if (removeMediaBtn) {
+                    removeMediaBtn.addEventListener('click', function() {
+                        document.getElementById('imageInput').value = '';
+                        document.getElementById('videoInput').value = '';
+                        document.getElementById('audioInput').value = '';
+                        document.getElementById('fileInput').value = '';
 
-                document.getElementById('mediaPreview').innerHTML = '';
-                document.getElementById('previewSection').classList.add('hidden');
-            });
-        }
-    });
-
-    // Like/Unlike functionality
-    async function toggleLike(postId) {
-        try {
-            const response = await fetch(`/posts/${postId}/like`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                    'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'
+                        document.getElementById('mediaPreview').innerHTML = '';
+                        document.getElementById('previewSection').classList.add('hidden');
+                    });
                 }
             });
-            
-            const data = await response.json();
-            
-            // Update UI
-            const likeBtn = document.querySelector(`.like-btn[data-post-id="${postId}"]`);
-            const likeText = likeBtn.querySelector('.like-text');
-            const likeIcon = likeBtn.querySelector('.far.fa-thumbs-up');
-            const likedIcon = likeBtn.querySelector('.fas.fa-thumbs-up');
-            const likesCount = document.querySelector(`.post-likes-count[data-post-id="${postId}"] .count`);
-            
-            if (data.liked) {
-                likeText.textContent = 'Liked';
-                likeIcon.classList.add('hidden');
-                likedIcon.classList.remove('hidden');
-                showNotification('Post liked!', 'success');
-            } else {
-                likeText.textContent = 'Like';
-                likeIcon.classList.remove('hidden');
-                likedIcon.classList.add('hidden');
-            }
-            
-            likesCount.textContent = data.likes_count;
-            
-        } catch (error) {
-            showNotification('Error updating like', 'error');
-        }
-    }
 
-    // Show/hide comment box
-    function showCommentBox(postId) {
-        const commentsSection = document.getElementById(`comments-${postId}`);
-        if (commentsSection) {
-            if (commentsSection.style.display === 'none') {
-                commentsSection.style.display = 'block';
-                commentsSection.scrollIntoView({ behavior: 'smooth' });
-            } else {
-                commentsSection.style.display = 'none';
-            }
-        }
-    }
-
-    // Comment form submission
-    document.addEventListener('submit', async function(e) {
-        if (e.target.classList.contains('add-comment-form')) {
-            e.preventDefault();
-            const postId = e.target.dataset.postId;
-            const commentInput = e.target.querySelector('input[name="comment"]');
-            const commentText = commentInput.value.trim();
-            
-            if (commentText) {
+            // Like/Unlike functionality
+            async function toggleLike(postId) {
                 try {
-                    const response = await fetch(`/posts/${postId}/comment`, {
+                    const response = await fetch(`/posts/${postId}/like`, {
                         method: 'POST',
                         headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                'content'),
                             'Content-Type': 'application/json',
                             'X-Requested-With': 'XMLHttpRequest'
-                        },
-                        body: JSON.stringify({ comment: commentText })
+                        }
                     });
-                    
+
                     const data = await response.json();
-                    
-                    if (data.success) {
-                        // Clear input
-                        commentInput.value = '';
-                        showNotification('Comment added!', 'success');
+
+                    // Update UI
+                    const likeBtn = document.querySelector(`.like-btn[data-post-id="${postId}"]`);
+                    const likeText = likeBtn.querySelector('.like-text');
+                    const likeIcon = likeBtn.querySelector('.far.fa-thumbs-up');
+                    const likedIcon = likeBtn.querySelector('.fas.fa-thumbs-up');
+                    const likesCount = document.querySelector(`.post-likes-count[data-post-id="${postId}"] .count`);
+
+                    if (data.liked) {
+                        likeText.textContent = 'Liked';
+                        likeIcon.classList.add('hidden');
+                        likedIcon.classList.remove('hidden');
+                        showNotification('Post liked!', 'success');
+                    } else {
+                        likeText.textContent = 'Like';
+                        likeIcon.classList.remove('hidden');
+                        likedIcon.classList.add('hidden');
                     }
+
+                    likesCount.textContent = data.likes_count;
+
                 } catch (error) {
-                    showNotification('Error adding comment', 'error');
+                    showNotification('Error updating like', 'error');
                 }
             }
-        }
-    });
 
-    // Delete post
-    async function deletePost(postId) {
-        if (!confirm('Are you sure you want to delete this post?')) return;
-        
-        try {
-            const response = await fetch(`/posts/${postId}`, {
-                method: 'DELETE',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                    'X-Requested-With': 'XMLHttpRequest'
+            // Show/hide comment box
+            function showCommentBox(postId) {
+                const commentsSection = document.getElementById(`comments-${postId}`);
+                if (commentsSection) {
+                    if (commentsSection.style.display === 'none') {
+                        commentsSection.style.display = 'block';
+                        commentsSection.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    } else {
+                        commentsSection.style.display = 'none';
+                    }
+                }
+            }
+
+            // Comment form submission
+            document.addEventListener('submit', async function(e) {
+                if (e.target.classList.contains('add-comment-form')) {
+                    e.preventDefault();
+                    const postId = e.target.dataset.postId;
+                    const commentInput = e.target.querySelector('input[name="comment"]');
+                    const commentText = commentInput.value.trim();
+
+                    if (commentText) {
+                        try {
+                            const response = await fetch(`/posts/${postId}/comment`, {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                        .getAttribute('content'),
+                                    'Content-Type': 'application/json',
+                                    'X-Requested-With': 'XMLHttpRequest'
+                                },
+                                body: JSON.stringify({
+                                    comment: commentText
+                                })
+                            });
+
+                            const data = await response.json();
+
+                            if (data.success) {
+                                // Clear input
+                                commentInput.value = '';
+                                showNotification('Comment added!', 'success');
+                            }
+                        } catch (error) {
+                            showNotification('Error adding comment', 'error');
+                        }
+                    }
                 }
             });
-            
-            const data = await response.json();
-            
-            if (data.success) {
-                // Remove post from DOM
-                document.querySelector(`.post-item[data-post-id="${postId}"]`)?.remove();
-                showNotification('Post deleted successfully', 'success');
-            }
-        } catch (error) {
-            showNotification('Error deleting post', 'error');
-        }
-    }
 
-    // Notification function
-    function showNotification(message, type = 'info') {
-        const toast = document.createElement('div');
-        toast.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg text-white font-medium z-50 transition-all duration-300 ${
+            // Delete post
+            async function deletePost(postId) {
+                if (!confirm('Are you sure you want to delete this post?')) return;
+
+                try {
+                    const response = await fetch(`/posts/${postId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                'content'),
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        // Remove post from DOM
+                        document.querySelector(`.post-item[data-post-id="${postId}"]`)?.remove();
+                        showNotification('Post deleted successfully', 'success');
+                    }
+                } catch (error) {
+                    showNotification('Error deleting post', 'error');
+                }
+            }
+
+            // Notification function
+            function showNotification(message, type = 'info') {
+                const toast = document.createElement('div');
+                toast.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg text-white font-medium z-50 transition-all duration-300 ${
             type === 'success' ? 'bg-green-600' :
             type === 'error' ? 'bg-red-600' :
             'bg-blue-600'
         }`;
-        toast.innerHTML = `
+                toast.innerHTML = `
             <div class="flex items-center">
                 <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'} mr-3"></i>
                 <span>${message}</span>
             </div>
         `;
-        document.body.appendChild(toast);
-        
-        setTimeout(() => {
-            toast.classList.add('opacity-0');
-            setTimeout(() => {
-                toast.remove();
-            }, 300);
-        }, 3000);
-    }
+                document.body.appendChild(toast);
 
-    // Post options menu toggle
-    document.addEventListener('click', function(e) {
-        if (e.target.closest('.post-options-btn')) {
-            const menu = e.target.closest('.post-options-btn').nextElementSibling;
-            menu.classList.toggle('hidden');
-        } else {
-            document.querySelectorAll('.post-options-menu').forEach(menu => {
-                menu.classList.add('hidden');
-            });
-        }
-    });
-
-    // Add CSRF token to all forms
-    document.addEventListener('DOMContentLoaded', function() {
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        document.querySelectorAll('form').forEach(form => {
-            if (!form.querySelector('input[name="_token"]')) {
-                const csrfInput = document.createElement('input');
-                csrfInput.type = 'hidden';
-                csrfInput.name = '_token';
-                csrfInput.value = csrfToken;
-                form.appendChild(csrfInput);
-            }
-        });
-    });
-</script>
-
-    <!-- Copy the rest of your JavaScript code here -->
-    <script>
-        // Country, State, District API
-        const countrySelect = document.getElementById("country");
-        const stateSelect = document.getElementById("state");
-        const districtSelect = document.getElementById("district");
-
-        // Set default values from old input
-        @if(old('country'))
-            setTimeout(() => {
-                countrySelect.value = "{{ old('country') }}";
-                loadStates("{{ old('country') }}");
-                
-                @if(old('state'))
+                setTimeout(() => {
+                    toast.classList.add('opacity-0');
                     setTimeout(() => {
-                        stateSelect.value = "{{ old('state') }}";
-                        loadDistricts("{{ old('country') }}", "{{ old('state') }}");
-                        
-                        @if(old('district'))
-                            setTimeout(() => {
-                                districtSelect.value = "{{ old('district') }}";
-                            }, 500);
-                        @endif
-                    }, 500);
-                @endif
-            }, 500);
-        @endif
+                        toast.remove();
+                    }, 300);
+                }, 3000);
+            }
 
-        // Load all countries
-        async function loadCountries() {
-            const res = await fetch("https://countriesnow.space/api/v0.1/countries/positions");
-            const result = await res.json();
-
-            countrySelect.innerHTML = `<option value="">Select Country</option>`;
-
-            result.data.forEach(item => {
-                countrySelect.innerHTML += `<option value="${item.name}">${item.name}</option>`;
+            // Post options menu toggle
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.post-options-btn')) {
+                    const menu = e.target.closest('.post-options-btn').nextElementSibling;
+                    menu.classList.toggle('hidden');
+                } else {
+                    document.querySelectorAll('.post-options-menu').forEach(menu => {
+                        menu.classList.add('hidden');
+                    });
+                }
             });
 
-            // Default select India if no old value
-            @if(!old('country'))
-                countrySelect.value = "India";
-                loadStates("India");
+            // Add CSRF token to all forms
+            document.addEventListener('DOMContentLoaded', function() {
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                document.querySelectorAll('form').forEach(form => {
+                    if (!form.querySelector('input[name="_token"]')) {
+                        const csrfInput = document.createElement('input');
+                        csrfInput.type = 'hidden';
+                        csrfInput.name = '_token';
+                        csrfInput.value = csrfToken;
+                        form.appendChild(csrfInput);
+                    }
+                });
+            });
+        </script>
+
+        <!-- Copy the rest of your JavaScript code here -->
+        <script>
+            // Country, State, District API
+            const countrySelect = document.getElementById("country");
+            const stateSelect = document.getElementById("state");
+            const districtSelect = document.getElementById("district");
+
+            // Set default values from old input
+            @if (old('country'))
+                setTimeout(() => {
+                    countrySelect.value = "{{ old('country') }}";
+                    loadStates("{{ old('country') }}");
+
+                    @if (old('state'))
+                        setTimeout(() => {
+                            stateSelect.value = "{{ old('state') }}";
+                            loadDistricts("{{ old('country') }}", "{{ old('state') }}");
+
+                            @if (old('district'))
+                                setTimeout(() => {
+                                    districtSelect.value = "{{ old('district') }}";
+                                }, 500);
+                            @endif
+                        }, 500);
+                    @endif
+                }, 500);
             @endif
-        }
 
-        // Load states of selected country
-        async function loadStates(country) {
-            const res = await fetch("https://countriesnow.space/api/v0.1/countries/states", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ country })
-            });
+            // Load all countries
+            async function loadCountries() {
+                const res = await fetch("https://countriesnow.space/api/v0.1/countries/positions");
+                const result = await res.json();
 
-            const result = await res.json();
+                countrySelect.innerHTML = `<option value="">Select Country</option>`;
 
-            stateSelect.innerHTML = `<option value="">Select State</option>`;
-            districtSelect.innerHTML = `<option value="">Select District</option>`; 
+                result.data.forEach(item => {
+                    countrySelect.innerHTML += `<option value="${item.name}">${item.name}</option>`;
+                });
 
-            if (!result.data || !result.data.states) return;
+                // Default select India if no old value
+                @if (!old('country'))
+                    countrySelect.value = "India";
+                    loadStates("India");
+                @endif
+            }
 
-            result.data.states.forEach(state => {
-                stateSelect.innerHTML += `<option value="${state.name}">${state.name}</option>`;
-            });
-        }
+            // Load states of selected country
+            async function loadStates(country) {
+                const res = await fetch("https://countriesnow.space/api/v0.1/countries/states", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        country
+                    })
+                });
 
-        // Load districts/cities of selected state
-        async function loadDistricts(country, state) {
-            const res = await fetch("https://countriesnow.space/api/v0.1/countries/state/cities", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ country, state })
-            });
+                const result = await res.json();
 
-            const result = await res.json();
+                stateSelect.innerHTML = `<option value="">Select State</option>`;
+                districtSelect.innerHTML = `<option value="">Select District</option>`;
 
-            districtSelect.innerHTML = `<option value="">Select District</option>`;
+                if (!result.data || !result.data.states) return;
 
-            if (!result.data) return;
+                result.data.states.forEach(state => {
+                    stateSelect.innerHTML += `<option value="${state.name}">${state.name}</option>`;
+                });
+            }
 
-            result.data.forEach(city => {
-                districtSelect.innerHTML += `<option value="${city}">${city}</option>`;
-            });
-        }
+            // Load districts/cities of selected state
+            async function loadDistricts(country, state) {
+                const res = await fetch("https://countriesnow.space/api/v0.1/countries/state/cities", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        country,
+                        state
+                    })
+                });
 
-        // On change events
-        if (countrySelect) {
-            countrySelect.addEventListener("change", function () {
-                loadStates(this.value);
-            });
-        }
+                const result = await res.json();
 
-        if (stateSelect) {
-            stateSelect.addEventListener("change", function () {
-                if (countrySelect.value && this.value) {
-                    loadDistricts(countrySelect.value, this.value);
-                }
-            });
-        }
+                districtSelect.innerHTML = `<option value="">Select District</option>`;
 
-        // Auto-run
-        loadCountries();
+                if (!result.data) return;
 
-        // Resource filtering function
-        function filterResources(type) {
-            const resources = document.querySelectorAll('.resource-card');
-            const buttons = document.querySelectorAll('#resources .flex-wrap button');
+                result.data.forEach(city => {
+                    districtSelect.innerHTML += `<option value="${city}">${city}</option>`;
+                });
+            }
 
-            // Update button styles
-            buttons.forEach(button => {
-                if (button.textContent.toLowerCase().includes(type) ||
-                    (type === 'all' && button.textContent.includes('All Resources'))) {
-                    button.classList.remove('bg-gray-100', 'text-gray-700');
-                    button.classList.add('bg-blue-600', 'text-white');
-                } else {
-                    button.classList.remove('bg-blue-600', 'text-white');
-                    button.classList.add('bg-gray-100', 'text-gray-700');
-                }
-            });
+            // On change events
+            if (countrySelect) {
+                countrySelect.addEventListener("change", function() {
+                    loadStates(this.value);
+                });
+            }
 
-            // Show/hide resources
-            resources.forEach(resource => {
-                if (type === 'all') {
-                    resource.style.display = 'block';
-                } else {
-                    if (resource.getAttribute('data-type') === type) {
+            if (stateSelect) {
+                stateSelect.addEventListener("change", function() {
+                    if (countrySelect.value && this.value) {
+                        loadDistricts(countrySelect.value, this.value);
+                    }
+                });
+            }
+
+            // Auto-run
+            loadCountries();
+
+            // Resource filtering function
+            function filterResources(type) {
+                const resources = document.querySelectorAll('.resource-card');
+                const buttons = document.querySelectorAll('#resources .flex-wrap button');
+
+                // Update button styles
+                buttons.forEach(button => {
+                    if (button.textContent.toLowerCase().includes(type) ||
+                        (type === 'all' && button.textContent.includes('All Resources'))) {
+                        button.classList.remove('bg-gray-100', 'text-gray-700');
+                        button.classList.add('bg-blue-600', 'text-white');
+                    } else {
+                        button.classList.remove('bg-blue-600', 'text-white');
+                        button.classList.add('bg-gray-100', 'text-gray-700');
+                    }
+                });
+
+                // Show/hide resources
+                resources.forEach(resource => {
+                    if (type === 'all') {
                         resource.style.display = 'block';
                     } else {
-                        resource.style.display = 'none';
+                        if (resource.getAttribute('data-type') === type) {
+                            resource.style.display = 'block';
+                        } else {
+                            resource.style.display = 'none';
+                        }
                     }
+                });
+            }
+
+            // Media playback functions (dummy versions)
+            function playDummyAudio(audioId) {
+                alert("Audio playback would start in a real application");
+            }
+
+            function playDummyVideo(videoId) {
+                alert("Video playback would start in a real application");
+            }
+
+            function viewDummyPDF(pdfId) {
+                alert("PDF viewer would open in a real application");
+            }
+
+            function viewDummyImages() {
+                alert("Image gallery would open in a real application");
+            }
+
+            function showDummyEvent() {
+                alert("Event creation form would open in a real application");
+            }
+
+            function submitHotelRequest() {
+                const name = document.querySelector('#directory input[type="text"]')?.value;
+                const mobile = document.querySelector('#directory input[type="tel"]')?.value;
+                const terms = document.getElementById('terms')?.checked;
+
+                if (!name || !mobile) {
+                    alert('Please fill in all required fields.');
+                    return;
                 }
-            });
-        }
 
-        // Media playback functions (dummy versions)
-        function playDummyAudio(audioId) {
-            alert("Audio playback would start in a real application");
-        }
+                if (!terms) {
+                    alert('Please agree to the terms and conditions.');
+                    return;
+                }
 
-        function playDummyVideo(videoId) {
-            alert("Video playback would start in a real application");
-        }
-
-        function viewDummyPDF(pdfId) {
-            alert("PDF viewer would open in a real application");
-        }
-
-        function viewDummyImages() {
-            alert("Image gallery would open in a real application");
-        }
-
-        function showDummyEvent() {
-            alert("Event creation form would open in a real application");
-        }
-
-        function submitHotelRequest() {
-            const name = document.querySelector('#directory input[type="text"]')?.value;
-            const mobile = document.querySelector('#directory input[type="tel"]')?.value;
-            const terms = document.getElementById('terms')?.checked;
-
-            if (!name || !mobile) {
-                alert('Please fill in all required fields.');
-                return;
+                // Show success message
+                alert("Request submitted successfully! Our team will contact you shortly.");
             }
-
-            if (!terms) {
-                alert('Please agree to the terms and conditions.');
-                return;
-            }
-
-            // Show success message
-            alert("Request submitted successfully! Our team will contact you shortly.");
-        }
-    </script>
+        </script>
     @endpush
 
     <style>
@@ -1361,179 +1104,185 @@
         }
     </style>
 
-      
-
-        
     </div>
+    <script>
+        // Country, State, District API
+        const countrySelect = document.getElementById("country");
+        const stateSelect = document.getElementById("state");
+        const districtSelect = document.getElementById("district");
 
-<script>
-    // Country, State, District API
-    const countrySelect = document.getElementById("country");
-    const stateSelect = document.getElementById("state");
-    const districtSelect = document.getElementById("district");
+        // Set default values from old input
+        @if (old('country'))
+            setTimeout(() => {
+                countrySelect.value = "{{ old('country') }}";
+                loadStates("{{ old('country') }}");
 
-    // Set default values from old input
-    @if(old('country'))
-        setTimeout(() => {
-            countrySelect.value = "{{ old('country') }}";
-            loadStates("{{ old('country') }}");
-            
-            @if(old('state'))
-                setTimeout(() => {
-                    stateSelect.value = "{{ old('state') }}";
-                    loadDistricts("{{ old('country') }}", "{{ old('state') }}");
-                    
-                    @if(old('district'))
-                        setTimeout(() => {
-                            districtSelect.value = "{{ old('district') }}";
-                        }, 500);
-                    @endif
-                }, 500);
-            @endif
-        }, 500);
-    @endif
+                @if (old('state'))
+                    setTimeout(() => {
+                        stateSelect.value = "{{ old('state') }}";
+                        loadDistricts("{{ old('country') }}", "{{ old('state') }}");
 
-    // Load all countries
-    async function loadCountries() {
-        const res = await fetch("https://countriesnow.space/api/v0.1/countries/positions");
-        const result = await res.json();
-
-        countrySelect.innerHTML = `<option value="">Select Country</option>`;
-
-        result.data.forEach(item => {
-            countrySelect.innerHTML += `<option value="${item.name}">${item.name}</option>`;
-        });
-
-        // Default select India if no old value
-        @if(!old('country'))
-            countrySelect.value = "India";
-            loadStates("India");
+                        @if (old('district'))
+                            setTimeout(() => {
+                                districtSelect.value = "{{ old('district') }}";
+                            }, 500);
+                        @endif
+                    }, 500);
+                @endif
+            }, 500);
         @endif
-    }
 
-    // Load states of selected country
-    async function loadStates(country) {
-        const res = await fetch("https://countriesnow.space/api/v0.1/countries/states", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ country })
-        });
+        // Load all countries
+        async function loadCountries() {
+            const res = await fetch("https://countriesnow.space/api/v0.1/countries/positions");
+            const result = await res.json();
 
-        const result = await res.json();
+            countrySelect.innerHTML = `<option value="">Select Country</option>`;
 
-        stateSelect.innerHTML = `<option value="">Select State</option>`;
-        districtSelect.innerHTML = `<option value="">Select District</option>`; 
+            result.data.forEach(item => {
+                countrySelect.innerHTML += `<option value="${item.name}">${item.name}</option>`;
+            });
 
-        if (!result.data || !result.data.states) return;
-
-        result.data.states.forEach(state => {
-            stateSelect.innerHTML += `<option value="${state.name}">${state.name}</option>`;
-        });
-    }
-
-    // Load districts/cities of selected state
-    async function loadDistricts(country, state) {
-        const res = await fetch("https://countriesnow.space/api/v0.1/countries/state/cities", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ country, state })
-        });
-
-        const result = await res.json();
-
-        districtSelect.innerHTML = `<option value="">Select District</option>`;
-
-        if (!result.data) return;
-
-        result.data.forEach(city => {
-            districtSelect.innerHTML += `<option value="${city}">${city}</option>`;
-        });
-    }
-
-    // On change events
-    countrySelect.addEventListener("change", function () {
-        loadStates(this.value);
-    });
-
-    stateSelect.addEventListener("change", function () {
-        if (countrySelect.value && this.value) {
-            loadDistricts(countrySelect.value, this.value);
+            // Default select India if no old value
+            @if (!old('country'))
+                countrySelect.value = "India";
+                loadStates("India");
+            @endif
         }
-    });
 
-    // Auto-run
-    loadCountries();
-
-    // Circles and Sub-Circles dynamic loading
-    const circleSelect = document.getElementById('circle_id');
-    const subCircleSection = document.getElementById('subCircleSection');
-    const subCircleSelect = document.getElementById('sub_circle_id');
-
-    // Load sub-circles when circle is selected
-    circleSelect.addEventListener('change', function() {
-        const circleId = this.value;
-        
-        if (circleId) {
-            // Fetch sub-circles from API
-            fetch(`/api/circles/${circleId}/sub-circles`)
-                .then(response => response.json())
-                .then(data => {
-                    subCircleSelect.innerHTML = '<option value="">Select Sub-Circle</option>';
-                    
-                    if (data.length > 0) {
-                        data.forEach(subCircle => {
-                            subCircleSelect.innerHTML += `<option value="${subCircle.id}">${subCircle.subcircle}</option>`;
-                        });
-                        subCircleSection.classList.remove('hidden');
-                    } else {
-                        subCircleSection.classList.add('hidden');
-                    }
-                    
-                    // Set old value if exists
-                    @if(old('sub_circle_id'))
-                        setTimeout(() => {
-                            subCircleSelect.value = "{{ old('sub_circle_id') }}";
-                        }, 100);
-                    @endif
+        // Load states of selected country
+        async function loadStates(country) {
+            const res = await fetch("https://countriesnow.space/api/v0.1/countries/states", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    country
                 })
-                .catch(error => {
-                    console.error('Error loading sub-circles:', error);
-                });
-        } else {
-            subCircleSection.classList.add('hidden');
-            subCircleSelect.innerHTML = '<option value="">Select Sub-Circle</option>';
+            });
+
+            const result = await res.json();
+
+            stateSelect.innerHTML = `<option value="">Select State</option>`;
+            districtSelect.innerHTML = `<option value="">Select District</option>`;
+
+            if (!result.data || !result.data.states) return;
+
+            result.data.states.forEach(state => {
+                stateSelect.innerHTML += `<option value="${state.name}">${state.name}</option>`;
+            });
         }
-    });
 
-    // Load sub-circles on page load if circle is already selected
-    @if(old('circle_id'))
-        document.addEventListener('DOMContentLoaded', function() {
-            circleSelect.value = "{{ old('circle_id') }}";
-            circleSelect.dispatchEvent(new Event('change'));
+        // Load districts/cities of selected state
+        async function loadDistricts(country, state) {
+            const res = await fetch("https://countriesnow.space/api/v0.1/countries/state/cities", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    country,
+                    state
+                })
+            });
+
+            const result = await res.json();
+
+            districtSelect.innerHTML = `<option value="">Select District</option>`;
+
+            if (!result.data) return;
+
+            result.data.forEach(city => {
+                districtSelect.innerHTML += `<option value="${city}">${city}</option>`;
+            });
+        }
+
+        // On change events
+        countrySelect.addEventListener("change", function() {
+            loadStates(this.value);
         });
-    @endif
 
-    // Checkbox styling
-    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
-            const label = this.closest('label');
-            if (this.checked) {
-                label.classList.add('bg-blue-50', 'border-blue-500', 'text-blue-700');
-                label.classList.remove('border-gray-300');
-            } else {
-                label.classList.remove('bg-blue-50', 'border-blue-500', 'text-blue-700');
-                label.classList.add('border-gray-300');
+        stateSelect.addEventListener("change", function() {
+            if (countrySelect.value && this.value) {
+                loadDistricts(countrySelect.value, this.value);
             }
         });
 
-        // Set initial styling for old values
-        if (checkbox.checked) {
-            const label = checkbox.closest('label');
-            label.classList.add('bg-blue-50', 'border-blue-500', 'text-blue-700');
-            label.classList.remove('border-gray-300');
-        }
-    });
-</script>
+        // Auto-run
+        loadCountries();
+
+        // Circles and Sub-Circles dynamic loading
+        const circleSelect = document.getElementById('circle_id');
+        const subCircleSection = document.getElementById('subCircleSection');
+        const subCircleSelect = document.getElementById('sub_circle_id');
+
+        // Load sub-circles when circle is selected
+        circleSelect.addEventListener('change', function() {
+            const circleId = this.value;
+
+            if (circleId) {
+                // Fetch sub-circles from API
+                fetch(`/api/circles/${circleId}/sub-circles`)
+                    .then(response => response.json())
+                    .then(data => {
+                        subCircleSelect.innerHTML = '<option value="">Select Sub-Circle</option>';
+
+                        if (data.length > 0) {
+                            data.forEach(subCircle => {
+                                subCircleSelect.innerHTML +=
+                                    `<option value="${subCircle.id}">${subCircle.subcircle}</option>`;
+                            });
+                            subCircleSection.classList.remove('hidden');
+                        } else {
+                            subCircleSection.classList.add('hidden');
+                        }
+
+                        // Set old value if exists
+                        @if (old('sub_circle_id'))
+                            setTimeout(() => {
+                                subCircleSelect.value = "{{ old('sub_circle_id') }}";
+                            }, 100);
+                        @endif
+                    })
+                    .catch(error => {
+                        console.error('Error loading sub-circles:', error);
+                    });
+            } else {
+                subCircleSection.classList.add('hidden');
+                subCircleSelect.innerHTML = '<option value="">Select Sub-Circle</option>';
+            }
+        });
+
+        // Load sub-circles on page load if circle is already selected
+        @if (old('circle_id'))
+            document.addEventListener('DOMContentLoaded', function() {
+                circleSelect.value = "{{ old('circle_id') }}";
+                circleSelect.dispatchEvent(new Event('change'));
+            });
+        @endif
+
+        // Checkbox styling
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const label = this.closest('label');
+                if (this.checked) {
+                    label.classList.add('bg-blue-50', 'border-blue-500', 'text-blue-700');
+                    label.classList.remove('border-gray-300');
+                } else {
+                    label.classList.remove('bg-blue-50', 'border-blue-500', 'text-blue-700');
+                    label.classList.add('border-gray-300');
+                }
+            });
+
+            // Set initial styling for old values
+            if (checkbox.checked) {
+                const label = checkbox.closest('label');
+                label.classList.add('bg-blue-50', 'border-blue-500', 'text-blue-700');
+                label.classList.remove('border-gray-300');
+            }
+        });
+    </script>
     <script>
         // Tab switching functionality
         function switchTab(tabName) {
@@ -1779,7 +1528,7 @@
             i class = "fas fa-download mr-1" > < /i> Download < /
             button > <
                 /div> < /
-                div >
+            div >
                 `).join('')}
                         </div>
                     </div>
@@ -2171,7 +1920,6 @@
             }
         }
     </script>
-
     <style>
         .tab-button.active {
             position: relative;
@@ -2202,8 +1950,4 @@
             transition: transform 0.3s ease;
         }
     </style>
-    
-
-    
-
 @endsection

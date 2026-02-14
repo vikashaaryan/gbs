@@ -91,7 +91,5 @@ class RegisterController extends Controller
             ->get();
         return response()->json($subCircles);
     }
-     public function login(){
-        return view('login');
-    }
+   
 }

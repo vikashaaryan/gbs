@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
+use App\Models\Circle;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\PostLike;
@@ -43,8 +44,10 @@ class PostController extends Controller
                 ->latest()
                 ->paginate(10);
         }
+        $circles = Circle::where('status', true)->get();
+
         
-        return view('user.user-panel', compact('posts'));
+        return view('user.user-panel', compact('posts','circles'));
     }
 
     // Create new post

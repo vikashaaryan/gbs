@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('circles', function (Blueprint $table) {
             $table->id();
-            $table->string('title'); 
+            $table->json('location')->nullable();
+            $table->string('title');
             $table->string('icon')->nullable();
             $table->text('description')->nullable();
             $table->boolean('status')->default(true);
