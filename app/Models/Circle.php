@@ -10,13 +10,13 @@ class Circle extends Model
         'title', 
         'icon', 
         'description',
-        'location',  // JSON column for location data
-        'status'     // boolean for active/inactive
+        'location',
+        'status'
     ];
 
     protected $casts = [
-        'location' => 'array',  // Automatically convert JSON to array
-        'status' => 'boolean',   // Convert to boolean
+        'location' => 'array',
+        'status' => 'boolean',
     ];
 
     // Relationships
@@ -36,25 +36,47 @@ class Circle extends Model
         return $this->location['city'] ?? null;
     }
 
+    // Helper method to get state from location
+    public function getStateAttribute()
+    {
+        return $this->location['state'] ?? null;
+    }
+
+    // Helper method to get country from location
+    public function getCountryAttribute()
+    {
+        return $this->location['country'] ?? null;
+    }
+
     // Helper method to get full address
     public function getFullAddressAttribute()
     {
         $location = $this->location;
-        if (!$location) return null;
+        if (!$location || !is_array($location)) return null;
         
-        return $location['full_address'] ?? 
-               $location['formatted_address'] ?? 
-               $location['display'] ?? 
-               ($location['city'] ?? '') . ', ' . 
-               ($location['state'] ?? '') . ', ' . 
-               ($location['country'] ?? '');
+        // Try different possible address fields
+        if (isset($location['display']) && !empty($location['display'])) {
+            return $location['display'];
+        }
+        
+        if (isset($location['formatted_address']) && !empty($location['formatted_address'])) {
+            return $location['formatted_address'];
+        }
+        
+        // Build address from components
+        $parts = [];
+        if (!empty($location['city'])) $parts[] = $location['city'];
+        if (!empty($location['state'])) $parts[] = $location['state'];
+        if (!empty($location['country'])) $parts[] = $location['country'];
+        
+        return !empty($parts) ? implode(', ', $parts) : null;
     }
 
     // Helper method to get coordinates
     public function getCoordinatesAttribute()
     {
         $location = $this->location;
-        if (!$location) return null;
+        if (!$location || !is_array($location)) return null;
         
         if (isset($location['latitude']) && isset($location['longitude'])) {
             return [
@@ -72,31 +94,7 @@ class Circle extends Model
         return $query->where('status', true);
     }
 
-    // Scope for inactive circles
-    public function scopeInactive($query)
-    {
-        return $query->where('status', false);
-    }
-
-    // Scope to filter by city
-    public function scopeInCity($query, $city)
-    {
-        return $query->whereRaw('JSON_EXTRACT(location, "$.city") = ?', [$city]);
-    }
-
-    // Scope to filter by state
-    public function scopeInState($query, $state)
-    {
-        return $query->whereRaw('JSON_EXTRACT(location, "$.state") = ?', [$state]);
-    }
-
-    // Scope to filter by country
-    public function scopeInCountry($query, $country)
-    {
-        return $query->whereRaw('JSON_EXTRACT(location, "$.country") = ?', [$country]);
-    }
-
-    // Scope to search location
+    // Scope to search location (improved version)
     public function scopeSearchLocation($query, $term)
     {
         if (empty($term)) {
@@ -104,11 +102,16 @@ class Circle extends Model
         }
 
         return $query->where(function($q) use ($term) {
-            $q->whereRaw('LOWER(JSON_EXTRACT(location, "$.city")) LIKE ?', ['%' . strtolower($term) . '%'])
-              ->orWhereRaw('LOWER(JSON_EXTRACT(location, "$.state")) LIKE ?', ['%' . strtolower($term) . '%'])
-              ->orWhereRaw('LOWER(JSON_EXTRACT(location, "$.country")) LIKE ?', ['%' . strtolower($term) . '%'])
-              ->orWhereRaw('LOWER(JSON_EXTRACT(location, "$.name")) LIKE ?', ['%' . strtolower($term) . '%'])
-              ->orWhereRaw('LOWER(JSON_EXTRACT(location, "$.display")) LIKE ?', ['%' . strtolower($term) . '%']);
+            $term = strtolower($term);
+            
+            // For MySQL
+            $q->whereRaw('LOWER(JSON_UNQUOTE(JSON_EXTRACT(location, "$.city"))) LIKE ?', ['%' . $term . '%'])
+              ->orWhereRaw('LOWER(JSON_UNQUOTE(JSON_EXTRACT(location, "$.state"))) LIKE ?', ['%' . $term . '%'])
+              ->orWhereRaw('LOWER(JSON_UNQUOTE(JSON_EXTRACT(location, "$.country"))) LIKE ?', ['%' . $term . '%'])
+              ->orWhereRaw('LOWER(JSON_UNQUOTE(JSON_EXTRACT(location, "$.display"))) LIKE ?', ['%' . $term . '%'])
+              ->orWhereRaw('LOWER(JSON_UNQUOTE(JSON_EXTRACT(location, "$.formatted_address"))) LIKE ?', ['%' . $term . '%'])
+              ->orWhereRaw('LOWER(JSON_UNQUOTE(JSON_EXTRACT(location, "$.name"))) LIKE ?', ['%' . $term . '%']);
         });
     }
+    
 }

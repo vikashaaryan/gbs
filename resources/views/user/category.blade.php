@@ -51,7 +51,7 @@ GBS, section, features, services
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 md:gap-14">
 
                 <!-- News Feed -->
-                <a href="{{ route('user') }}"
+                <a href="{{ route('user') }}#newsfeed"
                    class="group bg-white rounded-2xl shadow hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden flex flex-col items-center text-center p-10 md:p-12">
                     <div class="w-24 h-24 md:w-28 md:h-28 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center mb-6 shadow-lg group-hover:scale-105 transition-transform duration-300">
                         <i class="fas fa-newspaper text-white text-5xl md:text-6xl"></i>
@@ -61,7 +61,7 @@ GBS, section, features, services
                 </a>
 
                 <!-- Resources -->
-                <a href="{{ route('user') }}"
+                <a href="{{ route('user') }}#resources"
                    class="group bg-white rounded-2xl shadow hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden flex flex-col items-center text-center p-10 md:p-12">
                     <div class="w-24 h-24 md:w-28 md:h-28 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center mb-6 shadow-lg group-hover:scale-105 transition-transform duration-300">
                         <i class="fas fa-folder-open text-white text-5xl md:text-6xl"></i>
@@ -71,7 +71,7 @@ GBS, section, features, services
                 </a>
 
                 <!-- Directory -->
-                <a href="{{ route('user') }}"
+                <a href="{{ route('user') }}#directory"
                    class="group bg-white rounded-2xl shadow hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden flex flex-col items-center text-center p-10 md:p-12">
                     <div class="w-24 h-24 md:w-28 md:h-28 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center mb-6 shadow-lg group-hover:scale-105 transition-transform duration-300">
                         <i class="fas fa-address-book text-white text-5xl md:text-6xl"></i>
@@ -81,7 +81,7 @@ GBS, section, features, services
                 </a>
 
                 <!-- My Profile -->
-                <a href="{{ route('user') }}"
+                <a href="{{ route('user') }}#profile"
                    class="group bg-white rounded-2xl shadow hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden flex flex-col items-center text-center p-10 md:p-12">
                     <div class="w-24 h-24 md:w-28 md:h-28 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center mb-6 shadow-lg group-hover:scale-105 transition-transform duration-300">
                         <i class="fas fa-id-card text-white text-5xl md:text-6xl"></i>

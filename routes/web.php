@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\Auth;
 
 // Home and auth routes
 Route::get('/', [HomeController::class, 'home'])->name('home');
+// Add this route for location search API
+Route::get('/search-locations', [App\Http\Controllers\user\HomeController::class, 'searchLocations'])->name('search.locations');
+// In web.php
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
  Route::post('/login', [LoginController::class, 'login'])->name('login.post');
