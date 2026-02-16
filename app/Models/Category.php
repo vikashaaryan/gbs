@@ -21,10 +21,17 @@ class Category extends Model
         'updated_at' => 'datetime'
     ];
 
-    // Relationship with Subcategory (if you have)
-   
+    /**
+     * Get the resources for this category
+     */
+    public function resources()
+    {
+        return $this->hasMany(Resource::class);
+    }
 
-    // Scope for active categories
+    /**
+     * Scope for active categories
+     */
     public function scopeActive($query)
     {
         return $query->where('status', true);
