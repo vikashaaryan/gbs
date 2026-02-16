@@ -76,7 +76,6 @@
                                 @error('title')
                                     <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
-                                <p class="mt-1 text-xs text-gray-500">Choose a clear, descriptive title for your resource</p>
                             </div>
 
                             <div>
@@ -90,7 +89,6 @@
                                               class="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200"
                                               placeholder="Provide a detailed description of what this resource covers...">{{ old('description') }}</textarea>
                                 </div>
-                                <p class="mt-1 text-xs text-gray-500">Minimum 50 characters recommended for better SEO</p>
                             </div>
                         </div>
                     </div>
@@ -134,14 +132,13 @@
 
                             <div>
                                 <label for="sub_circle_id" class="block text-sm font-medium text-gray-700">
-                                    Sub Circle <span class="text-red-500">*</span>
+                                    Sub Circle
                                 </label>
                                 <div class="mt-1">
                                     <select name="sub_circle_id" 
                                             id="sub_circle_id" 
-                                            class="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200 @error('sub_circle_id') border-red-500 @enderror"
-                                            required>
-                                        <option value="">Select a sub circle</option>
+                                            class="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200">
+                                        <option value="">Select a sub circle (optional)</option>
                                         @foreach($subCircles as $subCircle)
                                             <option value="{{ $subCircle->id }}" 
                                                     data-circle="{{ $subCircle->circle_id }}"
@@ -152,6 +149,28 @@
                                     </select>
                                 </div>
                                 @error('sub_circle_id')
+                                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div class="md:col-span-2">
+                                <label for="category_id" class="block text-sm font-medium text-gray-700">
+                                    Resource Category <span class="text-red-500">*</span>
+                                </label>
+                                <div class="mt-1">
+                                    <select name="category_id" 
+                                            id="category_id" 
+                                            class="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200 @error('category_id') border-red-500 @enderror"
+                                            required>
+                                        <option value="">Select a category</option>
+                                        @foreach($categories as $category)
+                                            <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                                {{ $category->title }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @error('category_id')
                                     <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
                             </div>
@@ -196,7 +215,17 @@
                                 @enderror
                             </div>
 
-                            <div id="dynamicFields"></div>
+                            <div>
+                                <label for="file_size" class="block text-sm font-medium text-gray-700">
+                                    File Size
+                                </label>
+                                <input type="text" 
+                                       name="file_size" 
+                                       id="file_size" 
+                                       value="{{ old('file_size') }}"
+                                       class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                       placeholder="e.g., 10 MB">
+                            </div>
                         </div>
 
                         <!-- File Upload Area -->
@@ -214,7 +243,7 @@
                                         <p class="pl-1">or drag and drop</p>
                                     </div>
                                     <p class="text-xs text-gray-500 mt-2">
-                                        Max file size: 100MB. Supported formats: PDF, MP4, MP3, JPG, PNG, DOC, DOCX
+                                        Max file size: 100MB
                                     </p>
                                 </div>
                             </div>
@@ -241,7 +270,6 @@
                                        class="block w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200"
                                        placeholder="https://example.com/resource">
                             </div>
-                            <p class="mt-1 text-xs text-gray-500">Provide an external link if you're not uploading a file</p>
                         </div>
 
                         <!-- Thumbnail Upload -->
@@ -260,7 +288,7 @@
                                     <input type="file" name="thumbnail" id="thumbnail" class="sr-only" accept="image/*">
                                 </label>
                             </div>
-                            <p class="mt-2 text-xs text-gray-500">Recommended size: 300x300px. Max size: 5MB</p>
+                            <p class="mt-2 text-xs text-gray-500">Max size: 5MB</p>
                         </div>
                     </div>
                 </div>
@@ -268,48 +296,17 @@
                 <!-- Metadata Information Card -->
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                     <div class="px-6 py-4 bg-gradient-to-r from-amber-50 to-orange-50 border-b border-gray-200">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0">
-                                    <svg class="h-5 w-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linecap="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
-                                    </svg>
-                                </div>
-                                <h2 class="ml-3 text-lg font-semibold text-gray-900">Resource Metadata</h2>
-                            </div>
-                            <button type="button" id="toggleMetadata" class="text-gray-400 hover:text-gray-600">
-                                <svg class="h-5 w-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linecap="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <svg class="h-5 w-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linecap="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
                                 </svg>
-                            </button>
+                            </div>
+                            <h2 class="ml-3 text-lg font-semibold text-gray-900">Resource Metadata</h2>
                         </div>
                     </div>
-                    <div id="metadataSection" class="p-6">
+                    <div class="p-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label for="author" class="block text-sm font-medium text-gray-700">
-                                    Author/Creator
-                                </label>
-                                <input type="text" 
-                                       name="author" 
-                                       id="author" 
-                                       value="{{ old('author') }}"
-                                       class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200"
-                                       placeholder="e.g., John Doe">
-                            </div>
-
-                            <div>
-                                <label for="publisher" class="block text-sm font-medium text-gray-700">
-                                    Publisher
-                                </label>
-                                <input type="text" 
-                                       name="publisher" 
-                                       id="publisher" 
-                                       value="{{ old('publisher') }}"
-                                       class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200"
-                                       placeholder="e.g., Tech Publications">
-                            </div>
-
                             <div>
                                 <label for="published_date" class="block text-sm font-medium text-gray-700">
                                     Published Date
@@ -341,45 +338,41 @@
                 </div>
             </div>
 
-            <!-- Right Column - Sidebar (1/3 width) -->
+            <!-- Right Column - Sidebar (1/3 width) - Removed extra fields -->
             <div class="space-y-6">
-                
-
-                <!-- Additional Fields Card -->
+                <!-- Helper Card -->
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                     <div class="px-6 py-4 bg-gradient-to-r from-blue-50 to-cyan-50 border-b border-gray-200">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
                                 <svg class="h-5 w-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linecap="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/>
+                                    <path stroke-linecap="round" stroke-linecap="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
                             </div>
-                            <h2 class="ml-3 text-lg font-semibold text-gray-900">Additional Details</h2>
+                            <h2 class="ml-3 text-lg font-semibold text-gray-900">Tips</h2>
                         </div>
                     </div>
-                    <div class="p-6 space-y-4">
-                        <div>
-                            <label for="total_files" class="block text-sm font-medium text-gray-700">
-                                Total Files
-                            </label>
-                            <input type="number" 
-                                   name="total_files" 
-                                   id="total_files" 
-                                   value="{{ old('total_files') }}"
-                                   class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200"
-                                   placeholder="e.g., 5">
-                        </div>
-                        <div>
-                            <label for="categories_count" class="block text-sm font-medium text-gray-700">
-                                Categories Count
-                            </label>
-                            <input type="number" 
-                                   name="categories_count" 
-                                   id="categories_count" 
-                                   value="{{ old('categories_count') }}"
-                                   class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200"
-                                   placeholder="e.g., 3">
-                        </div>
+                    <div class="p-6">
+                        <ul class="space-y-3 text-sm text-gray-600">
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linecap="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <span>Choose a descriptive title</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linecap="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <span>Add a thumbnail for better visibility</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linecap="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <span>Select the correct category</span>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -422,10 +415,11 @@
         
         function filterSubCircles() {
             const selectedCircle = circleSelect.value;
-            subCircleSelect.innerHTML = '<option value="">Select a sub circle</option>';
+            subCircleSelect.innerHTML = '<option value="">Select a sub circle (optional)</option>';
             
             allSubCircles.forEach(option => {
-                if (option.dataset.circle === selectedCircle || !option.value) {
+                if (option.value === '') return;
+                if (option.dataset.circle === selectedCircle) {
                     subCircleSelect.appendChild(option.cloneNode(true));
                 }
             });
@@ -439,152 +433,6 @@
                 if (subCircleSelect) {
                     subCircleSelect.value = '{{ old('sub_circle_id') }}';
                 }
-            }
-        }
-
-        // Dynamic Specifications Fields
-        const typeSelect = document.getElementById('type');
-        const specificationFields = document.getElementById('specificationFields');
-        const dynamicFields = document.getElementById('dynamicFields');
-        
-        function updateSpecificationFields(type) {
-            let html = '';
-            
-            switch(type) {
-                case 'audio':
-                    html = `
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">Duration (minutes)</label>
-                                <input type="number" name="duration" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="e.g., 30">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">Bit Rate</label>
-                                <input type="text" name="bitrate" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="e.g., 320kbps">
-                            </div>
-                        </div>
-                    `;
-                    break;
-                    
-                case 'video':
-                    html = `
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">Duration (minutes)</label>
-                                <input type="number" name="duration" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="e.g., 120">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">Resolution</label>
-                                <select name="resolution" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
-                                    <option value="">Select Resolution</option>
-                                    <option value="720p">720p HD</option>
-                                    <option value="1080p">1080p Full HD</option>
-                                    <option value="4k">4K Ultra HD</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">Episodes</label>
-                                <input type="number" name="episodes" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="Number of episodes">
-                            </div>
-                        </div>
-                    `;
-                    break;
-                    
-                case 'pdf':
-                    html = `
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">Pages</label>
-                                <input type="number" name="pages" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="Number of pages">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">Chapters</label>
-                                <input type="number" name="chapters" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="Number of chapters">
-                            </div>
-                        </div>
-                    `;
-                    break;
-                    
-                case 'image':
-                    html = `
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">Resolution</label>
-                                <input type="text" name="resolution" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="e.g., 1920x1080">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">Color Mode</label>
-                                <select name="color_mode" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
-                                    <option value="">Select Mode</option>
-                                    <option value="rgb">RGB</option>
-                                    <option value="cmyk">CMYK</option>
-                                    <option value="grayscale">Grayscale</option>
-                                </select>
-                            </div>
-                        </div>
-                    `;
-                    break;
-                    
-                case 'document':
-                    html = `
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">Pages</label>
-                                <input type="number" name="pages" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="Number of pages">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">Format</label>
-                                <select name="doc_format" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
-                                    <option value="">Select Format</option>
-                                    <option value="doc">DOC</option>
-                                    <option value="docx">DOCX</option>
-                                    <option value="txt">TXT</option>
-                                    <option value="rtf">RTF</option>
-                                </select>
-                            </div>
-                        </div>
-                    `;
-                    break;
-                    
-                default:
-                    html = `
-                        <div class="text-center py-8">
-                            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linecap="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                            </svg>
-                            <p class="mt-2 text-sm text-gray-500">No specific specifications required</p>
-                        </div>
-                    `;
-            }
-            
-            specificationFields.innerHTML = html;
-        }
-        
-        function updateDynamicFields(type) {
-            let html = '';
-            
-            if (type === 'audio' || type === 'video') {
-                html = `
-                    <div>
-                        <label for="file_size" class="block text-sm font-medium text-gray-700">File Size</label>
-                        <input type="text" name="file_size" id="file_size" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="e.g., 50 MB">
-                    </div>
-                `;
-            }
-            
-            dynamicFields.innerHTML = html;
-        }
-        
-        if (typeSelect) {
-            typeSelect.addEventListener('change', function() {
-                updateSpecificationFields(this.value);
-                updateDynamicFields(this.value);
-            });
-            
-            // Trigger on page load if type is pre-selected
-            if (typeSelect.value) {
-                updateSpecificationFields(typeSelect.value);
-                updateDynamicFields(typeSelect.value);
             }
         }
 
@@ -656,26 +504,6 @@
                         fileNameElement.innerHTML = `Selected: ${fileName}`;
                     }
                 }
-            });
-        }
-
-        // Toggle Metadata Section
-        const toggleBtn = document.getElementById('toggleMetadata');
-        const metadataSection = document.getElementById('metadataSection');
-
-        if (toggleBtn && metadataSection) {
-            let isMetadataVisible = true;
-            
-            toggleBtn.addEventListener('click', function() {
-                const svg = this.querySelector('svg');
-                if (isMetadataVisible) {
-                    metadataSection.style.display = 'none';
-                    svg.classList.add('rotate-180');
-                } else {
-                    metadataSection.style.display = 'block';
-                    svg.classList.remove('rotate-180');
-                }
-                isMetadataVisible = !isMetadataVisible;
             });
         }
     });

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\CircleController;
 use App\Http\Controllers\admin\ManageUser;
 use App\Http\Controllers\admin\ResourceController;
@@ -72,7 +73,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/sub-circles', [SubCircleController::class, 'store'])->name('sub-circles.store');
     Route::put('/sub-circles/{subCircle}', [SubCircleController::class, 'update'])->name('sub-circles.update');
     Route::delete('/sub-circles/{subCircle}', [SubCircleController::class, 'destroy'])->name('sub-circles.destroy');
-
+    
+  Route::get('/manage-category', [CategoryController::class, 'category'])->name('manage-categories');
+Route::post('/manage-category', [CategoryController::class, 'store'])->name('categories.store');
+Route::put('/manage-category/{id}', [CategoryController::class, 'update'])->name('categories.update');
+Route::delete('/manage-category/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 
 
       Route::get('/manage-resources', [ResourceController::class, 'manageResources'])->name('manage-resources');

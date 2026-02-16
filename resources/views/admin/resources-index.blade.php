@@ -54,7 +54,7 @@
         </div>
     </div>
 
-    <!-- Simple Filters Card -->
+    <!-- Filters Card -->
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 mb-8 overflow-hidden">
         <div class="px-6 py-4 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
             <div class="flex items-center justify-between">
@@ -80,7 +80,7 @@
                                    id="search" 
                                    value="{{ request('search') }}"
                                    class="flex-1 rounded-l-lg border border-gray-300 px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500"
-                                   placeholder="Search by title, author, description...">
+                                   placeholder="Search by title or description...">
                             <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-r-lg hover:bg-indigo-700">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linecap="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
@@ -117,6 +117,19 @@
                         </select>
                     </div>
 
+                    <!-- Category Filter -->
+                    <div>
+                        <label for="category_filter" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                        <select name="category_id" id="category_filter" class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500">
+                            <option value="">All Categories</option>
+                            @foreach($categories ?? [] as $category)
+                                <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
+                                    {{ $category->title }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     <!-- Type Filter -->
                     <div>
                         <label for="type_filter" class="block text-sm font-medium text-gray-700 mb-1">Resource Type</label>
@@ -128,19 +141,6 @@
                             <option value="image" {{ request('type') == 'image' ? 'selected' : '' }}>Image</option>
                             <option value="document" {{ request('type') == 'document' ? 'selected' : '' }}>Document</option>
                             <option value="other" {{ request('type') == 'other' ? 'selected' : '' }}>Other</option>
-                        </select>
-                    </div>
-
-                    <!-- User Filter -->
-                    <div>
-                        <label for="user_filter" class="block text-sm font-medium text-gray-700 mb-1">Created By</label>
-                        <select name="user_id" id="user_filter" class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500">
-                            <option value="">All Users</option>
-                            @foreach($users ?? [] as $user)
-                                <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>
-                                    {{ $user->full_name }}
-                                </option>
-                            @endforeach
                         </select>
                     </div>
 
@@ -222,9 +222,11 @@
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Thumbnail</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Circle</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sub Circle</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created By</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Language</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                         </tr>
@@ -244,25 +246,28 @@
                                     </div>
                                 @else
                                     <div class="h-10 w-10 rounded-lg bg-gray-100 flex items-center justify-center">
-                                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linecap="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                        </svg>
+                                        <span class="text-lg">{{ $resource->type_icon }}</span>
                                     </div>
                                 @endif
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex flex-col">
-                                    <span class="text-sm font-medium text-gray-900">{{ Str::limit($resource->title, 50) }}</span>
-                                    @if($resource->author)
-                                        <span class="text-xs text-gray-500">By: {{ $resource->author }}</span>
+                                    <span class="text-sm font-medium text-gray-900">{{ Str::limit($resource->title, 40) }}</span>
+                                    @if($resource->description)
+                                        <span class="text-xs text-gray-500">{{ Str::limit($resource->description, 30) }}</span>
                                     @endif
                                 </div>
                             </td>
-                            <td class="px-6 py-4">
-                                <div class="flex flex-col">
-                                    <span class="text-xs text-gray-900">{{ $resource->circle->title ?? 'N/A' }}</span>
-                                    <span class="text-xs text-gray-500">{{ $resource->subCircle->subcircle ?? '' }}</span>
-                                </div>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="text-sm text-gray-900">{{ $resource->circle->title ?? 'N/A' }}</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="text-sm text-gray-500">{{ $resource->subCircle->subcircle ?? '—' }}</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 py-1 text-xs font-medium rounded-full bg-indigo-100 text-indigo-800">
+                                    {{ $resource->category->title ?? 'N/A' }}
+                                </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="px-2 py-1 text-xs font-medium rounded-full
@@ -277,7 +282,7 @@
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm text-gray-900">{{ $resource->user->full_name ?? 'Unknown' }}</span>
+                                <span class="text-sm text-gray-500">{{ $resource->language }}</span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {{ $resource->created_at->format('M d, Y') }}
@@ -311,7 +316,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="8" class="px-6 py-12 text-center">
+                            <td colspan="10" class="px-6 py-12 text-center">
                                 <div class="flex flex-col items-center justify-center">
                                     <div class="p-4 bg-gray-100 rounded-full mb-4">
                                         <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
