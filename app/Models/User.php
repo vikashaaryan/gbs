@@ -70,4 +70,19 @@ class User extends Authenticatable
     {
         return $this->belongsTo(SubCircle::class);
     }
+    // app/Models/User.php
+
+public function getInterestsArrayAttribute()
+{
+    if (empty($this->interests)) {
+        return [];
+    }
+    
+    // Decode JSON if it's a string
+    $interests = is_string($this->interests) 
+        ? json_decode($this->interests, true) 
+        : $this->interests;
+    
+    return is_array($interests) ? $interests : [];
+}
 }

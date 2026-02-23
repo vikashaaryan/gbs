@@ -56,15 +56,8 @@
                                 <div class="text-sm">
                                     <div class="font-medium">{{ $circle->location['city'] ?? 'N/A' }}</div>
                                     <div class="text-xs text-gray-500">
-                                        {{ $circle->location['state'] ?? '' }} {{ $circle->location['country'] ?? '' }}
+                                        {{ $circle->location['state'] ?? '' }}, {{ $circle->location['country'] ?? '' }}
                                     </div>
-                                    @if(isset($circle->location['latitude']))
-                                        <div class="text-xs text-gray-400">
-                                            <i class="fas fa-map-marker-alt"></i> 
-                                            {{ number_format($circle->location['latitude'], 4) }}, 
-                                            {{ number_format($circle->location['longitude'], 4) }}
-                                        </div>
-                                    @endif
                                 </div>
                             @else
                                 <span class="text-gray-400">No location</span>
@@ -97,7 +90,7 @@
         </table>
     </div>
 
-    <!-- Simple Modal with just Search -->
+    <!-- Circle Modal with Country-State-District Selection -->
     <div id="circleModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
         <div class="min-h-screen flex items-center justify-center p-4">
             <div class="bg-white rounded-lg shadow-lg max-w-md w-full">
@@ -110,35 +103,33 @@
                         <input type="hidden" id="circleId" name="id">
                         <input type="hidden" id="location_data" name="location_data">
                         
-                        <!-- Simple Form -->
+                        <!-- Location Selection - Country, State, District -->
                         <div class="space-y-4">
-                                <!-- Simple Location Search -->
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Search Location</label>
-                                <div class="relative">
-                                    <input type="text" id="location_search" 
-                                           class="w-full px-3 py-2 border border-gray-300 rounded-lg pl-10"
-                                           placeholder="Type city name (e.g., Hyderabad)"
-                                           autocomplete="off">
-                                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                                    
-                                    <!-- Location Results Dropdown -->
-                                    <div id="location_results" class="absolute z-20 w-full bg-white border border-gray-300 rounded-lg mt-1 max-h-60 overflow-y-auto hidden shadow-lg"></div>
-                                </div>
-                                
-                                <!-- Selected Location Display -->
-                                <div id="selected_location" class="mt-2 p-2 bg-blue-50 rounded-lg hidden">
-                                    <div class="flex justify-between items-center">
-                                        <div>
-                                            <span class="text-sm font-medium text-blue-800" id="selected_location_name"></span>
-                                            <p class="text-xs text-blue-600" id="selected_location_details"></p>
-                                        </div>
-                                        <button type="button" onclick="clearSelectedLocation()" class="text-blue-500 hover:text-blue-700">
-                                            <i class="fas fa-times"></i>
-                                        </button>
-                                    </div>
-                                </div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Country *</label>
+                                <select id="country" name="country" required
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                    <option value="">Select Country</option>
+                                </select>
                             </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">State *</label>
+                                <select id="state" name="state" required disabled
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                    <option value="">First select a country</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">District/City *</label>
+                                <select id="district" name="district" required disabled
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                    <option value="">First select a state</option>
+                                </select>
+                            </div>
+
+                            <!-- Circle Details -->
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Circle Title *</label>
                                 <input type="text" id="title" name="title" required
@@ -146,14 +137,12 @@
                                        placeholder="Enter circle title">
                             </div>
                             
-                        
-                            
-                            <!-- Optional Fields -->
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Icon (Optional)</label>
                                 <input type="text" id="icon" name="icon"
                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg"
                                        placeholder="fas fa-circle">
+                                <p class="text-xs text-gray-500 mt-1">Font Awesome icon class</p>
                             </div>
                             
                             <div>
@@ -208,120 +197,146 @@
 
 @push('scripts')
 <script>
-    let searchTimeout;
-    const searchInput = document.getElementById('location_search');
-    const resultsDiv = document.getElementById('location_results');
-    const selectedLocationDiv = document.getElementById('selected_location');
+    // DOM Elements
+    const countrySelect = document.getElementById('country');
+    const stateSelect = document.getElementById('state');
+    const districtSelect = document.getElementById('district');
     const locationDataInput = document.getElementById('location_data');
-    let selectedLocation = null;
 
-    // Add loader HTML
-    const loaderHTML = `
-        <div class="px-4 py-3 text-gray-500 flex items-center justify-center">
-            <svg class="animate-spin h-5 w-5 text-blue-600 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            Searching locations...
-        </div>
-    `;
+    // Store locations data
+    let countriesData = [];
+    let statesData = [];
 
-    // Location Search
-    if (searchInput) {
-        searchInput.addEventListener('input', function() {
-            clearTimeout(searchTimeout);
-            const query = this.value.trim();
+    // Load all countries on page load
+    async function loadCountries() {
+        try {
+            const res = await fetch("https://countriesnow.space/api/v0.1/countries/positions");
+            const result = await res.json();
+
+            countriesData = result.data;
             
-            if (query.length < 2) {
-                resultsDiv.classList.add('hidden');
-                return;
+            countrySelect.innerHTML = `<option value="">Select Country</option>`;
+            countriesData.forEach(item => {
+                countrySelect.innerHTML += `<option value="${item.name}">${item.name}</option>`;
+            });
+
+            // Default select India
+            countrySelect.value = "India";
+            if (countrySelect.value) {
+                await loadStates("India");
             }
-            
-            // Show loader
-            resultsDiv.innerHTML = loaderHTML;
-            resultsDiv.classList.remove('hidden');
-            
-            searchTimeout = setTimeout(() => {
-                fetch(`/admin/circles/search-locations?q=${encodeURIComponent(query)}`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(locations => {
-                        if (locations.length > 0) {
-                            resultsDiv.innerHTML = locations.map(loc => `
-                                <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer border-b last:border-b-0 transition"
-                                     onclick="selectLocation(${JSON.stringify(loc).replace(/"/g, '&quot;')})">
-                                    <div class="font-medium text-gray-800">${loc.name.split(',')[0]}</div>
-                                    <div class="text-sm text-gray-500">${loc.display || loc.name}</div>
-                                </div>
-                            `).join('');
-                        } else {
-                            resultsDiv.innerHTML = `
-                                <div class="px-4 py-6 text-gray-500 text-center">
-                                    <i class="fas fa-map-marker-alt text-gray-300 text-2xl mb-2"></i>
-                                    <div>No locations found for "${query}"</div>
-                                    <div class="text-xs mt-1">Try a different search term</div>
-                                </div>
-                            `;
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        resultsDiv.innerHTML = `
-                            <div class="px-4 py-6 text-red-500 text-center">
-                                <i class="fas fa-exclamation-triangle text-red-300 text-2xl mb-2"></i>
-                                <div>Failed to fetch locations</div>
-                                <div class="text-xs mt-1">Please try again</div>
-                            </div>
-                        `;
-                    });
-            }, 500); // थोड़ा delay ताकि loader दिखे
-        });
+        } catch (error) {
+            console.error('Error loading countries:', error);
+            countrySelect.innerHTML = `<option value="">Error loading countries</option>`;
+        }
     }
 
-    // Select Location
-    window.selectLocation = function(location) {
-        selectedLocation = location;
-        
-        // Show selected location with animation
-        document.getElementById('selected_location_name').textContent = location.city || location.name.split(',')[0];
-        document.getElementById('selected_location_details').textContent = location.display || location.name;
-        selectedLocationDiv.classList.remove('hidden');
-        selectedLocationDiv.classList.add('animate-pulse');
-        setTimeout(() => {
-            selectedLocationDiv.classList.remove('animate-pulse');
-        }, 500);
-        
-        // Store location data in hidden input
-        locationDataInput.value = JSON.stringify({
-            name: location.name,
-            city: location.city,
-            state: location.state,
-            country: location.country,
-            pincode: location.pincode,
-            latitude: location.latitude,
-            longitude: location.longitude,
-            display: location.display
-        });
-        
-        // Clear and hide results
-        searchInput.value = location.city || location.name.split(',')[0];
-        resultsDiv.classList.add('hidden');
-    };
+    // Load states of selected country
+    async function loadStates(country) {
+        try {
+            stateSelect.disabled = true;
+            stateSelect.innerHTML = `<option value="">Loading states...</option>`;
+            districtSelect.disabled = true;
+            districtSelect.innerHTML = `<option value="">First select a state</option>`;
+            
+            const res = await fetch("https://countriesnow.space/api/v0.1/countries/states", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ country })
+            });
 
-    // Clear Selected Location
-    window.clearSelectedLocation = function() {
-        selectedLocation = null;
-        selectedLocationDiv.classList.add('hidden');
-        searchInput.value = '';
-        locationDataInput.value = '';
-        searchInput.focus(); // फोकस वापस search box पर
-    };
+            const result = await res.json();
 
-    // Open Modal
+            stateSelect.innerHTML = `<option value="">Select State</option>`;
+            
+            if (result.data && result.data.states && result.data.states.length > 0) {
+                statesData = result.data.states;
+                statesData.forEach(state => {
+                    stateSelect.innerHTML += `<option value="${state.name}">${state.name}</option>`;
+                });
+                stateSelect.disabled = false;
+            } else {
+                stateSelect.innerHTML = `<option value="">No states available</option>`;
+            }
+        } catch (error) {
+            console.error('Error loading states:', error);
+            stateSelect.innerHTML = `<option value="">Error loading states</option>`;
+        }
+    }
+
+    // Load districts/cities of selected state
+    async function loadDistricts(country, state) {
+        try {
+            districtSelect.disabled = true;
+            districtSelect.innerHTML = `<option value="">Loading districts...</option>`;
+            
+            const res = await fetch("https://countriesnow.space/api/v0.1/countries/state/cities", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ country, state })
+            });
+
+            const result = await res.json();
+
+            districtSelect.innerHTML = `<option value="">Select District</option>`;
+
+            if (result.data && result.data.length > 0) {
+                result.data.forEach(city => {
+                    districtSelect.innerHTML += `<option value="${city}">${city}</option>`;
+                });
+                districtSelect.disabled = false;
+            } else {
+                districtSelect.innerHTML = `<option value="">No districts available</option>`;
+            }
+        } catch (error) {
+            console.error('Error loading districts:', error);
+            districtSelect.innerHTML = `<option value="">Error loading districts</option>`;
+        }
+    }
+
+    // Update location data when all selections are made
+    function updateLocationData() {
+        if (countrySelect.value && stateSelect.value && districtSelect.value) {
+            const locationData = {
+                country: countrySelect.value,
+                state: stateSelect.value,
+                city: districtSelect.value,
+                formatted_address: `${districtSelect.value}, ${stateSelect.value}, ${countrySelect.value}`,
+                display: `${districtSelect.value}, ${stateSelect.value}, ${countrySelect.value}`
+            };
+            
+            locationDataInput.value = JSON.stringify(locationData);
+        }
+    }
+
+    // Event Listeners
+    countrySelect.addEventListener('change', async function() {
+        if (this.value) {
+            await loadStates(this.value);
+            districtSelect.innerHTML = `<option value="">First select a state</option>`;
+            districtSelect.disabled = true;
+        } else {
+            stateSelect.innerHTML = `<option value="">First select a country</option>`;
+            stateSelect.disabled = true;
+            districtSelect.innerHTML = `<option value="">First select a state</option>`;
+            districtSelect.disabled = true;
+        }
+        updateLocationData();
+    });
+
+    stateSelect.addEventListener('change', async function() {
+        if (countrySelect.value && this.value) {
+            await loadDistricts(countrySelect.value, this.value);
+        } else {
+            districtSelect.innerHTML = `<option value="">First select a state</option>`;
+            districtSelect.disabled = true;
+        }
+        updateLocationData();
+    });
+
+    districtSelect.addEventListener('change', updateLocationData);
+
+    // Modal Functions
     window.openCircleModal = function(id = null, title = '', icon = '', description = '', status = true, location = null) {
         const modal = document.getElementById('circleModal');
         const modalTitle = document.getElementById('modalTitle');
@@ -329,9 +344,48 @@
         
         // Reset form
         form.reset();
-        clearSelectedLocation();
         document.getElementById('circleId').value = '';
         document.getElementById('formMethod').value = 'POST';
+        
+        // Reset location dropdowns
+        countrySelect.innerHTML = '<option value="">Select Country</option>';
+        stateSelect.innerHTML = '<option value="">First select a country</option>';
+        districtSelect.innerHTML = '<option value="">First select a state</option>';
+        stateSelect.disabled = true;
+        districtSelect.disabled = true;
+        
+        // Load countries
+        loadCountries().then(() => {
+            // If editing and location exists, set the values
+            if (id && location) {
+                // Small delay to ensure countries are loaded
+                setTimeout(() => {
+                    if (location.country) {
+                        countrySelect.value = location.country;
+                        
+                        // Load states for the country
+                        loadStates(location.country).then(() => {
+                            if (location.state) {
+                                // Small delay for states to load
+                                setTimeout(() => {
+                                    stateSelect.value = location.state;
+                                    
+                                    // Load districts for the state
+                                    loadDistricts(location.country, location.state).then(() => {
+                                        if (location.city) {
+                                            setTimeout(() => {
+                                                districtSelect.value = location.city;
+                                                updateLocationData();
+                                            }, 500);
+                                        }
+                                    });
+                                }, 500);
+                            }
+                        });
+                    }
+                }, 1000);
+            }
+        });
         
         if (id) {
             modalTitle.textContent = 'Edit Circle';
@@ -341,23 +395,6 @@
             document.getElementById('description').value = description || '';
             document.getElementById('status').checked = status;
             
-            // Load location if exists
-            if (location) {
-                // Small delay to ensure modal is rendered
-                setTimeout(() => {
-                    selectLocation({
-                        city: location.city,
-                        state: location.state,
-                        country: location.country,
-                        pincode: location.pincode,
-                        latitude: location.latitude,
-                        longitude: location.longitude,
-                        name: location.formatted_address || location.city || 'Unknown location',
-                        display: location.display || `${location.city || ''} ${location.state || ''} ${location.country || ''}`.trim()
-                    });
-                }, 100);
-            }
-            
             form.action = `/admin/circles/${id}`;
             document.getElementById('formMethod').value = 'PUT';
         } else {
@@ -366,15 +403,10 @@
         }
         
         modal.classList.remove('hidden');
-        // Focus on search input when modal opens
-        setTimeout(() => {
-            searchInput?.focus();
-        }, 200);
     };
 
     window.closeCircleModal = function() {
         document.getElementById('circleModal').classList.add('hidden');
-        resultsDiv.classList.add('hidden');
     };
 
     window.deleteCircle = function(id, title) {
@@ -387,13 +419,6 @@
         document.getElementById('deleteModal').classList.add('hidden');
     };
 
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!searchInput?.contains(e.target) && !resultsDiv?.contains(e.target)) {
-            resultsDiv?.classList.add('hidden');
-        }
-    });
-
     // Close modals on escape key
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
@@ -402,13 +427,9 @@
         }
     });
 
-    // Handle enter key in search input
-    if (searchInput) {
-        searchInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault(); // Prevent form submission
-            }
-        });
-    }
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        loadCountries();
+    });
 </script>
 @endpush

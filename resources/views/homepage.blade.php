@@ -19,7 +19,7 @@ GBS, homepage, services, business solutions
     <section class="max-w-7xl mx-auto mb-16">
         <div class="text-center">
             <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
-                Welcome to <span class="text-blue-600">GBS </span>
+                Welcome to <span class="text-teal-600">GBS </span>
             </h1>
             <p class="text-xl text-gray-600 max-w-3xl mx-auto">
                 Connect with professionals across various industries. Find experts, resources, and build your network.
@@ -27,42 +27,56 @@ GBS, homepage, services, business solutions
         </div>
     </section>
 
-<!-- Location Search Results Message -->
-@if(isset($searchedLocation) && $searchedLocation)
+    <!-- Location Search Results Message -->
+    @if(isset($isFiltered) && $isFiltered)
     <div class="max-w-7xl mx-auto mb-8">
-        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-lg">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-blue-700 font-medium">
-                        <i class="fas fa-map-marker-alt mr-2"></i>
-                        Searching in: <span class="font-bold">{{ $searchedLocation }}</span>
-                    </p>
-                    @if(isset($locationExists) && !$locationExists)
-                        <p class="text-amber-600 mt-2">
-                            <i class="fas fa-exclamation-triangle mr-2"></i>
-                            No circles found in "{{ $searchedLocation }}" yet.
+        <div class="bg-teal-50 border-l-4 border-teal-500 p-4 rounded-lg shadow-sm">
+            <div class="flex items-center justify-between flex-wrap gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="bg-teal-100 p-2 rounded-full">
+                        <i class="fas fa-map-marker-alt text-teal-600"></i>
+                    </div>
+                    <div>
+                        <p class="text-teal-700 font-medium">
+                            <i class="fas fa-map-marker-alt mr-2"></i>
+                            Searching in: <span class="font-bold text-teal-800">"{{ $locationTerm }}"</span>
                         </p>
-                    @elseif(isset($locationExists) && $locationExists)
-                        <p class="text-green-600 mt-2">
-                            <i class="fas fa-check-circle mr-2"></i>
-                            Found {{ $circles->count() }} circle(s) in this location.
-                        </p>
-                    @endif
+                        @if(isset($locationExists) && !$locationExists)
+                            <p class="text-amber-600 mt-1">
+                                <i class="fas fa-exclamation-triangle mr-2"></i>
+                                No circles found in this location yet.
+                            </p>
+                        @elseif(isset($locationExists) && $locationExists)
+                            <p class="text-green-600 mt-1">
+                                <i class="fas fa-check-circle mr-2"></i>
+                                Found {{ $circles->count() }} {{ Str::plural('circle', $circles->count()) }} in this location.
+                            </p>
+                        @endif
+                    </div>
                 </div>
-                <a href="{{ route('home') }}" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times"></i> Clear filter
+                <a href="{{ route('home') }}" 
+                   class="flex items-center gap-2 px-4 py-2 bg-white text-gray-600 hover:text-gray-800 rounded-lg border border-gray-300 hover:border-gray-400 transition-all">
+                    <i class="fas fa-times"></i>
+                    Clear Filter
                 </a>
             </div>
         </div>
     </div>
-@endif
+    @endif
 
     <!-- Categories Grid -->
     <section class="max-w-7xl mx-auto mb-16">
-        <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Browse Circles</h2>
+        <div class="flex justify-center items-center mb-8">
+            <h2 class="text-3xl font-bold text-center text-gray-800">Browse Circles</h2>
+            @if(isset($isFiltered) && $isFiltered && $circles->count() > 0)
+                <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                    {{ $circles->count() }} {{ Str::plural('circle', $circles->count()) }} found
+                </span>
+            @endif
+        </div>
         
         <!-- Responsive Grid: 4 columns on laptop -->
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             @forelse($circles as $circle)
             @php
                 // Define icon and color for each circle
@@ -98,12 +112,23 @@ GBS, homepage, services, business solutions
                 
                 // Use circle color if available, otherwise use fallback
                 $displayColor = $circle->color ?? $fallbackColor;
+                
+                // Get location display
+                $locationDisplay = '';
+                if ($circle->location) {
+                    $loc = $circle->location;
+                    $parts = [];
+                    if (!empty($loc['city']) && $loc['city'] !== 'null') $parts[] = $loc['city'];
+                    if (!empty($loc['state']) && $loc['state'] !== 'null') $parts[] = $loc['state'];
+                    if (!empty($loc['country']) && $loc['country'] !== 'null') $parts[] = $loc['country'];
+                    $locationDisplay = implode(', ', $parts);
+                }
             @endphp
             
             <!-- Dynamic Category Card -->
-            <a href="{{ route('subcat')}}" class="category-card bg-white rounded-xl shadow-md p-6 text-center cursor-pointer hover:shadow-lg transition-shadow duration-300">
+            <a href="{{ route('subcat') }}" class="category-card bg-white rounded-xl shadow-md p-6 text-center cursor-pointer hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-teal-200 group">
                 <!-- Icon Container -->
-                <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" 
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300" 
                      style="background-color: {{ $circle->color ? $circle->color . '20' : '#EFF6FF' }}">
                     @if($circle->icon)
                         @if(str_contains($circle->icon, 'fa-'))
@@ -117,44 +142,59 @@ GBS, homepage, services, business solutions
                 </div>
                 
                 <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ $circle->title }}</h3>
-                <p class="text-gray-600 mb-4">{{ $circle->description ?? 'Professional network and resources' }}</p>
+                <p class="text-gray-600 text-sm mb-4">{{ $circle->description ?? 'Professional network and resources' }}</p>
                 
                 <!-- Show location if available -->
-                @if($circle->location)
-                    <div class="text-sm text-gray-500 mb-3">
-                        <i class="fas fa-map-marker-alt mr-1"></i>
-                        {{ $circle->full_address }}
+                @if($locationDisplay)
+                    <div class="text-sm text-gray-500 mb-3 bg-gray-50 py-2 px-3 rounded-lg border border-gray-100">
+                        <i class="fas fa-map-marker-alt mr-1 text-teal-500"></i>
+                        {{ $locationDisplay }}
                     </div>
+                    
                 @endif
                 
-                <div class="font-medium flex items-center justify-center gap-2" style="color: {{ $displayColor }}">
-                    <span>View Circles</span>
-                    <i class="fas fa-arrow-right text-sm"></i>
-                </div>
+              
             </a>
             @empty
             <!-- If no circles exist, show a message -->
-            <div class="col-span-1 lg:col-span-4 text-center py-12">
-                <div class="bg-gray-50 rounded-lg p-8 max-w-md mx-auto">
-                    <i class="fas fa-map-marked-alt text-gray-300 text-5xl mb-4"></i>
+            <div class="col-span-1 sm:col-span-2 lg:col-span-4 text-center py-12">
+                <div class="bg-gray-50 rounded-xl p-8 max-w-md mx-auto border border-gray-200">
+                    <div class="bg-gray-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-map-marked-alt text-gray-400 text-3xl"></i>
+                    </div>
                     <h3 class="text-xl font-semibold text-gray-700 mb-2">No Circles Found</h3>
-                    @if(isset($locationExists) && !$locationExists)
+                    @if(isset($isFiltered) && $isFiltered)
                         <p class="text-gray-500 mb-4">
-                            We couldn't find any circles in <span class="font-semibold">{{ $locationTerm }}</span>.
+                            We couldn't find any circles in <span class="font-semibold text-teal-600">"{{ $locationTerm }}"</span>.
                         </p>
-                        <p class="text-gray-400 text-sm">
-                            Try searching for a different location or 
-                            <a href="{{ route('home') }}" class="text-blue-500 hover:underline">view all circles</a>.
+                        <p class="text-gray-400 text-sm mb-6">
+                            Try searching for a different location or browse all circles.
                         </p>
+                        <a href="{{ route('home') }}" 
+                           class="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors">
+                            <i class="fas fa-times"></i>
+                            Clear Filter
+                        </a>
                     @else
-                        <p class="text-gray-500">No circles available at the moment.</p>
+                        <p class="text-gray-500 mb-4">No circles available at the moment.</p>
+                        <p class="text-gray-400 text-sm">Check back later for updates.</p>
                     @endif
                 </div>
             </div>
             @endforelse
         </div>
+        
+        <!-- Show "View All" button when filtered and results exist -->
+        @if(isset($isFiltered) && $isFiltered && $circles->count() > 0)
+        <div class="text-center mt-10">
+            <a href="{{ route('home') }}" 
+               class="inline-flex items-center gap-2 px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
+                <i class="fas fa-arrow-left"></i>
+                View All Circles
+            </a>
+        </div>
+        @endif
     </section>
     
 </main>
-
 @endsection

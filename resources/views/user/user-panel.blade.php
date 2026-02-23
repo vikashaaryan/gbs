@@ -38,24 +38,33 @@
     <div class="px-4 sm:px-6 md:mx-12 lg:px-12 py-6 mb-8">
         <!-- News Feed Tab - Facebook Style -->
         <div id="newsfeed" class="tab-content">
-    @include('user.partials.newsfeed-tab')
-          
+            @include('user.partials.newsfeed-tab')
+
         </div>
 
         <!-- Resources Tab - Enhanced -->
         <!-- Resources Tab - Enhanced with Circle/SubCircle Navigation -->
         <div id="resources" class="tab-content hidden">
-    @include('user.partials.resource-tab', ['circles' => $circles])
+            @include('user.partials.resource-tab', ['circles' => $circles])
         </div>
         <!-- Directory Tab - Enhanced -->
         <div id="directory" class="tab-content hidden">
-    @include('user.partials.directory-tab')
+            @include('user.partials.directory-tab', [
+                'users' => $users, // Changed from directoryUsers to users
+                'allUsers' => $allUsers, // Changed from filterData to allUsers
+                'circles' => $circles, // Changed from availableCircles to circles
+            ])
         </div>
 
         <!-- Profile Tab -->
-        <div id="profile" class="tab-content hidden">
-    @include('user.partials.profile-tab')
-        </div>
+        <!-- Profile Tab -->
+<div id="profile" class="tab-content hidden">
+    @include('user.partials.profile-tab', [
+        'user' => Auth::user(),
+        'postsCount' => App\Models\Post::where('user_id', Auth::id())->count(),
+        'circles' => $circles ?? []
+    ])
+</div>
     </div>
 
     <!-- Add this JavaScript section -->

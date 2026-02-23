@@ -14,6 +14,8 @@ class HomeController extends Controller
         $query = Circle::where('status', true);
         $isFiltered = false;
         $locationTerm = null;
+        $searchedLocation = null;
+        $locationExists = false;
         
         // Check if location search is applied
         if ($request->has('location') && !empty($request->location)) {
@@ -32,73 +34,93 @@ class HomeController extends Controller
             }
             
             if ($locationData && is_array($locationData)) {
-                // Extract search terms
-                $city = $locationData['city'] ?? null;
-                $state = $locationData['state'] ?? null;
-                $country = $locationData['country'] ?? null;
-                $name = $locationData['name'] ?? null;
-                $searchTerm = $locationData['search_term'] ?? $name ?? $city ?? $state ?? $country ?? $request->location;
-                
-                // Clean the search term
-                $searchTerm = trim($searchTerm);
+                // Extract search terms (only non-empty values)
+                $city = isset($locationData['city']) && $locationData['city'] !== 'null' && trim($locationData['city']) !== '' ? trim($locationData['city']) : null;
+                $state = isset($locationData['state']) && $locationData['state'] !== 'null' && trim($locationData['state']) !== '' ? trim($locationData['state']) : null;
+                $country = isset($locationData['country']) && $locationData['country'] !== 'null' && trim($locationData['country']) !== '' ? trim($locationData['country']) : null;
+                $name = isset($locationData['name']) && $locationData['name'] !== 'null' && trim($locationData['name']) !== '' ? trim($locationData['name']) : null;
+                $searchTerm = isset($locationData['search_term']) && $locationData['search_term'] !== 'null' && trim($locationData['search_term']) !== '' ? trim($locationData['search_term']) : null;
                 
                 // For debugging
                 Log::info('Searching for:', [
-                    'term' => $searchTerm,
                     'city' => $city,
                     'state' => $state,
-                    'country' => $country
+                    'country' => $country,
+                    'name' => $name,
+                    'search_term' => $searchTerm
                 ]);
                 
-                // Build search query - ONLY match if the term exists in location fields
-                $query->where(function($q) use ($city, $state, $country, $searchTerm) {
-                    $term = strtolower($searchTerm);
-                    
-                    // If we have specific fields from JSON, search in those fields only
-                    if ($city && $city !== 'null' && !empty($city)) {
+                // Build search query - match if the term exists in location fields
+                $query->where(function($q) use ($city, $state, $country, $name, $searchTerm) {
+                    // If we have specific fields from JSON, search in those fields
+                    if ($city) {
                         $q->whereRaw('LOWER(JSON_UNQUOTE(JSON_EXTRACT(location, "$.city"))) LIKE ?', ['%' . strtolower($city) . '%']);
                     } 
-                    elseif ($state && $state !== 'null' && !empty($state)) {
+                    elseif ($state) {
                         $q->whereRaw('LOWER(JSON_UNQUOTE(JSON_EXTRACT(location, "$.state"))) LIKE ?', ['%' . strtolower($state) . '%']);
                     }
-                    elseif ($country && $country !== 'null' && !empty($country)) {
+                    elseif ($country) {
                         $q->whereRaw('LOWER(JSON_UNQUOTE(JSON_EXTRACT(location, "$.country"))) LIKE ?', ['%' . strtolower($country) . '%']);
                     }
-                    else {
-                        // For text search, make sure we only match non-empty fields
-                        $q->where(function($sub) use ($term) {
-                            $sub->whereRaw('LOWER(JSON_UNQUOTE(JSON_EXTRACT(location, "$.city"))) LIKE ? AND JSON_UNQUOTE(JSON_EXTRACT(location, "$.city")) IS NOT NULL AND JSON_UNQUOTE(JSON_EXTRACT(location, "$.city")) != ""', ['%' . $term . '%'])
-                                ->orWhereRaw('LOWER(JSON_UNQUOTE(JSON_EXTRACT(location, "$.state"))) LIKE ? AND JSON_UNQUOTE(JSON_EXTRACT(location, "$.state")) IS NOT NULL AND JSON_UNQUOTE(JSON_EXTRACT(location, "$.state")) != ""', ['%' . $term . '%'])
-                                ->orWhereRaw('LOWER(JSON_UNQUOTE(JSON_EXTRACT(location, "$.country"))) LIKE ? AND JSON_UNQUOTE(JSON_EXTRACT(location, "$.country")) IS NOT NULL AND JSON_UNQUOTE(JSON_EXTRACT(location, "$.country")) != ""', ['%' . $term . '%'])
-                                ->orWhereRaw('LOWER(JSON_UNQUOTE(JSON_EXTRACT(location, "$.display"))) LIKE ? AND JSON_UNQUOTE(JSON_EXTRACT(location, "$.display")) IS NOT NULL AND JSON_UNQUOTE(JSON_EXTRACT(location, "$.display")) != ""', ['%' . $term . '%']);
+                    elseif ($name) {
+                        $q->where(function($sub) use ($name) {
+                            $term = strtolower($name);
+                            $sub->whereRaw('LOWER(JSON_UNQUOTE(JSON_EXTRACT(location, "$.city"))) LIKE ?', ['%' . $term . '%'])
+                                ->orWhereRaw('LOWER(JSON_UNQUOTE(JSON_EXTRACT(location, "$.state"))) LIKE ?', ['%' . $term . '%'])
+                                ->orWhereRaw('LOWER(JSON_UNQUOTE(JSON_EXTRACT(location, "$.country"))) LIKE ?', ['%' . $term . '%']);
+                        });
+                    }
+                    elseif ($searchTerm) {
+                        $q->where(function($sub) use ($searchTerm) {
+                            $term = strtolower($searchTerm);
+                            $sub->whereRaw('LOWER(JSON_UNQUOTE(JSON_EXTRACT(location, "$.city"))) LIKE ?', ['%' . $term . '%'])
+                                ->orWhereRaw('LOWER(JSON_UNQUOTE(JSON_EXTRACT(location, "$.state"))) LIKE ?', ['%' . $term . '%'])
+                                ->orWhereRaw('LOWER(JSON_UNQUOTE(JSON_EXTRACT(location, "$.country"))) LIKE ?', ['%' . $term . '%']);
                         });
                     }
                 });
+                
+                // Set location term for display
+                if ($city) {
+                    $locationTerm = $city;
+                    $searchedLocation = $city;
+                } elseif ($state) {
+                    $locationTerm = $state;
+                    $searchedLocation = $state;
+                } elseif ($country) {
+                    $locationTerm = $country;
+                    $searchedLocation = $country;
+                } elseif ($name) {
+                    $locationTerm = $name;
+                    $searchedLocation = $name;
+                } elseif ($searchTerm) {
+                    $locationTerm = $searchTerm;
+                    $searchedLocation = $searchTerm;
+                } else {
+                    $locationTerm = $request->location;
+                    $searchedLocation = $request->location;
+                }
             }
             
             $circles = $query->get();
             
-            // Get the search term for display
-            if ($locationData && is_array($locationData)) {
-                $locationTerm = $locationData['city'] ?? $locationData['state'] ?? $locationData['country'] ?? $locationData['name'] ?? $request->location;
-            } else {
-                $locationTerm = $request->location;
-            }
+            // Check if any circles exist in this location
+            $locationExists = $circles->count() > 0;
             
             // Clean up the location term
             if (is_string($locationTerm)) {
                 $locationTerm = trim($locationTerm, '"{}[]');
-                $locationTerm = str_replace(['null', ':"', '"}'], '', $locationTerm);
+                $locationTerm = str_replace(['null', ':"', '"}', '\\'], '', $locationTerm);
             }
         } else {
             // No location filter - show all circles
             $circles = $query->get();
         }
         
-        return view('homepage', compact('circles', 'isFiltered', 'locationTerm'));
+        return view('homepage', compact('circles', 'isFiltered', 'locationTerm', 'searchedLocation', 'locationExists'));
     }
     
-    // API endpoint for location search
+    // API endpoint for location search - THIS SHOWS THE DROPDOWN
     public function searchLocations(Request $request)
     {
         $term = $request->q;
@@ -115,23 +137,40 @@ class HomeController extends Controller
         $locations = [];
         $seen = [];
         
+        // First, get locations from database
         foreach ($circles as $circle) {
             $location = $circle->location;
             if ($location && is_array($location)) {
                 // Extract location components (only non-empty values)
-                $city = !empty($location['city']) ? $location['city'] : '';
-                $state = !empty($location['state']) ? $location['state'] : '';
-                $country = !empty($location['country']) ? $location['country'] : '';
+                $city = !empty($location['city']) && $location['city'] !== 'null' ? trim($location['city']) : '';
+                $state = !empty($location['state']) && $location['state'] !== 'null' ? trim($location['state']) : '';
+                $country = !empty($location['country']) && $location['country'] !== 'null' ? trim($location['country']) : '';
                 
                 // Create display name from non-empty parts
                 $parts = array_filter([$city, $state, $country]);
                 $display = implode(', ', $parts);
                 
+                // Skip if display is empty
+                if (empty($display)) {
+                    continue;
+                }
+                
                 // Check if this location matches the search term (case-insensitive)
                 $matchFound = false;
-                if (!empty($city) && stripos($city, $term) !== false) $matchFound = true;
-                if (!empty($state) && stripos($state, $term) !== false) $matchFound = true;
-                if (!empty($country) && stripos($country, $term) !== false) $matchFound = true;
+                $matchScore = 0;
+                
+                if (!empty($city) && stripos($city, $term) !== false) {
+                    $matchFound = true;
+                    $matchScore += 10; // City matches are most relevant
+                }
+                if (!empty($state) && stripos($state, $term) !== false) {
+                    $matchFound = true;
+                    $matchScore += 5; // State matches are medium relevant
+                }
+                if (!empty($country) && stripos($country, $term) !== false) {
+                    $matchFound = true;
+                    $matchScore += 3; // Country matches are least relevant
+                }
                 
                 if ($matchFound) {
                     // Create a unique key for each location
@@ -146,27 +185,49 @@ class HomeController extends Controller
                             'state' => $state,
                             'country' => $country,
                             'display' => $display,
-                            'exists' => true
+                            'exists' => true,
+                            'score' => $matchScore
                         ];
                     }
                 }
             }
         }
         
-        // If no locations found in database, return suggestions
-        if (empty($locations)) {
-            return response()->json([
-                [
-                    'name' => $term,
-                    'city' => $term,
-                    'state' => '',
-                    'country' => '',
-                    'display' => "Search for circles in \"{$term}\"",
-                    'exists' => false,
-                    'suggestion' => true
-                ]
+        // Sort locations by score (best matches first)
+        usort($locations, function($a, $b) {
+            return $b['score'] - $a['score'];
+        });
+        
+        // ALWAYS add the search term as an option (so user can search any location)
+        // Check if search term already exists in results
+        $searchTermExists = false;
+        foreach ($locations as $loc) {
+            if (strtolower($loc['name']) === strtolower($term) || 
+                strtolower($loc['city']) === strtolower($term) ||
+                strtolower($loc['state']) === strtolower($term) ||
+                strtolower($loc['country']) === strtolower($term)) {
+                $searchTermExists = true;
+                break;
+            }
+        }
+        
+        // Add the search term as an option if it's not already in results
+        if (!$searchTermExists) {
+            // Put search term at the top of results
+            array_unshift($locations, [
+                'name' => $term,
+                'city' => $term,
+                'state' => '',
+                'country' => '',
+                'display' => $term,
+                'exists' => false,
+                'suggestion' => true,
+                'score' => 100 // Always show search term at top
             ]);
         }
+        
+        // Limit results to 10
+        $locations = array_slice($locations, 0, 10);
         
         return response()->json(array_values($locations));
     }
